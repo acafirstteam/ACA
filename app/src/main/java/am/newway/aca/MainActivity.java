@@ -11,9 +11,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import am.newway.aca.database.Firestore;
+import am.newway.aca.template.Visit;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends BaseActivity {
+
+
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
@@ -25,6 +29,13 @@ public class MainActivity extends BaseActivity {
         fab.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick ( View view ) {
+            }
+        } );
+
+        FIRESTORE.addNewVisit( "147258369" , "A1B2C3" , new Firestore.OnVisitChangeListener() {
+            @Override
+            public void OnChangeConfirmed ( final Visit visit ) {
+
             }
         } );
     }

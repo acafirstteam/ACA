@@ -30,8 +30,4 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
-    def lottieVersion = "3.0.7"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
 }
