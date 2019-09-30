@@ -11,11 +11,17 @@ import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import am.newway.aca.database.Firestore;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
     public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
     private final String TAG = getClass().getSimpleName();
+    protected Firestore FIRESTORE;
+
+    public BaseActivity (  ) {
+        FIRESTORE =  Firestore.getInstance();
+    }
 
     public void scanBarcode( View view) {
         new IntentIntegrator(this).initiateScan();
