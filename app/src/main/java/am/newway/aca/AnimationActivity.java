@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AnimationActivity extends AppCompatActivity {
    TextView tv;
+   Animation load;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,5 +19,10 @@ public class AnimationActivity extends AppCompatActivity {
         tv=(TextView)findViewById(R.id.animation_textview);
         Animation combo=AnimationUtils.loadAnimation(this,R.anim.combo);
         tv.startAnimation(combo);
+
+
+
+
+
     }
 }
