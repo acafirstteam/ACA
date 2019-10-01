@@ -3,4 +3,6 @@
 	<string name = "app_name">ACA</string>
 	<string name = "action_settings">Կարգավորումներ</string>
 	<string name = "cancelled">Չեղարկում</string>
+	<string name = "wellcome_text">Armenian Code Academy</string>
+	<string name = "description_text">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։\nՀ. 0.1.2.4.8.16.32\nԷ. info@aca.am</string>
 </resources>

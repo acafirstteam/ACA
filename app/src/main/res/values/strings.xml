@@ -2,4 +2,7 @@
 	<string name = "app_name">ACA</string>
 	<string name = "action_settings">Settings</string>
 	<string name = "cancelled">Cancelled</string>
+	<string name = "wellcome_text">Armenian Code Academy</string>
+	<string name = "description_text">Intensive IT courses with subsequent employment and competitive salary.\nP: +374 1.2.4.8.16.32\nE: info@aca.am</string>
+	<string name = "todo">todo</string>
 </resources>
