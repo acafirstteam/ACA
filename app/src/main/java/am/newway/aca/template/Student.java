@@ -1,15 +1,58 @@
 package am.newway.aca.template;
 
-public class Stundent {
-    private int age;
-    private String course;
-    private String email;
+import com.google.firebase.firestore.Exclude;
+
+public class Student {
     private String name;
+    private String surname;
+    private int age;
+    private String email;
     private String phone;
     private String picture;
-    private String surname;
+    private String course;
+    private boolean verified;
+    @Exclude
+    public int id;
+    private int type;
 
-    public Stundent ( ) {
+    public Student (
+            final int age , final String email , final String name , final String phone ,
+            final String picture , final String surname
+    ) {
+        this.age = age;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.picture = picture;
+        this.surname = surname;
+    }
+
+    public Student () {
+    }
+
+    public int getType () {
+        return type;
+    }
+
+    public void setType ( final int type ) {
+        this.type = type;
+    }
+
+    @Exclude
+    public int getId () {
+        return id;
+    }
+
+    public void setId ( final int id ) {
+        this.id = id;
+    }
+
+    public boolean isVerified () {
+        return verified;
+    }
+
+    public void setVerified ( final boolean verified ) {
+        this.verified = verified;
     }
 
     public int getAge () {
