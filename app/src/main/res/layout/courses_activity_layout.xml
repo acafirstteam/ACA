@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/frame_layout_courses_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+
+    </FrameLayout>
+
+
     <GridView
         android:id="@+id/gridView_CoursesAct_id"
         android:paddingLeft="5dp"

@@ -20,8 +20,11 @@ public class CoursesActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.courses_activity_layout);
+
         logos = new ArrayList<Courses>();
+
         Courses android, iOS, cPlus, java,cSharp, css3, javaScript, nodeJS, php, python, react;
+
         android = new Courses(R.drawable.android_vector, "Android");
         iOS = new Courses(R.drawable.ios_vector, "iOS");
         cPlus = new Courses(R.drawable.c_plus_vector, "C++");
