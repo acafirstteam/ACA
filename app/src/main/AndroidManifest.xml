@@ -33,6 +33,7 @@
 			android:description = "@string/todo"
 			android:screenOrientation = "fullSensor"
 			tools:replace = "screenOrientation" />
+		<activity android:name = ".AnimationActivity" />
 	</application>
 
 </manifest>

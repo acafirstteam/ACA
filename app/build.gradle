@@ -31,6 +31,7 @@ dependencies {
 	implementation 'androidx.appcompat:appcompat:1.1.0'
 	implementation 'com.google.zxing:core:3.3.0'
 	implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
+	implementation "androidx.dynamicanimation:dynamicanimation:1.0.0"
 	androidTestImplementation 'androidx.test:runner:1.2.0'
 	androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
