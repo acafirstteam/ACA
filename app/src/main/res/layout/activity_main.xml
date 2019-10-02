@@ -26,7 +26,7 @@
 	<Button
 		android:id="@+id/to_courses_activity_btn_id"
 		android:layout_width="wrap_content"
-		android:layout_height="318dp"
+		android:layout_height="match_parent"
 		android:text="Courses" />
 
 	<androidx.appcompat.widget.Toolbar

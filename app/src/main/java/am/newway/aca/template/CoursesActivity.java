@@ -12,6 +12,8 @@ import am.newway.aca.R;
 
 public class CoursesActivity extends BaseActivity {
 
+    private final String TAG = "CoursecActivity";
+
     private GridAdapter adapter;
     private ArrayList<Courses> logos;
     private GridView gridView;

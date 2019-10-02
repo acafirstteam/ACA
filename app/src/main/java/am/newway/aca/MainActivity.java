@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,9 +17,16 @@ import java.util.List;
 
 import am.newway.aca.database.Firestore;
 import am.newway.aca.template.Course;
+import am.newway.aca.template.CoursesActivity;
+
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends BaseActivity {
+
+    private final String TAG = "MainAcivity";
+
+
+    private Button toCoursesAct;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -26,6 +34,16 @@ public class MainActivity extends BaseActivity {
         setContentView( R.layout.activity_main );
         Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
+
+        toCoursesAct = (Button) findViewById(R.id.to_courses_activity_btn_id);
+        toCoursesAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent mIntent = new Intent(v.getContext(), CoursesActivity.class);
+                startActivity(mIntent);
+            }
+        });
 
         final FloatingActionButton fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
