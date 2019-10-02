@@ -2,4 +2,26 @@
 	<string name = "app_name">ACA</string>
 	<string name = "action_settings">Settings</string>
 	<string name = "cancelled">Cancelled</string>
+
+	<string name="title_activity_welcome" translatable="false">Armenian Code Academy</string>
+	<string name="next" translatable="false">NEXT</string>
+	<string name="skip" translatable="false">SKIP</string>
+	<string name="start" translatable="false">GOT IT</string>
+
+	<string name="slide_1_title" translatable="false">{Armenian Code Academy}</string>
+	<string name="slide_1_desc" translatable="false">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</string>
+
+	<string name="slide_2_title" translatable="false">Դասընթացներ</string>
+	<string name="slide_2_desc" translatable="false">Մենք առաջարկում ենք դասընթացներ ամենանորարար և պահանջված IT մասնագիտություններում։</string>
+
+	<string name="slide_3_title" translatable="false">Վկայական</string>
+	<string name="slide_3_desc" translatable="false">Մեր վկայականները ճանաչվում և բարձր են գնահատվում հայաստանյան IT ընկերությունների կողմից։</string>
+
+	<string name="slide_4_title" translatable="false">Աշխատանք</string>
+	<string name="slide_4_desc" translatable="false">Մեր շրջանավարտները ստանում են բարձր վարձատրվող
+		աշխատանքի հրավերներ լավագույն IT ընկերություններից:</string>
+
+	<string name="play_again_desc" translatable="false">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+	<string name="play_again" translatable="false">Play Again</string>
+
 </resources>
