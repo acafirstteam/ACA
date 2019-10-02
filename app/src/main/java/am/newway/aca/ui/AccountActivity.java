@@ -1,4 +1,4 @@
-package am.newway.aca;
+package am.newway.aca.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileObserver;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,6 +17,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
+
+import am.newway.aca.R;
+import am.newway.aca.googleauth.CreateAcountGoogle;
 
 public class AccountActivity extends AppCompatActivity {
    private ImageView studentPhotoFromGoogle;
@@ -71,7 +73,7 @@ public class AccountActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 if (firebaseAuth.getCurrentUser()==null){
-                    startActivity(new Intent(AccountActivity.this,CreateAcountGoogle.class));
+                    startActivity(new Intent(AccountActivity.this, CreateAcountGoogle.class));
                 }
             }
         };
