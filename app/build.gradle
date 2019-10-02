@@ -30,6 +30,7 @@ dependencies {
 	implementation ('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
 	implementation 'androidx.appcompat:appcompat:1.1.0'
 	implementation 'com.google.zxing:core:3.3.0'
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
 	androidTestImplementation 'androidx.test:runner:1.2.0'
 	androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

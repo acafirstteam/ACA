@@ -2,7 +2,6 @@ package am.newway.aca;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +11,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import java.util.List;
-
 import am.newway.aca.database.Firestore;
-import am.newway.aca.template.Course;
+import am.newway.aca.template.Student;
+import am.newway.aca.ui.QrActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends BaseActivity {
@@ -36,14 +34,14 @@ public class MainActivity extends BaseActivity {
         } );
 
         //Կուրսերի ցանկի ներբեռնում
-        FIRESTORE.getCuorces( new Firestore.OnCourseReadListener() {
-            @Override
-            public void OnCourseRead ( final List<Course> courses ) {
-                for ( int i = 0; i != courses.size(); i++ ) {
-                    Log.e( "#################" , "OnCourseRead: " + courses.get( i ).getUrl() );
-                }
-            }
-        } );
+        //        FIRESTORE.getCuorces( new Firestore.OnCourseReadListener() {
+        //            @Override
+        //            public void OnCourseRead ( final List<Course> courses ) {
+        //                for ( int i = 0; i != courses.size(); i++ ) {
+        //                    Log.e( "#################" , "OnCourseRead: " + courses.get( i ).getUrl() );
+        //                }
+        //            }
+        //        } );
 
         //Նոր այցելության գրանցում
         //        FIRESTORE.addNewVisit( "147258369" , "A1B2C3" , new Firestore.OnVisitChangeListener() {
@@ -54,18 +52,24 @@ public class MainActivity extends BaseActivity {
         //        } );
 
         //նոր աշակերտի ավելացնել կամ ստուգել
-        //        Student st = new Student( 21 , "aaa123@bbb.com" , "Name" , "093381919" , "www.picture.com" ,
-        //                "Surname" );
-        //        st.setId( 147258 );
-        //        FIRESTORE.checkStudent( st , new Firestore.OnStudentCheckListener() {
-        //            @Override
-        //            public void OnStudentChecked ( final Student student ) {
-        //                if(student != null) {
-        //                    if ( student.getType() == 1 )
-        //                        startActivity( new Intent( MainActivity.this , QrActivity.class ) );
-        //                }
-        //            }
-        //        } );
+        Student st = new Student( 21 , "aaa123@bbb.com" , "Name" , "093381919" , "www.picture.com" , "Surname" );
+        st.setId( 147258 );
+        FIRESTORE.checkStudent( st , false, new Firestore.OnStudentCheckListener() {
+            @Override
+            public void OnStudentChecked ( final Student student ) {
+                if ( student != null ) {
+                    if ( student.getType() == 1 ) {
+                        startActivity( new Intent( MainActivity.this , QrActivity.class ) );
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void OnStudentCheckFailed ( final String exception ) {
+
+            }
+        } );
     }
 
     @Override
