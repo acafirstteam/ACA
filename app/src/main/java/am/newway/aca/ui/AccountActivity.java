@@ -13,20 +13,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 
+import am.newway.aca.MainActivity;
 import am.newway.aca.R;
 import am.newway.aca.googleauth.CreateAcountGoogle;
 
 public class AccountActivity extends AppCompatActivity {
    private ImageView studentPhotoFromGoogle;
    private TextView studentNameAndFnameFromGooGLE, studentEmailFromGoogle;
-
-
-
+   private LottieAnimationView lottieAnimationViewForSaveAndToChangeActivity;
 
    private Button btnForLogOut;
    private FirebaseAuth mAuth;
@@ -45,9 +45,15 @@ public class AccountActivity extends AppCompatActivity {
         studentPhotoFromGoogle =findViewById(R.id.studentImageFromGoogle);
         studentNameAndFnameFromGooGLE= findViewById(R.id.textViewStudentNameAndFname);
         studentEmailFromGoogle=findViewById(R.id.textViewStudentEmailFromGoogleAccount);
-
+        lottieAnimationViewForSaveAndToChangeActivity = findViewById(R.id.animation_view);
         btnForLogOut= findViewById(R.id.btnLogOut);
+        lottieAnimationViewForSaveAndToChangeActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(AccountActivity.this, MainActivity.class));
 
+            }
+        });
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
             String personName = acct.getDisplayName();

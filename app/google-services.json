@@ -1,4 +1,4 @@
-  {
+{
   "project_info": {
     "project_number": "22469083043",
     "firebase_url": "https://acafirst-a0a43.firebaseio.com",
@@ -14,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "22469083043-epb7fb3b7v1cj65dorp3vocmv66i8i4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "am.newway.aca",
+            "certificate_hash": "cb9999bbbb76a6e4a796df96dd1a515dca42f784"
+          }
+        },
         {
           "client_id": "22469083043-6jpn2iu7g62ap1rh15e9ricrljovo9r7.apps.googleusercontent.com",
           "client_type": 1,

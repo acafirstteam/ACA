@@ -50,7 +50,10 @@ public class CreateAcountGoogle extends BaseActivity {
         setContentView(R.layout.activity_create_acount_google);
 
         mAuth = FirebaseAuth.getInstance();
+
+
         mAuthListner = new FirebaseAuth.AuthStateListener() {
+
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
@@ -63,12 +66,15 @@ public class CreateAcountGoogle extends BaseActivity {
         mGoogleBtn = findViewById(R.id.btnForGoogleSignIn);
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener()
+                {
+
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -100,7 +106,7 @@ public class CreateAcountGoogle extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        showProgressDialog();
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -112,12 +118,15 @@ public class CreateAcountGoogle extends BaseActivity {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
                 // ...
+
             }
+            showProgressDialog();
 
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        showProgressDialog();
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -134,7 +143,7 @@ public class CreateAcountGoogle extends BaseActivity {
                             //  Snackbar.make(findViewById(R.id.), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
 
                         }
-
+hideProgressDialog();
                         // ...
                     }
                 });
