@@ -1,8 +1,5 @@
 package am.newway.aca.template;
 
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
-
 public class Courses {
 
     private int image;

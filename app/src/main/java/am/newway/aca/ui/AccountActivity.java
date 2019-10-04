@@ -28,9 +28,6 @@ public class AccountActivity extends AppCompatActivity {
    private TextView studentNameAndFnameFromGooGLE, studentEmailFromGoogle;
    private LottieAnimationView lottieAnimationViewForSaveAndToChangeActivity;
 
-
-
-
    private Button btnForLogOut;
    private FirebaseAuth mAuth;
 
