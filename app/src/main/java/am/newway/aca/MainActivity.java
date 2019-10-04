@@ -31,7 +31,6 @@ public class MainActivity extends BaseActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
     private DrawerLayout drawer;
-    //private SearchView searchView;
     private String TAG = getClass().getSimpleName();
     //private MenuItem searchMenu;
 
