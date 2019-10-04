@@ -5,6 +5,10 @@
 	<string name = "cancelled">Չեղարկում</string>
 	<string name = "log_out">Log Out</string>
 
+	<string name = "nav_header_title">ACA Code Academy</string>
+	<string name = "nav_header_subtitle">aca@aca.com</string>
+	<string name = "nav_header_desc">Navigation header</string>
+
 	<string name = "wellcome_text">Armenian Code Academy</string>
 	<string name = "description_text">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։\nՀ. 0.1.2.4.8.16.32\nԷ. info@aca.am</string>
 
@@ -30,5 +34,10 @@
 	<string name = "play_again">Play Again</string>
 
 	<string name = "todo">TODO</string>
+
+	<string name = "menu_home">Տեսականի</string>
+	<string name = "menu_company">Կազմակերպություն</string>
+	<string name = "menu_about">Ծրագրի մասին</string>
+	<string name = "menu_about_new">Մասին․․․</string>
 
 </resources>

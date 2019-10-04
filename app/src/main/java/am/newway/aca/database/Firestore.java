@@ -64,6 +64,12 @@ public class Firestore {
         void OnStudentChecked ( Student student );
 
         void OnStudentCheckFailed ( String exception );
+
+        void OnStudentIdentifier(Student student);
+    }
+
+    public void addOnStudentCheckListener(OnStudentCheckListener listener){
+        this.listener_student = listener;
     }
 
     public static Firestore getInstance () {
@@ -87,7 +93,7 @@ public class Firestore {
         Visit visit = new Visit();
         visit.setConfirm( false );
         visit.setDateTime( formatter.format( date ) );
-        visit.setQrCode( "5566778899" );
+        visit.setQrCode( qrCode );
         visit.setUserIdent( userIdent );
 
         db.collection( VISIT_COLLECTION ).add( visit ).addOnCompleteListener( new OnCompleteListener<DocumentReference>() {
@@ -137,9 +143,9 @@ public class Firestore {
                         Log.w( TAG , "No such document" );
                         if ( bltCreateNew ) {
                             addNewStudent( student , null );
-                            if ( listener_student != null )
-                                listener_student.OnStudentChecked( null );
                         }
+                        if ( listener_student != null )
+                            listener_student.OnStudentChecked( null );
                     }
                 }
                 else {
@@ -195,7 +201,7 @@ public class Firestore {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
 
-        db.collection( VISIT_COLLECTION ).addSnapshotListener( new EventListener<QuerySnapshot>() {
+        db.collection( VISIT_COLLECTION ).whereEqualTo("confirm", false).addSnapshotListener( new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent (
                     @Nullable final QuerySnapshot queryDocumentSnapshots ,
@@ -205,20 +211,63 @@ public class Firestore {
                     List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                     for ( DocumentSnapshot doc : docs ) {
                         Visit visit = doc.toObject( Visit.class );
-                        if ( qrText.equals( visit != null ? visit.getQrCode() : null ) ) {
-                            confirmVisit( doc.getId() );
-                        }
+                        if ( qrText != null && visit != null && visit.getQrCode() != null  ) {
+                            if(qrText.equals( visit.getQrCode()))
+                                confirmVisit( doc.getId() );
+                        }else
+                            Log.e( TAG , "onEvent: " + "Unknown student"  );
                     }
                 }
             }
         } );
     }
 
-    private void confirmVisit ( String strDoc ) {
-        db.collection( VISIT_COLLECTION ).document( strDoc ).update( "confirm" , true ).addOnCompleteListener( new OnCompleteListener<Void>() {
+    private void confirmVisit ( String docID ) {
+        final DocumentReference doc = db.collection( VISIT_COLLECTION ).document( docID );
+        doc.update( "confirm" , true ).addOnCompleteListener( new OnCompleteListener<Void>() {
             @Override
             public void onComplete ( @NonNull final Task<Void> task ) {
+                doc.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete (
+                            @NonNull final Task<DocumentSnapshot> task
+                    ) {
+                        if(task.getResult() == null)
+                            return;
+                        Visit visit = task.getResult().toObject( Visit.class );
 
+                        if(visit == null)
+                            return;
+
+                        final DocumentReference docStudent =
+                                db.collection( STUDENT_COLLECTION ).document( visit.getUserIdent());
+                        docStudent.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete (
+                                    @NonNull final Task<DocumentSnapshot> task
+                            ) {
+                                if(task.getResult() != null) {
+                                    Student student = task.getResult().toObject( Student.class );
+                                    if ( student != null ) {
+                                        showWelcome( student );
+                                    }else
+                                        Log.e( TAG , "confirmVisit: student is null" );
+                                }else
+                                    Log.e( TAG , "confirmVisit: task.getResult() is null" );
+                            }
+                        } ).addOnFailureListener( new OnFailureListener() {
+                            @Override
+                            public void onFailure ( @NonNull final Exception e ) {
+                                Log.e( TAG , "confirmVisit: onFailure" );
+                            }
+                        } );
+                    }
+                } ).addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure ( @NonNull final Exception e ) {
+
+                    }
+                } );
             }
         } ).addOnFailureListener( new OnFailureListener() {
             @Override
@@ -226,6 +275,12 @@ public class Firestore {
 
             }
         } );
+    }
+
+    private void showWelcome ( Student student){
+        Log.e( TAG , "confirmVisit: student is null" + student.getName());
+        if ( listener_student != null )
+            listener_student.OnStudentIdentifier( student );
     }
 
     private void addNewQR () throws Exception {

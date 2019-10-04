@@ -5,7 +5,6 @@ import android.hardware.Camera;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.android.Intents;
@@ -25,8 +24,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void scanBarcode( View view) {
-        Toast.makeText(this, new IntentIntegrator(this).getCaptureActivity().getCanonicalName(),
-        Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, new IntentIntegrator(this).getCaptureActivity().getCanonicalName(),
+//        Toast.LENGTH_LONG).show();
         new IntentIntegrator(this).initiateScan();
     }
 
