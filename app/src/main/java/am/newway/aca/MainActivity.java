@@ -9,24 +9,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.List;
 
 import am.newway.aca.database.Firestore;
+import am.newway.aca.googleauth.CreateAcountGoogle;
 import am.newway.aca.template.Course;
 import am.newway.aca.template.CoursesActivity;
+import am.newway.aca.ui.AccountActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements FirebaseAuth.AuthStateListener {
 
     private final String TAG = "MainAcivity";
 
 
+    private FirebaseAuth mAuth;
     private Button toCoursesAct;
+    private  int i=0;
 
     @Override
     protected void onCreate ( Bundle savedInstanceState ) {
@@ -34,7 +42,7 @@ public class MainActivity extends BaseActivity {
         setContentView( R.layout.activity_main );
         Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
-
+        final GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         toCoursesAct = (Button) findViewById(R.id.to_courses_activity_btn_id);
         toCoursesAct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +55,32 @@ public class MainActivity extends BaseActivity {
 
         final FloatingActionButton fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick ( View view ) {
-                scanBarcode( view );
+
+             @Override
+            public void onClick (View view ) {
+                 if (acct == null){
+                     startActivity(new Intent(MainActivity.this, CreateAcountGoogle.class));
+                 }
+                   else {
+                     scanBarcode( view );
+                     Log.d(TAG,"Scan Bar code is ready");
+                 }
+          /*       if (i==0){
+                     startActivity(new Intent(MainActivity.this, CreateAcountGoogle.class));
+                     Log.d(TAG,"int i ==1 that means start activity to log in");
+                 }
+                 else {
+                     scanBarcode( view );
+Log.d(TAG,"Scan Bar code is ready");
+                 }*/
+/*
+                if (firebaseAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(MainActivity.this, CreateAcountGoogle.class));
+
+                }else {
+               scanBarcode( view );
+           }*/
+
             }
         } );
 
@@ -85,7 +116,22 @@ public class MainActivity extends BaseActivity {
         //            }
         //        } );
     }
+    /*public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        if (firebaseAuth.getCurrentUser() == null) {
+            startActivity(new Intent(MainActivity.this, CreateAcountGoogle.class));
+        }
+    }*/
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
+
+        if (firebaseAuth.getCurrentUser() == null) {
+            i=1;
+            Log.d(TAG,"onAuthStateChanged is tru i=1");
+            //startActivity(new Intent(MainActivity.this, CreateAcountGoogle.class));
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu ( Menu menu ) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -130,4 +176,6 @@ public class MainActivity extends BaseActivity {
             Toast.makeText( this , "Scanned: " + result.getContents() , Toast.LENGTH_LONG ).show();
         }
     }
+
+
 }

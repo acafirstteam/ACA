@@ -1,5 +1,6 @@
 package am.newway.aca;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.util.Log;
@@ -13,12 +14,16 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import am.newway.aca.database.Firestore;
+
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
     public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
     private final String TAG = getClass().getSimpleName();
     protected Firestore FIRESTORE;
+    @VisibleForTesting
+    public ProgressDialog mProgressDialog;
 
     public BaseActivity (  ) {
         FIRESTORE =  Firestore.getInstance();
@@ -75,5 +80,21 @@ public class BaseActivity extends AppCompatActivity {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setTimeout(8000);
         integrator.initiateScan();
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loadina..");
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }
