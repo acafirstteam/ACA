@@ -32,9 +32,9 @@ public class CoursesActivity extends BaseActivity {
         cPlus = new Courses(R.drawable.c_plus_vector, "C++");
         java = new Courses(R.drawable.java_vector, "Java");
         cSharp = new Courses(R.drawable.csharp, "C#");
-        css3 = new Courses(R.drawable.css3, "CSS3");
+        css3 = new Courses(R.drawable.css3, "CSS 3");
         javaScript = new Courses(R.drawable.java_script, "JavaScript");
-        nodeJS = new Courses(R.drawable.nodejs, "NodeJS#");
+        nodeJS = new Courses(R.drawable.nodejs, "NodeJS");
         php = new Courses(R.drawable.php, "PHP");
         python = new Courses(R.drawable.python, "Python");
         react = new Courses(R.drawable.react, "React");
