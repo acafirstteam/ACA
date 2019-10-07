@@ -16,8 +16,12 @@ public class Student {
     private int type;
 
     public Student (
-            final int age , final String email , final String name , final String phone ,
-            final String picture , final String surname
+            final String email ,
+            final String name ,
+            final String surname,
+            final int age,
+            final String phone ,
+            final String picture
     ) {
         this.age = age;
         this.email = email;
