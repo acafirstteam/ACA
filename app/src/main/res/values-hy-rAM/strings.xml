@@ -3,16 +3,15 @@
 	<string name = "app_name">ACA</string>
 	<string name = "action_settings">Կարգավորումներ</string>
 	<string name = "cancelled">Չեղարկում</string>
-	<string name = "log_out">Log Out</string>
+	<string name = "log_out">Դուրս Գալ</string>
 
-	<string name = "nav_header_title">ACA Code Academy</string>
-	<string name = "nav_header_subtitle">aca@aca.com</string>
+	<string name = "nav_header_title">Armenian Code Academy</string>
+	<string name = "nav_header_subtitle">info@aca.am</string>
 	<string name = "nav_header_desc">Navigation header</string>
 
 	<string name = "wellcome_text">Armenian Code Academy</string>
 	<string name = "description_text">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։\nՀ. 0.1.2.4.8.16.32\nԷ. info@aca.am</string>
 
-	<string name = "title_activity_welcome">Armenian Code Academy</string>
 	<string name = "next">NEXT</string>
 	<string name = "skip">SKIP</string>
 	<string name = "start">GOT IT</string>
@@ -35,9 +34,22 @@
 
 	<string name = "todo">TODO</string>
 
-	<string name = "menu_home">Տեսականի</string>
+	<string name = "menu_home">Դասընթացներ</string>
 	<string name = "menu_company">Կազմակերպություն</string>
 	<string name = "menu_about">Ծրագրի մասին</string>
 	<string name = "menu_about_new">Մասին․․․</string>
+	<string name = "history">Պատմություն</string>
+	<string name = "menu_settings">Կարգավորումներ</string>
+
+	<string name = "snackbar">Սեղմեք ևս մեկ անգամ կամ սեղմեք "Փակել"</string>
+	<string name = "close">Փակել</string>
+	<string name = "register_text">Որպես ուսանող՝ այցելություն գրանցելու համար հարկավոր է նախապես հաստատել Ձեր անձը ստորև նշված տարբերակ(ներ)ի միջոցով</string>
+	<string name = "second_name">Ազգանուն</string>
+	<string name = "signup">Գրանցում</string>
+	<string name = "phone_number">Հեռախոսահամար</string>
+	<string name = "personal">Անձնական էջ</string>
+	<string name = "full_name">Անուն ազգանուն</string>
+	<string name = "email">էլ․ փոստ</string>
+	<string name = "save">Պահպանել</string>
 
 </resources>
