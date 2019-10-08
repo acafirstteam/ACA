@@ -108,12 +108,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         picture = cursor.getString(6);
 
         student = new Student(
+                age,
                 mail,
                 name,
-                surename,
-                age,
                 phone,
-                picture);
+                picture,
+                surename,
+                ""
+                );
         Log.d(TAG,"-----------------------Get Student Handled");
 
         return student;

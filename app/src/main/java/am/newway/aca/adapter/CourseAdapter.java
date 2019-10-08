@@ -14,8 +14,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.template.Course;
 import am.newway.aca.anim.RecyclerViewAnimator;
+import am.newway.aca.template.Course;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,12 +28,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private RecyclerViewAnimator mAnimator;
 
     public CourseAdapter (
-            List<Course> products , RecyclerView recyclerView ,
+            List<Course> courses , RecyclerView recyclerView ,
             OnOrientationChangingListener listener
     ) {
         mAnimator = new RecyclerViewAnimator( recyclerView );
 
-        this.courses = products;
+        this.courses = courses;
         this.listener = listener;
         this.context = recyclerView.getContext();
     }
@@ -49,7 +49,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     public void setProducts ( List<Course> courses ) {
-        this.courses = courses;
+        this.courses.clear();
+        this.courses.addAll( courses );
         notifyDataSetChanged();
     }
 
