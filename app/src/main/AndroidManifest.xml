@@ -27,11 +27,8 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name = ".googleauth.CreateAcountGoogle"
-			android:screenOrientation = "portrait">
-		</activity>
-		<activity
-			android:name = ".ui.AccountActivity"
+			android:name = ".firebase.FirebaseLogin"
+			android:label="@string/signup"
 			android:screenOrientation = "portrait">
 		</activity>
 		<activity
@@ -53,7 +50,7 @@
 			android:screenOrientation = "fullSensor"
 			tools:replace = "screenOrientation" />
 		<activity
-			android:name = ".AnimationActivity"
+			android:name = ".ui.SplashScreen"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppFullScreenTheme">
 			<intent-filter>

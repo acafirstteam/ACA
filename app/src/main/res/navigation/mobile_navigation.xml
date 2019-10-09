@@ -10,28 +10,13 @@
 		android:name = "am.newway.aca.ui.home.HomeFragment"
 		android:label = "@string/menu_home"
 		tools:layout = "@layout/fragment_home" >
-		<action
-			android:id = "@+id/action_nav_home_to_nav_about"
-			app:destination = "@id/nav_about" />
-		<action
-			android:id = "@+id/action_nav_home_to_nav_company"
-			app:destination = "@id/nav_company" />
-		<action
-			android:id = "@+id/action_nav_home_to_nav_settings"
-			app:destination = "@id/nav_company" />
-		<action
-			android:id = "@+id/action_nav_home_to_nav_history"
-			app:destination = "@id/nav_company" />
 	</fragment>
 
 	<fragment
 		android:id = "@+id/nav_settings"
 		android:name = "am.newway.aca.ui.fragments.SettingsFragment"
-		android:label = "@string/settings"
+		android:label = "@string/menu_settings"
 		tools:layout = "@layout/fragment_settings" >
-		<action
-			android:id = "@+id/action_nav_settings_to_nav_home"
-			app:destination = "@id/nav_home" />
 	</fragment>
 
 	<fragment
@@ -39,9 +24,6 @@
 		android:name = "am.newway.aca.ui.fragments.HistoryFragment"
 		android:label = "@string/history"
 		tools:layout = "@layout/fragment_history" >
-		<action
-			android:id = "@+id/action_nav_history_to_nav_home"
-			app:destination = "@id/nav_home" />
 	</fragment>
 
 	<fragment
@@ -49,9 +31,6 @@
 		android:name = "am.newway.aca.ui.fragments.CompanyFragment"
 		android:label = "@string/menu_company"
 		tools:layout = "@layout/fragment_company" >
-		<action
-			android:id = "@+id/action_nav_company_to_nav_home"
-			app:destination = "@id/nav_home" />
 	</fragment>
 
 	<fragment
@@ -59,9 +38,6 @@
 		android:name = "am.newway.aca.ui.fragments.AboutFragment"
 		android:label = "@string/menu_about"
 		tools:layout = "@layout/fragment_about" >
-		<action
-			android:id = "@+id/action_nav_about_to_nav_home"
-			app:destination = "@id/nav_home" />
 	</fragment>
 
 </navigation>

@@ -20,8 +20,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.template.Course;
 import am.newway.aca.anim.RecyclerViewAnimator;
+import am.newway.aca.template.Course;
 import am.newway.aca.ui.fragments.DialogFragments;
 
 import androidx.annotation.NonNull;
@@ -40,13 +40,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     private RecyclerViewAnimator mAnimator;
     private Dialog myDialogForCourse;
 
-    public CourseAdapter(
-            List<Course> products, RecyclerView recyclerView,
+    public CourseAdapter (
+            List<Course> courses , RecyclerView recyclerView ,
             OnOrientationChangingListener listener
     ) {
         mAnimator = new RecyclerViewAnimator(recyclerView);
 
-        this.courses = products;
+        this.courses = courses;
         this.listener = listener;
         this.context = recyclerView.getContext();
     }
@@ -61,8 +61,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         return -1;
     }
 
-    public void setProducts(List<Course> courses) {
-        this.courses = courses;
+    public void setProducts ( List<Course> courses ) {
+        this.courses.clear();
+        this.courses.addAll( courses );
         notifyDataSetChanged();
     }
 
