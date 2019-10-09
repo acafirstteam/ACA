@@ -85,7 +85,8 @@ class BaseActivity extends AppCompatActivity {
     public
     void setGlobStudent ( Student globStudent ) {
         this.globStudent = globStudent;
-        Log.e( TAG , "setGlobStudent: " + globStudent.getType() );
+        if(globStudent != null)
+            Log.e( TAG , "setGlobStudent: " + globStudent.getType() );
     }
 
     public

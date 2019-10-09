@@ -42,10 +42,12 @@ class MainActivity extends BaseActivity {
         Student student = getGlobStudent();
 
 
-        int nType = student.getType();
-        Log.e( TAG , "not nullik:  " +nType);
-        if ( nType == 2 )
-            addOnNewStudentListener();
+        if(student != null) {
+            int nType = student.getType();
+            Log.e(TAG, "not nullik:  " + nType);
+            if (nType == 2)
+                addOnNewStudentListener();
+        }
 
         fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
