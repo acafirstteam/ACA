@@ -30,8 +30,10 @@ public class AccountActivity extends AppCompatActivity {
 
    private Button btnForLogOut;
    private FirebaseAuth mAuth;
+   private FirebaseAuth.AuthStateListener mAuthListner;
 
-    private FirebaseAuth.AuthStateListener mAuthListner;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class AccountActivity extends AppCompatActivity {
         studentEmailFromGoogle=findViewById(R.id.textViewStudentEmailFromGoogleAccount);
         lottieAnimationViewForSaveAndToChangeActivity = findViewById(R.id.animation_view);
         btnForLogOut= findViewById(R.id.btnLogOut);
+
+
+
         lottieAnimationViewForSaveAndToChangeActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +77,6 @@ public class AccountActivity extends AppCompatActivity {
 
 
         mAuth =FirebaseAuth.getInstance();
-
 
         mAuthListner= new FirebaseAuth.AuthStateListener() {
             @Override

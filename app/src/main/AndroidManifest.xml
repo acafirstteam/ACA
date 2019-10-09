@@ -14,6 +14,10 @@
 		android:supportsRtl = "true"
 		android:theme = "@style/AppTheme">
 
+		<meta-data
+			android:name="am.newway.aca.MainActivity"
+			android:value="true"/>
+
 		<activity
 			android:name = ".ui.QrActivity"
 			android:screenOrientation = "portrait"

@@ -120,7 +120,7 @@ public class CreateAcountGoogle extends BaseActivity {
                 // ...
 
             }
-            showProgressDialog();
+            hideProgressDialog();
 
         }
     }
