@@ -10,6 +10,7 @@ public class Student {
     private String phone;
     private String picture;
     private String course;
+    private String studentID;
     private boolean verified;
     @Exclude
     public int id;
@@ -21,7 +22,10 @@ public class Student {
             final String surname,
             final int age,
             final String phone ,
-            final String picture
+            final String picture,
+            final String studentID,
+            final boolean verified,
+            final String course
     ) {
         this.age = age;
         this.email = email;
@@ -29,6 +33,9 @@ public class Student {
         this.phone = phone;
         this.picture = picture;
         this.surname = surname;
+        this.studentID = studentID;
+        this.verified = verified;
+        this.course = course;
     }
 
     public Student () {
@@ -113,5 +120,13 @@ public class Student {
 
     public void setSurname ( final String surname ) {
         this.surname = surname;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
     }
 }

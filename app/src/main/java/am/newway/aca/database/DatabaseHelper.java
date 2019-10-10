@@ -18,10 +18,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Create DB
     private static final String DATABASE_NAME = "StudentInfo.db";
 
-    //User table name
+    //Student table name
     private static final String TABLE_STUDENT = "student";
 
-    //User table column names
+    //Table column names
     private static final String COLUMN_STUDENT_ID = "student_id";
     private static final String COLUMN_STUDENT_EMAIL = "student_email";
     private static final String COLUMN_STUDENT_NAME = "student_name";
@@ -29,6 +29,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_STUDENT_AGE = "student_age";
     private static final String COLUMN_STUDENT_PHONE = "student_phone";
     private static final String COLUMN_STUDENT_PICTURE = "student_picture";
+    private static final String COLUMN_STUDENT_USER_ID = "student_id";
+    private static final String COLUMN_STUDENT_VERIFICATION = "student_verification";
+    private static final String COLUMN_STUDENT_COURSE = "student_course";
 
     //Create table SQL query
 
@@ -39,7 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_STUDENT_SURENAME + " TEXT, "
             + COLUMN_STUDENT_AGE + " TEXT, "
             + COLUMN_STUDENT_PHONE + " TEXT, "
-            + COLUMN_STUDENT_PICTURE + " TEXT"
+            + COLUMN_STUDENT_PICTURE + " TEXT, "
+            + COLUMN_STUDENT_USER_ID + " TEXT, "
+            + COLUMN_STUDENT_VERIFICATION + " TEXT, "
+            + COLUMN_STUDENT_COURSE + " TEXT, "
             + ")";
 
     //Drop table sql query
@@ -75,6 +81,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STUDENT_AGE, student.getAge());
         values.put(COLUMN_STUDENT_PHONE, student.getPhone());
         values.put(COLUMN_STUDENT_PICTURE, student.getPicture());
+        values.put(COLUMN_STUDENT_USER_ID, student.getStudentID());
+        values.put(COLUMN_STUDENT_VERIFICATION, student.isVerified());
+        values.put(COLUMN_STUDENT_COURSE, student.getCourse());
 
         //Insert Row
         db.insert(TABLE_STUDENT, null, values);
@@ -88,9 +97,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 name,
                 surename,
                 phone,
-                picture;
+                picture,
+                studentID,
+                course;
         int age;
+        boolean verified;
         Student student;
+        int checkVerify;
         SQLiteDatabase myDB = this.getReadableDatabase();
         Cursor cursor;
         String[] args = {COLUMN_STUDENT_ID};
@@ -106,6 +119,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         age = Integer.valueOf(cursor.getString(4));
         phone = cursor.getString(5);
         picture = cursor.getString(6);
+        studentID = cursor.getString(7);
+        checkVerify = Integer.valueOf(cursor.getString(8));
+        if (checkVerify == 1){
+            verified = true;
+        }else{
+            verified = false;
+        }
+        course = cursor.getString(9);
+
 
         student = new Student(
                 mail,
@@ -113,14 +135,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 surename,
                 age,
                 phone,
-                picture);
-        Log.d(TAG,"-----------------------Get Student Handled");
+                picture,
+                studentID,
+                verified,
+                course);
+        Log.d(TAG, "-----------------------Get Student Handled");
 
         return student;
 
     }
 
-    public void updateSudent(Student student){
+    public void updateSudent(Student student) {
 
         SQLiteDatabase myDB = this.getWritableDatabase();
 
@@ -131,6 +156,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_STUDENT_AGE, student.getAge());
         contentValues.put(COLUMN_STUDENT_PHONE, student.getPhone());
         contentValues.put(COLUMN_STUDENT_PICTURE, student.getPicture());
+        contentValues.put(COLUMN_STUDENT_USER_ID, student.getStudentID());
+        contentValues.put(COLUMN_STUDENT_VERIFICATION, student.isVerified());
+        contentValues.put(COLUMN_STUDENT_COURSE, student.getCourse());
 
         myDB.update(TABLE_STUDENT,
                 contentValues,
