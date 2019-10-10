@@ -201,7 +201,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 break;
         }
 
-    }
+}
 
 }
 

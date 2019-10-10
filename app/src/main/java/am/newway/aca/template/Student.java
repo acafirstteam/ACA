@@ -10,22 +10,24 @@ public class Student {
     private String phone;
     private String picture;
     private String course;
-    private String studentID;
     private boolean verified;
+    private String token;
     @Exclude
-    public int id;
-    private int type;
+    public String id;
+    private int type = -1;
 
     public Student (
+
             final String email ,
             final String name ,
             final String surname,
             final int age,
             final String phone ,
             final String picture,
-            final String studentID,
+            final String token,
             final boolean verified,
-            final String course
+            final String course,
+            final int type
     ) {
         this.age = age;
         this.email = email;
@@ -33,12 +35,26 @@ public class Student {
         this.phone = phone;
         this.picture = picture;
         this.surname = surname;
-        this.studentID = studentID;
         this.verified = verified;
         this.course = course;
+        this.token = token;
+        this.type = type;
+    }
+    public Student (
+            final String id
+    ) {
+        this.id = id;
     }
 
     public Student () {
+    }
+
+    public String getToken () {
+        return token;
+    }
+
+    public void setToken ( final String token ) {
+        this.token = token;
     }
 
     public int getType () {
@@ -50,11 +66,11 @@ public class Student {
     }
 
     @Exclude
-    public int getId () {
+    public String getId () {
         return id;
     }
 
-    public void setId ( final int id ) {
+    public void setId ( final String id ) {
         this.id = id;
     }
 
@@ -122,11 +138,5 @@ public class Student {
         this.surname = surname;
     }
 
-    public String getStudentID() {
-        return studentID;
-    }
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
-    }
 }

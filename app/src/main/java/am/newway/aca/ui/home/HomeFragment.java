@@ -12,7 +12,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import am.newway.aca.R;
 import am.newway.aca.adapter.CourseAdapter;
@@ -26,17 +25,13 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 public class HomeFragment extends BaseFragment {
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
-    private SnapHelper snap;
-    private OnAutocompleteInitListener listener;
-    private CourseAdapter courceAdapter;
+    private CourseAdapter courseAdapter;
     private CardView cardView;
     private TextView name;
     private TextView surName;
@@ -63,27 +58,23 @@ public class HomeFragment extends BaseFragment {
         RecyclerViewMargin decoration = new RecyclerViewMargin( (int) getResources().getDimension( R.dimen.recycler_item_margin ) );
         recyclerView.addItemDecoration(decoration);
         //setHasOptionsMenu( true );
-        snap = new PagerSnapHelper();
 
-        courceAdapter = new CourseAdapter( new ArrayList<Course>() , recyclerView ,
+        courseAdapter = new CourseAdapter( new ArrayList<Course>() , recyclerView ,
                 new CourseAdapter.OnOrientationChangingListener() {
             @Override
             public void OnChanged ( boolean isLarge , int position ) {
                 RecyclerView.LayoutManager mManager = new GridLayoutManager(getActivity(), 3  );
                 recyclerView.setLayoutManager( mManager );
                 recyclerView.scrollToPosition( position );
-                snap.attachToRecyclerView( isLarge ? recyclerView : null );
             }
         } );
-        recyclerView.setAdapter( courceAdapter );
+        recyclerView.setAdapter( courseAdapter );
 
         homeViewModel.getData().observe( this , new Observer<List<Course>>() {
             @Override
             public void onChanged ( @Nullable List<Course> courses ) {
-                courceAdapter.setProducts( courses );
+                courseAdapter.setProducts( courses );
                 progressBar.setVisibility( View.GONE );
-                if ( listener != null )
-                    listener.OnInit();
             }
         } );
         return root;
@@ -94,26 +85,12 @@ public class HomeFragment extends BaseFragment {
         return 0;
     }
 
-    public interface OnAutocompleteInitListener {
-        void OnInit ();
-    }
-
-    public void ensureVisible ( String name ) {
-        int nPosition = ( ( CourseAdapter ) Objects.requireNonNull( recyclerView.getAdapter() ) ).getPosition( name );
-        if ( nPosition != -1 )
-            recyclerView.scrollToPosition( nPosition );
-    }
-
     @Override
     public void onViewCreated ( @NonNull View view , @Nullable Bundle savedInstanceState ) {
         super.onViewCreated( view , savedInstanceState );
 
         RecyclerView.LayoutManager mManager = new GridLayoutManager( getActivity(), 3  );
         mManager.setItemPrefetchEnabled( true );
-        //.setInitialPrefetchItemCount( 8 );
-        //RecyclerView.LayoutManager mManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        // (LinearLayoutManager.setInitialPrefetchItemCount(4);
-
         recyclerView.setLayoutManager( mManager );
         homeViewModel.getProducts();
     }

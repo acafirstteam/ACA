@@ -29,9 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_STUDENT_AGE = "student_age";
     private static final String COLUMN_STUDENT_PHONE = "student_phone";
     private static final String COLUMN_STUDENT_PICTURE = "student_picture";
-    private static final String COLUMN_STUDENT_USER_ID = "student_id";
+    private static final String COLUMN_STUDENT_TOKEN = "student_id";
     private static final String COLUMN_STUDENT_VERIFICATION = "student_verification";
     private static final String COLUMN_STUDENT_COURSE = "student_course";
+    private static final String COLUMN_STUDENT_TYPE = "student_type";
 
     //Create table SQL query
 
@@ -43,9 +44,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_STUDENT_AGE + " TEXT, "
             + COLUMN_STUDENT_PHONE + " TEXT, "
             + COLUMN_STUDENT_PICTURE + " TEXT, "
-            + COLUMN_STUDENT_USER_ID + " TEXT, "
+            + COLUMN_STUDENT_TOKEN + " TEXT, "
             + COLUMN_STUDENT_VERIFICATION + " TEXT, "
             + COLUMN_STUDENT_COURSE + " TEXT, "
+            + COLUMN_STUDENT_TYPE + " INTEGER "
             + ")";
 
     //Drop table sql query
@@ -81,9 +83,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_STUDENT_AGE, student.getAge());
         values.put(COLUMN_STUDENT_PHONE, student.getPhone());
         values.put(COLUMN_STUDENT_PICTURE, student.getPicture());
-        values.put(COLUMN_STUDENT_USER_ID, student.getStudentID());
+        values.put(COLUMN_STUDENT_TOKEN, student.getToken());
         values.put(COLUMN_STUDENT_VERIFICATION, student.isVerified());
         values.put(COLUMN_STUDENT_COURSE, student.getCourse());
+        values.put(COLUMN_STUDENT_TYPE, student.getType());
 
         //Insert Row
         db.insert(TABLE_STUDENT, null, values);
@@ -98,12 +101,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 surename,
                 phone,
                 picture,
-                studentID,
+                token,
                 course;
         int age;
         boolean verified;
         Student student;
-        int checkVerify;
+        int checkVerify, type;
         SQLiteDatabase myDB = this.getReadableDatabase();
         Cursor cursor;
         String[] args = {COLUMN_STUDENT_ID};
@@ -119,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         age = Integer.valueOf(cursor.getString(4));
         phone = cursor.getString(5);
         picture = cursor.getString(6);
-        studentID = cursor.getString(7);
+        token = cursor.getString(7);
         checkVerify = Integer.valueOf(cursor.getString(8));
         if (checkVerify == 1){
             verified = true;
@@ -127,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             verified = false;
         }
         course = cursor.getString(9);
+        type = cursor.getInt(10);
 
 
         student = new Student(
@@ -136,9 +140,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 age,
                 phone,
                 picture,
-                studentID,
+                token,
                 verified,
-                course);
+                course,
+                type);
         Log.d(TAG, "-----------------------Get Student Handled");
 
         return student;
@@ -156,9 +161,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_STUDENT_AGE, student.getAge());
         contentValues.put(COLUMN_STUDENT_PHONE, student.getPhone());
         contentValues.put(COLUMN_STUDENT_PICTURE, student.getPicture());
-        contentValues.put(COLUMN_STUDENT_USER_ID, student.getStudentID());
+        contentValues.put(COLUMN_STUDENT_TOKEN, student.getToken());
         contentValues.put(COLUMN_STUDENT_VERIFICATION, student.isVerified());
         contentValues.put(COLUMN_STUDENT_COURSE, student.getCourse());
+        contentValues.put(COLUMN_STUDENT_TYPE, student.getType());
+
 
         myDB.update(TABLE_STUDENT,
                 contentValues,

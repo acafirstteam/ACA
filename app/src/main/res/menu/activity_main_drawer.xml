@@ -11,14 +11,16 @@
 		<item
 			android:id = "@+id/nav_settings"
 			android:icon = "@drawable/ic_settings_black_24dp"
-			android:title = "@string/settings" />
+			android:title = "@string/menu_settings" />
 		<item
 			android:id = "@+id/nav_history"
 			android:icon = "@drawable/ic_history_black_24dp"
 			android:title = "@string/history" />
 	</group>
 
-	<item android:title = "@string/menu_about_new">
+	<item
+		android:checkable="true"
+		android:title = "@string/menu_about_new">
 		<menu>
 			<item
 				android:id = "@+id/nav_company"
@@ -28,7 +30,7 @@
 				android:id = "@+id/nav_about"
 				android:icon = "@drawable/ic_help_outline_black_24dp"
 				android:title = "@string/menu_about" />
+
 		</menu>
 	</item>
-
 </menu>

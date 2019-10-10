@@ -11,7 +11,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
-import am.newway.aca.database.Firestore;
+import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import androidx.cardview.widget.CardView;
 

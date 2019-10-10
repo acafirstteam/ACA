@@ -35,6 +35,7 @@ class HomeModel
                     {
                         Log.e( "HomeModel" , "Database reading ...: "  );
                         if (task.isSuccessful()) {
+                            courses.clear();
                             for (QueryDocumentSnapshot document : Objects.requireNonNull( task.getResult() )) {
                                 Course course = document.toObject( Course.class );
                                 courses.add( course );

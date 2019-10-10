@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:fresco = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent"
+	tools:context = ".firebase.FirebaseLogin">
+
+	<com.airbnb.lottie.LottieAnimationView
+		android:id = "@+id/animation_view"
+		android:layout_width = "wrap_content"
+		android:layout_height = "128dp"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintHorizontal_bias = "0.49"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent"
+		android:layout_marginTop="15dp"
+		app:lottie_autoPlay = "true"
+		app:lottie_fileName = "profile.json"
+		app:lottie_scale="0.3"
+		app:lottie_loop = "true"
+		tools:ignore = "MissingConstraints" />
+
+	<TextView
+		android:id = "@+id/register_text"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop = "15dp"
+		android:padding = "15dp"
+		android:text = "@string/register_text"
+		android:textAlignment = "center"
+		android:textColor = "#000"
+		android:textSize = "18sp"
+		android:textStyle = "italic"
+		app:layout_constraintBottom_toTopOf = "@id/btnForGoogleSignIn"
+		app:layout_constraintLeft_toLeftOf = "parent"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@+id/animation_view" />
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id = "@+id/student_info"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:padding = "15dp"
+		android:visibility = "gone"
+		app:layout_constraintTop_toTopOf = "parent">
+
+		<com.facebook.drawee.view.SimpleDraweeView
+			android:id = "@+id/imageView"
+			android:layout_width = "96dp"
+			android:layout_height = "96dp"
+			app:layout_constraintBottom_toBottomOf = "parent"
+			app:layout_constraintLeft_toLeftOf = "parent"
+			app:layout_constraintTop_toTopOf = "parent"
+			fresco:actualImageScaleType = "focusCrop"
+			fresco:backgroundImage = "@color/recyclerview_item"
+			fresco:fadeDuration = "300"
+			fresco:placeholderImage = "@mipmap/ic_launcher"
+			fresco:placeholderImageScaleType = "centerCrop"
+			fresco:roundAsCircle = "true"
+			fresco:roundingBorderColor = "@color/colorPrimaryDark"
+			fresco:roundingBorderWidth = "1dp" />
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id = "@+id/edit_layout_fullname"
+			android:layout_width = "0dp"
+			android:layout_height = "wrap_content"
+			android:layout_marginStart = "15dp"
+			app:layout_constraintLeft_toRightOf = "@id/imageView"
+			app:layout_constraintRight_toRightOf = "parent"
+			app:layout_constraintTop_toTopOf = "parent">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id = "@+id/edit_fullname"
+				android:layout_width = "match_parent"
+				android:layout_height = "match_parent"
+				android:hint = "@string/full_name"
+				android:inputType = "textPersonName" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id = "@+id/edit_layout_email"
+			android:layout_width = "0dp"
+			android:layout_height = "wrap_content"
+			android:layout_marginStart = "15dp"
+			app:layout_constraintLeft_toRightOf = "@id/imageView"
+			app:layout_constraintRight_toRightOf = "parent"
+			app:layout_constraintTop_toBottomOf = "@+id/edit_layout_fullname">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id = "@+id/edit_email"
+				android:layout_width = "match_parent"
+				android:layout_height = "match_parent"
+				android:hint = "@string/email"
+				android:inputType = "textEmailAddress|textEmailSubject" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
+			android:id = "@+id/edit_layout_phone"
+			android:layout_width = "0dp"
+			android:layout_height = "wrap_content"
+			android:layout_marginStart = "15dp"
+			app:layout_constraintLeft_toRightOf = "@id/imageView"
+			app:layout_constraintRight_toRightOf = "parent"
+			app:layout_constraintTop_toBottomOf = "@+id/edit_layout_email">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id = "@+id/edit_phone"
+				android:layout_width = "match_parent"
+				android:layout_height = "match_parent"
+				android:hint = "@string/phone_number"
+				android:inputType = "phone" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+	<com.google.android.gms.common.SignInButton
+		android:id = "@+id/btnForGoogleSignIn"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginBottom = "15dp"
+		app:buttonSize = "icon_only"
+		app:buttonStyle = "@color/colorPrimaryDark"
+		app:colorScheme = "dark"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"
+		tools:ignore = "MissingConstraints">
+
+	</com.google.android.gms.common.SignInButton>
+
+	<Button
+		android:id = "@+id/logout"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginBottom = "15dp"
+		android:background="@drawable/button_shape"
+		android:text = "Logout"
+		android:visibility="gone"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
