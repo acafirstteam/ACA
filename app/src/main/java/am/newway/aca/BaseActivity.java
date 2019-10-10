@@ -68,7 +68,7 @@ class BaseActivity extends AppCompatActivity {
     protected DrawerLayout drawer;
     protected FirebaseAuth mAuth;
     protected FirebaseUser firebaseUser;
-    private static Student globStudent;
+    //private static Student globStudent;
 
     public
     BaseActivity () {
@@ -77,17 +77,17 @@ class BaseActivity extends AppCompatActivity {
         firebaseUser = mAuth.getCurrentUser();
     }
 
-    public
-    Student getGlobStudent () {
-        return globStudent;
-    }
-
-    public
-    void setGlobStudent ( Student globStudent ) {
-        this.globStudent = globStudent;
-        if(globStudent != null)
-            Log.e( TAG , "setGlobStudent: " + globStudent.getType() );
-    }
+//    public
+//    Student getGlobStudent () {
+//        return globStudent;
+//    }
+//
+//    public
+//    void setGlobStudent ( Student globStudent ) {
+//        this.globStudent = globStudent;
+//        if(globStudent != null)
+//            Log.e( TAG , "setGlobStudent: " + globStudent.getType() );
+//    }
 
     public
     void scanBarcode ( View view ) {

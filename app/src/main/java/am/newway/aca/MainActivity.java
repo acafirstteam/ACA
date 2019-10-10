@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
@@ -25,13 +26,17 @@ class MainActivity extends BaseActivity {
 
     private static long back_pressed;
     private String TAG = getClass().getSimpleName();
+    private DatabaseHelper db;
 
     @Override
     protected
     void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
+
         initNavigationBar();
+
+        db = new DatabaseHelper( this );
 
         if ( firebaseUser != null ) {
             Log.e( TAG , "onCreate: " + firebaseUser.getUid() );
@@ -39,13 +44,13 @@ class MainActivity extends BaseActivity {
         else
             Log.e( TAG , "onCreate: firebase is null" );
 
-        Student student = getGlobStudent();
+        Student student = db.getStudent();
+        //Student student = getGlobStudent();
 
-
-        if(student != null) {
+        if ( student != null ) {
             int nType = student.getType();
-            Log.e(TAG, "not nullik:  " + nType);
-            if (nType == 2)
+            Log.e( TAG , "not nullik:  " + nType );
+            if ( nType == 2 )
                 addOnNewStudentListener();
         }
 
@@ -109,36 +114,44 @@ class MainActivity extends BaseActivity {
                             .getChildFragmentManager()
                             .getFragments()
                             .get( 0 );
-            Student student = getGlobStudent();
+
+            Student student = db.getStudent();
+            //Student student = getGlobStudent();
+
             if ( student == null ) {
                 String uID = "-1";
                 firebaseUser = mAuth.getCurrentUser();
                 if ( firebaseUser != null )
                     uID = firebaseUser.getUid();
 
-                FIRESTORE.checkStudent( new Student( uID ) , true , new Firestore.OnStudentCheckListener() {
-                    @Override
-                    public
-                    void OnStudentChecked ( @Nullable final Student student ) {
-                        setGlobStudent( student );
-                    }
+                FIRESTORE.checkStudent( new Student( uID ) , true ,
+                        new Firestore.OnStudentCheckListener() {
+                            @Override
+                            public
+                            void OnStudentChecked ( @Nullable final Student student ) {
+                                if ( student != null )
+                                    db.setStudent( student );
+                                //setGlobStudent( student );
+                            }
 
-                    @Override
-                    public
-                    void OnStudentCheckFailed ( final String exception ) {
+                            @Override
+                            public
+                            void OnStudentCheckFailed ( final String exception ) {
 
-                    }
+                            }
 
-                    @Override
-                    public
-                    void OnStudentIdentifier ( final Student student ) {
-                        setGlobStudent( student );
-                    }
-                } );
+                            @Override
+                            public
+                            void OnStudentIdentifier ( final Student student ) {
+                                if ( student != null )
+                                    db.setStudent( student );
+                                //setGlobStudent( student );
+                            }
+                        } );
             }
             else {
-                FIRESTORE.addNewVisit( new Student( getGlobStudent().getId() ) ,
-                        result.getContents() , new Firestore.OnVisitChangeListener() {
+                FIRESTORE.addNewVisit( student , result.getContents() ,
+                        new Firestore.OnVisitChangeListener() {
                             @Override
                             public
                             void OnChangeConfirmed ( final Visit visit ) {

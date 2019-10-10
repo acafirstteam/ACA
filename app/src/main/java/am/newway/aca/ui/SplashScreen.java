@@ -11,6 +11,7 @@ import android.widget.TextView;
 import am.newway.aca.BaseActivity;
 import am.newway.aca.MainActivity;
 import am.newway.aca.R;
+import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import androidx.annotation.Nullable;
@@ -26,11 +27,14 @@ public
 class SplashScreen extends BaseActivity {
     private int nAnimation = 0;
     private String TAG = getClass().getSimpleName();
+    private DatabaseHelper db;
 
     @Override
     public
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
+
+        db = new DatabaseHelper( this );
 
         // inflate your main layout here (use RelativeLayout or whatever your root ViewGroup type is
         final ConstraintLayout mainLayout = ( ConstraintLayout ) this.getLayoutInflater()
@@ -126,24 +130,27 @@ class SplashScreen extends BaseActivity {
         firebaseUser = mAuth.getCurrentUser();
         if ( firebaseUser != null )
             uID = firebaseUser.getUid();
+
         Student student = new Student( uID );
 
         FIRESTORE.checkStudent( student , false , new Firestore.OnStudentCheckListener() {
             @Override
             public
             void OnStudentChecked ( final Student student ) {
-                Log.e( TAG , "OnStudentCheckFailed 111" );
+                //Log.e( TAG , "OnStudentCheckFailed 111" );
 
-                setGlobStudent( student );
-                if ( student != null ) {
-                    Log.e( TAG , "OnStudentCheckFailed not null" );
+                db.setStudent( student );
+                //setGlobStudent( student );
+
+                //if ( student != null ) {
+                //    Log.e( TAG , "OnStudentCheckFailed not null" );
                     if ( student.getType() == 1 ) {
                         startActivity( QR );
                         return;
                     }
-                }
-                else
-                    Log.e( TAG , "OnStudentCheckFailed null" );
+                //}
+                //else
+                //    Log.e( TAG , "OnStudentCheckFailed null" );
 
                 startActivity( MAIN );
             }
