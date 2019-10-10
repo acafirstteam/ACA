@@ -109,7 +109,17 @@ public class AnimationActivity extends BaseActivity {
 
     private void checkStudent () {
         //նոր աշակերտի ավելացնել կամ ստուգել
-        Student st = new Student( 21 , "aaa123@bbb.com" , "Name" , "093381919" , "www.picture.com" , "Surname" );
+        Student st = new Student(
+                "email",
+                "name",
+                "surename",
+                21,
+                "095666",
+                "url",
+                "IDssdfsdf",
+                true,
+                "Android"
+                );
         st.setId( App.userID );
         FIRESTORE.checkStudent( st , false , new Firestore.OnStudentCheckListener() {
             @Override
