@@ -17,8 +17,17 @@ public class Student {
     private int type = -1;
 
     public Student (
-            final int age , final String email , final String name , final String phone ,
-            final String picture , final String surname, final String token
+
+            final String email ,
+            final String name ,
+            final String surname,
+            final int age,
+            final String phone ,
+            final String picture,
+            final String token,
+            final boolean verified,
+            final String course,
+            final int type
     ) {
         this.age = age;
         this.email = email;
@@ -26,7 +35,10 @@ public class Student {
         this.phone = phone;
         this.picture = picture;
         this.surname = surname;
+        this.verified = verified;
+        this.course = course;
         this.token = token;
+        this.type = type;
     }
     public Student (
             final String id
@@ -125,4 +137,6 @@ public class Student {
     public void setSurname ( final String surname ) {
         this.surname = surname;
     }
+
+
 }

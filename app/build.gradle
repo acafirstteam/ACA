@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
 	signingConfigs {
 		release {
-			storeFile file ('D:\\Alpha\\Desktop\\ACA\\aca.jks')
+//			storeFile file ('D:\\Alpha\\Desktop\\ACA\\aca.jks')
 			storePassword 'android.aca'
 			keyAlias = 'aca'
 			keyPassword 'Android.aca1'
