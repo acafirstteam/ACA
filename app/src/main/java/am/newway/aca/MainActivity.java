@@ -25,8 +25,7 @@ public
 class MainActivity extends BaseActivity {
 
     private static long back_pressed;
-    private String TAG = getClass().getSimpleName();
-    private DatabaseHelper db;
+    private static String TAG = "BaseActivity";
 
     @Override
     protected
@@ -35,8 +34,7 @@ class MainActivity extends BaseActivity {
         setContentView( R.layout.activity_main );
 
         initNavigationBar();
-
-        db = new DatabaseHelper( this );
+        Log.e( TAG , "onCreate:555 " + DATABASE.getSettings().getLanguage()  );
 
         if ( firebaseUser != null ) {
             Log.e( TAG , "onCreate: " + firebaseUser.getUid() );
@@ -44,7 +42,7 @@ class MainActivity extends BaseActivity {
         else
             Log.e( TAG , "onCreate: firebase is null" );
 
-        Student student = db.getStudent();
+        Student student = DATABASE.getStudent();
         //Student student = getGlobStudent();
 
         if ( student != null ) {
@@ -115,7 +113,7 @@ class MainActivity extends BaseActivity {
                             .getFragments()
                             .get( 0 );
 
-            Student student = db.getStudent();
+            Student student = DATABASE.getStudent();
             //Student student = getGlobStudent();
 
             if ( student == null ) {
@@ -130,7 +128,7 @@ class MainActivity extends BaseActivity {
                             public
                             void OnStudentChecked ( @Nullable final Student student ) {
                                 if ( student != null )
-                                    db.setStudent( student );
+                                    DATABASE.setStudent( student );
                                 //setGlobStudent( student );
                             }
 
@@ -144,7 +142,7 @@ class MainActivity extends BaseActivity {
                             public
                             void OnStudentIdentifier ( final Student student ) {
                                 if ( student != null )
-                                    db.setStudent( student );
+                                    DATABASE.setStudent( student );
                                 //setGlobStudent( student );
                             }
                         } );
@@ -205,5 +203,14 @@ class MainActivity extends BaseActivity {
             } ).show();
             back_pressed = System.currentTimeMillis();
         }
+    }
+
+    public
+    DatabaseHelper getDATABASE(){
+        return DATABASE;
+    }
+
+    public Firestore getFIRESTORE(){
+        return FIRESTORE;
     }
 }

@@ -33,9 +33,6 @@ public class HomeFragment extends BaseFragment {
     private HomeViewModel homeViewModel;
     private CourseAdapter courseAdapter;
     private CardView cardView;
-    private TextView name;
-    private TextView surName;
-    private SimpleDraweeView imageView;
 
     public View onCreateView (
             @NonNull LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState
@@ -43,10 +40,10 @@ public class HomeFragment extends BaseFragment {
         homeViewModel = ViewModelProviders.of( this ).get( HomeViewModel.class );
         View root = inflater.inflate( R.layout.fragment_home , container , false );
 
-        imageView = root.findViewById( R.id.user_picture);
+        final SimpleDraweeView imageView = root.findViewById( R.id.user_picture );
         cardView = root.findViewById( R.id.user_card);
-        name = root.findViewById( R.id.name);
-        surName = root.findViewById( R.id.surname);
+        final TextView name = root.findViewById( R.id.name );
+        final TextView surName = root.findViewById( R.id.surname );
 
         progressBar = root.findViewById( R.id.loading );
         recyclerView = root.findViewById( R.id.recycler_view );
@@ -78,11 +75,6 @@ public class HomeFragment extends BaseFragment {
             }
         } );
         return root;
-    }
-
-    @Override
-    public int getIndex () {
-        return 0;
     }
 
     @Override

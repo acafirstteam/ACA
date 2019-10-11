@@ -62,11 +62,6 @@ public class CompanyFragment extends BaseFragment {
         super.onPrepareOptionsMenu( menu );
     }
 
-    @Override
-    public int getIndex () {
-        return 1;
-    }
-
     private void openPartnePage ( Uri uri ) {
         Intent intent = new Intent( Intent.ACTION_VIEW );
         intent.setData( uri );

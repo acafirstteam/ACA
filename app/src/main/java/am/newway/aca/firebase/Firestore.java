@@ -415,6 +415,35 @@ class Firestore {
         return students;
     }
 
+    public
+    List<Visit> getVisits ( final OnVisitListener listener) {
+        final List<Visit> visits = new ArrayList<>();
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( VISIT_COLLECTION)
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                        for ( DocumentSnapshot doc : docs ) {
+                            visits.add( doc.toObject( Visit.class ) );
+                        }
+                        if(listener != null)
+                            listener.OnLoaded( visits );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading visits" );
+                    }
+                } );
+        return visits;
+    }
+
     /**
      * Վերադարձնում է ուսանողների ամբողջական ցանկը
      *
@@ -529,5 +558,10 @@ class Firestore {
     public
     interface OnNewStudentListener {
         void OnNewStudentAdded ( @Nullable Student student );
+    }
+
+    public
+    interface OnVisitListener {
+        void OnLoaded ( @Nullable List<Visit> visits );
     }
 }

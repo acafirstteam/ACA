@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
@@ -61,6 +63,7 @@ class BaseActivity extends AppCompatActivity {
     public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
     private final String TAG = getClass().getSimpleName();
     protected Firestore FIRESTORE;
+    protected DatabaseHelper DATABASE;
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
     protected FloatingActionButton fab;
@@ -68,7 +71,6 @@ class BaseActivity extends AppCompatActivity {
     protected DrawerLayout drawer;
     protected FirebaseAuth mAuth;
     protected FirebaseUser firebaseUser;
-    //private static Student globStudent;
 
     public
     BaseActivity () {
@@ -77,7 +79,15 @@ class BaseActivity extends AppCompatActivity {
         firebaseUser = mAuth.getCurrentUser();
     }
 
-//    public
+    @Override
+    protected
+    void onCreate ( @Nullable final Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+
+        DATABASE = DatabaseHelper.getInstance( BaseActivity.this );
+    }
+
+    //    public
 //    Student getGlobStudent () {
 //        return globStudent;
 //    }
