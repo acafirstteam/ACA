@@ -55,5 +55,7 @@
 	<string name = "signup">SignUp</string>
 	<string name = "personal">Personal page</string>
 	<string name = "save">Save</string>
+	<string name = "notifications">Notifications</string>
+	<string name = "language">Language</string>
 
 </resources>

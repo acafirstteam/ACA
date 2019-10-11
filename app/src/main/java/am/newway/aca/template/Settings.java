@@ -1,42 +1,63 @@
 package am.newway.aca.template;
 
-public class Settings {
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import java.util.Locale;
 
-    private boolean loginCheck;
-    private boolean checkNotification;
-    private String languageCheck;
+public
+class Settings {
 
-    public Settings(
-            boolean loginCheck,
-            boolean checkNotification,
-            String languageCheck){
+    private boolean login;
+    private boolean notification;
+    private String language;
 
-        this.loginCheck = loginCheck;
-        this.checkNotification = checkNotification;
-        this.languageCheck = languageCheck;
+    public
+    Settings ( boolean login , boolean notification , String language ) {
+
+        this.login = login;
+        this.notification = notification;
+        this.language = language;
     }
 
-    public boolean isLoginCheck() {
-        return loginCheck;
+    public Settings(){
+
     }
 
-    public void setLoginCheck(boolean loginCheck) {
-        this.loginCheck = loginCheck;
+    public
+    boolean isLogin () {
+        return login;
     }
 
-    public boolean isCheckNotification() {
-        return checkNotification;
+    public
+    void setLogin ( boolean login ) {
+        this.login = login;
     }
 
-    public void setCheckNotification(boolean checkNotification) {
-        this.checkNotification = checkNotification;
+    public
+    boolean isNotification () {
+        return notification;
     }
 
-    public String getLanguageCheck() {
-        return languageCheck;
+    public
+    void setNotification ( boolean notification ) {
+        this.notification = notification;
     }
 
-    public void setLanguageCheck(String languageCheck) {
-        this.languageCheck = languageCheck;
+    public
+    String getLanguage () {
+        return language == null ? "" : language;
+    }
+
+    public
+    void setLanguage ( String language , Context context ) {
+        this.language = language;
+
+        Resources res = context.getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.setLocale( new Locale( language.toLowerCase() ) );
+        res.updateConfiguration( conf , dm );
     }
 }
