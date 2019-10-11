@@ -74,24 +74,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Add student
     public void setStudent(Student student) {
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        if (checkDB()){
+            updateStudent(student);
+        }else{
+            SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_STUDENT_EMAIL, student.getEmail());
-        values.put(COLUMN_STUDENT_NAME, student.getName());
-        values.put(COLUMN_STUDENT_SURENAME, student.getSurname());
-        values.put(COLUMN_STUDENT_AGE, student.getAge());
-        values.put(COLUMN_STUDENT_PHONE, student.getPhone());
-        values.put(COLUMN_STUDENT_PICTURE, student.getPicture());
-        values.put(COLUMN_STUDENT_TOKEN, student.getToken());
-        values.put(COLUMN_STUDENT_VERIFICATION, student.isVerified());
-        values.put(COLUMN_STUDENT_COURSE, student.getCourse());
-        values.put(COLUMN_STUDENT_TYPE, student.getType());
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_STUDENT_EMAIL, student.getEmail());
+            values.put(COLUMN_STUDENT_NAME, student.getName());
+            values.put(COLUMN_STUDENT_SURENAME, student.getSurname());
+            values.put(COLUMN_STUDENT_AGE, student.getAge());
+            values.put(COLUMN_STUDENT_PHONE, student.getPhone());
+            values.put(COLUMN_STUDENT_PICTURE, student.getPicture());
+            values.put(COLUMN_STUDENT_TOKEN, student.getToken());
+            values.put(COLUMN_STUDENT_VERIFICATION, student.isVerified());
+            values.put(COLUMN_STUDENT_COURSE, student.getCourse());
+            values.put(COLUMN_STUDENT_TYPE, student.getType());
 
-        //Insert Row
-        db.insert(TABLE_STUDENT, null, values);
-        db.close();
-        Log.d(TAG, "------------------------------------------------------Data inserted");
+            //Insert Row
+            db.insert(TABLE_STUDENT, null, values);
+            db.close();
+            Log.d(TAG, "------------------------------------------------------Data inserted");
+        }
+
+
     }
 
     public Student getStudent() {
@@ -150,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void updateSudent(Student student) {
+    public void updateStudent(Student student) {
 
         SQLiteDatabase myDB = this.getWritableDatabase();
 
@@ -173,5 +179,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null);
 
         Log.d(TAG, "--------------------------------------Database Updated");
+    }
+
+    public boolean checkDB(){
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        Cursor cursor = myDB.rawQuery("SELECT * FROM " + TABLE_STUDENT, null);
+        boolean rowExists;
+        if (cursor.moveToFirst()){
+            rowExists = true;
+        }else {
+            rowExists = false;
+        }
+        Log.d(TAG, "------------------DB Students checked");
+        return rowExists;
+
     }
 }

@@ -41,7 +41,7 @@
 
 	<!-- TODO: Remove or change this placeholder text -->
 	<string name = "hello_blank_fragment" translatable = "false">Hello blank fragment</string>
-	<string name = "menu_settings">Settins</string>
+	<string name = "menu_settings">Settings</string>
 	<string name = "history">History</string>
 	<string name = "menu_about_new">About</string>
 	<string name = "description_text">Intensive IT courses with subsequent employment and competitive salary.</string>

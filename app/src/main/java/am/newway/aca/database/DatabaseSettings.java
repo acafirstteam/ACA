@@ -139,7 +139,7 @@ public class DatabaseSettings extends SQLiteOpenHelper {
         }else {
             rowExists = false;
         }
-        Log.d(TAG, "------------------DB checked");
+        Log.d(TAG, "------------------DB Settings checked");
         return rowExists;
 
     }
