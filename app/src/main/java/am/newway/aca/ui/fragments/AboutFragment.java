@@ -28,9 +28,4 @@ public class AboutFragment extends BaseFragment {
         //menu.findItem( R.id.action_filter ).setVisible( false );
         super.onPrepareOptionsMenu( menu );
     }
-
-    @Override
-    public int getIndex () {
-        return 2;
-    }
 }
