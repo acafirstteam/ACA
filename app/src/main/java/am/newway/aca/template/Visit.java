@@ -6,7 +6,8 @@ public class Visit {
     private String qrCode;
     private String userIdent;
 
-    public Visit (  ) {
+    public Visit () {
+
     }
 
     public boolean isConfirm () {

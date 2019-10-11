@@ -4,11 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import am.newway.aca.R;
 import am.newway.aca.adapter.HistoryAdapter;
-import am.newway.aca.template.HistoryItem;
+import am.newway.aca.firebase.Firestore;
+import am.newway.aca.template.Visit;
+import am.newway.aca.ui.BaseFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
  * the {@link HistoryFragment#newInstance} factory method to create an instance of this fragment.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +32,7 @@ public class HistoryFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ArrayList<HistoryItem> items;
+    private ArrayList<Visit> items;
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
 
@@ -80,32 +81,38 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        items = new ArrayList<>();
+
         recyclerView = view.findViewById(R.id.recycler_view_history_id);
 
-        HistoryItem ob1, ob2,ob3,ob4,ob5,ob6,ob7,ob8;
-        ob1 = new HistoryItem("00.00.01", "qrcode", "ident", true);
-        ob2 = new HistoryItem("00.00.02", "qrcode", "ident", true);
-        ob3 = new HistoryItem("00.00.03", "qrcode", "ident", true);
-        ob4 = new HistoryItem("00.00.04", "qrcode", "ident", true);
-        ob5 = new HistoryItem("00.00.05", "qrcode", "ident", true);
-        ob6 = new HistoryItem("00.00.06", "qrcode", "ident", true);
-        ob7 = new HistoryItem("00.00.07", "qrcode", "ident", true);
-        ob8 = new HistoryItem("00.00.08", "qrcode", "ident", true);
+//        Visit ob1, ob2,ob3,ob4,ob5,ob6,ob7,ob8;
+//        ob1 = new Visit(true, "00.00.01", "qrcode", "ident");
+//        ob2 = new Visit(true, "00.00.02", "qrcode", "ident");
+//        ob3 = new Visit(true, "00.00.03", "qrcode", "ident");
+//        ob4 = new Visit(true, "00.00.04", "qrcode", "ident");
+//        ob5 = new Visit(true, "00.00.05", "qrcode", "ident");
+//        ob6 = new Visit(true, "00.00.06", "qrcode", "ident");
+//        ob7 = new Visit(true, "00.00.07", "qrcode", "ident");
+//        ob8 = new Visit(true, "00.00.08", "qrcode", "ident");
 
-        items.add(ob1);
-        items.add(ob2);
-        items.add(ob3);
-        items.add(ob4);
-        items.add(ob5);
-        items.add(ob6);
-        items.add(ob7);
-        items.add(ob8);
+
+//        items.add(ob1);
+//        items.add(ob2);
+//        items.add(ob3);
+//        items.add(ob4);
+//        items.add(ob5);
+//        items.add(ob6);
+//        items.add(ob7);
+//        items.add(ob8);
 
         adapter = new HistoryAdapter(items);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public int getIndex() {
+        return 0;
     }
 }

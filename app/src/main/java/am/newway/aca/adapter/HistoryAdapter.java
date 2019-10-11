@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import am.newway.aca.R;
-import am.newway.aca.template.HistoryItem;
+import am.newway.aca.template.Visit;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
 
-    ArrayList<HistoryItem> items = new ArrayList<HistoryItem>();
+    ArrayList<Visit> items = new ArrayList<Visit>();
 
-    public HistoryAdapter(ArrayList<HistoryItem> items){
+    public HistoryAdapter(ArrayList<Visit> items){
         this.items = items;
     }
 
@@ -50,7 +50,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         }
 
-        public void bind(HistoryItem item){
+        public void bind(Visit item){
             dateTime.setText(item.getDateTime());
     }
 }
