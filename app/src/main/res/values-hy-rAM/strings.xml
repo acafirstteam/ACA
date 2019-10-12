@@ -51,5 +51,7 @@
 	<string name = "full_name">Անուն ազգանուն</string>
 	<string name = "email">էլ․ փոստ</string>
 	<string name = "save">Պահպանել</string>
+	<string name = "language">Լեզու</string>
+	<string name = "notifications">Զգուշացումներ</string>
 
 </resources>

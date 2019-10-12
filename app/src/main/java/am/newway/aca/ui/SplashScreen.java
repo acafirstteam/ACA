@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import am.newway.aca.BaseActivity;
 import am.newway.aca.MainActivity;
 import am.newway.aca.R;
@@ -24,6 +26,7 @@ import static am.newway.aca.ui.SplashScreen.activity.QR;
 
 public
 class SplashScreen extends BaseActivity {
+
     private int nAnimation = 0;
     private String TAG = getClass().getSimpleName();
 
@@ -31,6 +34,12 @@ class SplashScreen extends BaseActivity {
     public
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
+
+        String lang = Locale.getDefault().getLanguage();
+        Log.e( TAG , "onCreate: " + lang  );
+        Log.e( TAG , "onCreate123: " + DATABASE.getSettings().getLanguage()  );
+
+
 
         // inflate your main layout here (use RelativeLayout or whatever your root ViewGroup type is
         final ConstraintLayout mainLayout = ( ConstraintLayout ) this.getLayoutInflater()
@@ -126,17 +135,16 @@ class SplashScreen extends BaseActivity {
         firebaseUser = mAuth.getCurrentUser();
         if ( firebaseUser != null )
             uID = firebaseUser.getUid();
+
         Student student = new Student( uID );
 
         FIRESTORE.checkStudent( student , false , new Firestore.OnStudentCheckListener() {
             @Override
             public
-            void OnStudentChecked ( final Student student ) {
-                Log.e( TAG , "OnStudentCheckFailed 111" );
+            void OnStudentChecked ( Student student ) {
 
-                setGlobStudent( student );
                 if ( student != null ) {
-                    Log.e( TAG , "OnStudentCheckFailed not null" );
+                    DATABASE.setStudent( student );
                     if ( student.getType() == 1 ) {
                         startActivity( QR );
                         return;

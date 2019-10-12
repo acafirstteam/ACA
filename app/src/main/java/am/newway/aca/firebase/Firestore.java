@@ -33,11 +33,11 @@ public
 class Firestore {
     private static final String TAG = "Firestore";
     private static volatile Firestore firestore;
-    private FirebaseFirestore db;
     private static String VISIT_COLLECTION = "Visits";
     private static String STUDENT_COLLECTION = "Students";
     private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
+    private FirebaseFirestore db;
     private OnVisitChangeListener listener;
     private OnStudentCheckListener listener_student;
     private OnCourseReadListener listener_course;
@@ -46,42 +46,6 @@ class Firestore {
 
     private
     Firestore () {
-    }
-
-    public
-    interface OnQRGenerator {
-        void OnQrGenerated ( String strQr );
-
-        void OnQrGenerationFailed ();
-    }
-
-    public
-    interface OnCourseReadListener {
-        void OnCourseRead ( List<Course> courses );
-    }
-
-    public
-    interface OnVisitChangeListener {
-        void OnChangeConfirmed ( Visit visit );
-    }
-
-    public
-    interface OnStudentCheckListener {
-        void OnStudentChecked ( @Nullable Student student );
-
-        void OnStudentCheckFailed ( String exception );
-
-        void OnStudentIdentifier ( Student student );
-    }
-
-    public
-    interface OnNewStudentListener {
-        void OnNewStudentAdded ( @Nullable Student student );
-    }
-
-    public
-    void addOnStudentCheckListener ( OnStudentCheckListener listener ) {
-        this.listener_student = listener;
     }
 
     public static
@@ -93,6 +57,11 @@ class Firestore {
                 }
             }
         return firestore;
+    }
+
+    public
+    void addOnStudentCheckListener ( OnStudentCheckListener listener ) {
+        this.listener_student = listener;
     }
 
     public
@@ -413,6 +382,100 @@ class Firestore {
                 } );
     }
 
+    /**
+     * Վերադարձնում է նոր ուսանողների ցանկը
+     *
+     * @return List<Students>
+     */
+    public
+    List<Student> getNewStudents () {
+        final List<Student> students = new ArrayList<>();
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( STUDENT_COLLECTION )
+                .whereEqualTo( "type" , "-1" )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                        for ( DocumentSnapshot doc : docs ) {
+                            students.add( doc.toObject( Student.class ) );
+                        }
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading students" );
+                    }
+                } );
+        return students;
+    }
+
+    public
+    List<Visit> getVisits ( final OnVisitListener listener) {
+        final List<Visit> visits = new ArrayList<>();
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( VISIT_COLLECTION)
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                        for ( DocumentSnapshot doc : docs ) {
+                            visits.add( doc.toObject( Visit.class ) );
+                        }
+                        if(listener != null)
+                            listener.OnLoaded( visits );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading visits" );
+                    }
+                } );
+        return visits;
+    }
+
+    /**
+     * Վերադարձնում է ուսանողների ամբողջական ցանկը
+     *
+     * @return List<Students>
+     */
+    public
+    List<Student> getAllStudents () {
+        final List<Student> students = new ArrayList<>();
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( STUDENT_COLLECTION )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                        for ( DocumentSnapshot doc : docs ) {
+                            students.add( doc.toObject( Student.class ) );
+                        }
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading students" );
+                    }
+                } );
+        return students;
+    }
+
     private
     void addNewStudent ( Student student , OnStudentCheckListener listener ) {
         if ( db == null )
@@ -464,5 +527,41 @@ class Firestore {
                         }
                     }
                 } );
+    }
+
+    public
+    interface OnQRGenerator {
+        void OnQrGenerated ( String strQr );
+
+        void OnQrGenerationFailed ();
+    }
+
+    public
+    interface OnCourseReadListener {
+        void OnCourseRead ( List<Course> courses );
+    }
+
+    public
+    interface OnVisitChangeListener {
+        void OnChangeConfirmed ( Visit visit );
+    }
+
+    public
+    interface OnStudentCheckListener {
+        void OnStudentChecked ( @Nullable Student student );
+
+        void OnStudentCheckFailed ( String exception );
+
+        void OnStudentIdentifier ( Student student );
+    }
+
+    public
+    interface OnNewStudentListener {
+        void OnNewStudentAdded ( @Nullable Student student );
+    }
+
+    public
+    interface OnVisitListener {
+        void OnLoaded ( @Nullable List<Visit> visits );
     }
 }
