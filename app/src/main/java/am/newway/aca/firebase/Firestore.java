@@ -2,6 +2,7 @@ package am.newway.aca.firebase;
 
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -106,12 +107,12 @@ class Firestore {
      */
     public
     void checkStudent ( final Student student , final boolean bltCreateNew ,
-            OnStudentCheckListener listener ) {
+            final OnStudentCheckListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         this.listener_student = listener;
 
-        DocumentReference docRef =
+        final DocumentReference docRef =
                 db.collection( STUDENT_COLLECTION ).document( String.valueOf( student.getId() ) );
         docRef.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -120,9 +121,10 @@ class Firestore {
                 if ( task.isSuccessful() ) {
                     DocumentSnapshot document = task.getResult();
                     if ( document != null && document.exists() ) {
-                        //Log.d( TAG , "DocumentSnapshot data: " + document.getData() );
-                        //addNewStudent( student , null);
-                        if ( listener_student != null )
+                        if ( bltCreateNew ) {
+                            updateStudent( docRef , student , listener );
+                        }
+                        else if ( listener_student != null )
                             listener_student.OnStudentChecked( document.toObject( Student.class ) );
                     }
                     else {
@@ -140,7 +142,6 @@ class Firestore {
                         listener_student.OnStudentCheckFailed(
                                 task.getException() != null ? task.getException().toString()
                                         : "unknown error" );
-
                 }
             }
         } );
@@ -416,11 +417,11 @@ class Firestore {
     }
 
     public
-    List<Visit> getVisits ( final OnVisitListener listener) {
+    List<Visit> getVisits ( final OnVisitListener listener ) {
         final List<Visit> visits = new ArrayList<>();
         if ( db == null )
             db = FirebaseFirestore.getInstance();
-        db.collection( VISIT_COLLECTION)
+        db.collection( VISIT_COLLECTION )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -430,7 +431,7 @@ class Firestore {
                         for ( DocumentSnapshot doc : docs ) {
                             visits.add( doc.toObject( Visit.class ) );
                         }
-                        if(listener != null)
+                        if ( listener != null )
                             listener.OnLoaded( visits );
                     }
                 } )
@@ -495,6 +496,49 @@ class Firestore {
                                 .toObject( Student.class );
                         if ( listener_student != null )
                             listener_student.OnStudentChecked( student );
+                    }
+                } );
+            }
+        } );
+    }
+
+    private
+    void updateStudent ( final DocumentReference doc , final Student student ,
+            final OnStudentCheckListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        this.listener_student = listener;
+
+        ObjectMapper oMapper = new ObjectMapper();
+        Map<String, Object> map = oMapper.convertValue( student , Map.class );
+
+        doc.update( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<Void> task ) {
+                doc.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<DocumentSnapshot> task ) {
+                        DocumentSnapshot document = task.getResult();
+                        if ( document != null ) {
+
+                            if ( student != null ) {
+                                student.setId( document.getId() );
+                                Map<String, Object> map = document.getData();
+                                if ( map != null ) {
+                                    Object object = map.get( "verified" );
+                                    if ( object != null )
+                                        student.setVerified( object.equals( "1" ) );
+                                    object = map.get( "type" );
+                                    if ( object != null )
+                                        student.setType( ( int ) ( long ) object );
+
+                                    if ( listener != null )
+                                        listener.OnStudentChecked( student );
+                                }
+                            }
+                        }
                     }
                 } );
             }
