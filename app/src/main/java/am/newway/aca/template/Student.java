@@ -11,13 +11,14 @@ public class Student {
     private String picture;
     private String course;
     private boolean verified;
+    private String token;
     @Exclude
-    public int id;
-    private int type;
+    public String id;
+    private int type = -1;
 
     public Student (
             final int age , final String email , final String name , final String phone ,
-            final String picture , final String surname
+            final String picture , final String surname, final String token
     ) {
         this.age = age;
         this.email = email;
@@ -25,9 +26,23 @@ public class Student {
         this.phone = phone;
         this.picture = picture;
         this.surname = surname;
+        this.token = token;
+    }
+    public Student (
+            final String id
+    ) {
+        this.id = id;
     }
 
     public Student () {
+    }
+
+    public String getToken () {
+        return token;
+    }
+
+    public void setToken ( final String token ) {
+        this.token = token;
     }
 
     public int getType () {
@@ -39,11 +54,11 @@ public class Student {
     }
 
     @Exclude
-    public int getId () {
+    public String getId () {
         return id;
     }
 
-    public void setId ( final int id ) {
+    public void setId ( final String id ) {
         this.id = id;
     }
 

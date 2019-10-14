@@ -3,30 +3,53 @@
 	<string name = "app_name">ACA</string>
 	<string name = "action_settings">Կարգավորումներ</string>
 	<string name = "cancelled">Չեղարկում</string>
+	<string name = "log_out">Դուրս Գալ</string>
+
+	<string name = "nav_header_title">Armenian Code Academy</string>
+	<string name = "nav_header_subtitle">info@aca.am</string>
+	<string name = "nav_header_desc">Navigation header</string>
+
 	<string name = "wellcome_text">Armenian Code Academy</string>
 	<string name = "description_text">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։\nՀ. 0.1.2.4.8.16.32\nԷ. info@aca.am</string>
 
-	<string name="title_activity_welcome" translatable="false">Armenian Code Academy</string>
-	<string name="next" translatable="false">NEXT</string>
-	<string name="skip" translatable="false">SKIP</string>
-	<string name="start" translatable="false">GOT IT</string>
+	<string name = "next">NEXT</string>
+	<string name = "skip">SKIP</string>
+	<string name = "start">GOT IT</string>
 
-	<string name="slide_1_title" translatable="false">{Armenian Code Academy}</string>
-	<string name="slide_1_desc" translatable="false">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</string>
+	<string name = "slide_1_title">{Armenian Code Academy}</string>
+	<string name = "slide_1_desc">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</string>
 
-	<string name="slide_2_title" translatable="false">Դասընթացներ</string>
-	<string name="slide_2_desc" translatable="false">Մենք առաջարկում ենք դասընթացներ ամենանորարար և պահանջված IT մասնագիտություններում։</string>
+	<string name = "slide_2_title">Դասընթացներ</string>
+	<string name = "slide_2_desc">Մենք առաջարկում ենք դասընթացներ ամենանորարար և պահանջված IT մասնագիտություններում։</string>
 
-	<string name="slide_3_title" translatable="false">Վկայական</string>
-	<string name="slide_3_desc" translatable="false">Մեր վկայականները ճանաչվում և բարձր են գնահատվում հայաստանյան IT ընկերությունների կողմից։</string>
+	<string name = "slide_3_title">Վկայական</string>
+	<string name = "slide_3_desc">Մեր վկայականները ճանաչվում և բարձր են գնահատվում հայաստանյան IT ընկերությունների կողմից։</string>
 
-	<string name="slide_4_title" translatable="false">Աշխատանք</string>
-	<string name="slide_4_desc" translatable="false">Մեր շրջանավարտները ստանում են բարձր վարձատրվող
+	<string name = "slide_4_title">Աշխատանք</string>
+	<string name = "slide_4_desc">Մեր շրջանավարտները ստանում են բարձր վարձատրվող
 		աշխատանքի հրավերներ լավագույն IT ընկերություններից:</string>
 
-	<string name="play_again_desc" translatable="false">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
-	<string name="play_again" translatable="false">Play Again</string>
+	<string name = "play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+	<string name = "play_again">Play Again</string>
 
-	<string name="todo">TODO</string>
+	<string name = "todo">TODO</string>
+
+	<string name = "menu_home">Դասընթացներ</string>
+	<string name = "menu_company">Կազմակերպություն</string>
+	<string name = "menu_about">Ծրագրի մասին</string>
+	<string name = "menu_about_new">Մասին․․․</string>
+	<string name = "history">Պատմություն</string>
+	<string name = "menu_settings">Կարգավորումներ</string>
+
+	<string name = "snackbar">Սեղմեք ևս մեկ անգամ կամ սեղմեք "Փակել"</string>
+	<string name = "close">Փակել</string>
+	<string name = "register_text">Որպես ուսանող՝ այցելություն գրանցելու համար հարկավոր է նախապես հաստատել Ձեր անձը ստորև նշված տարբերակ(ներ)ի միջոցով</string>
+	<string name = "second_name">Ազգանուն</string>
+	<string name = "signup">Գրանցում</string>
+	<string name = "phone_number">Հեռախոսահամար</string>
+	<string name = "personal">Անձնական էջ</string>
+	<string name = "full_name">Անուն ազգանուն</string>
+	<string name = "email">էլ․ փոստ</string>
+	<string name = "save">Պահպանել</string>
 
 </resources>
