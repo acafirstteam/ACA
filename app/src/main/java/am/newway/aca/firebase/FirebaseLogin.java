@@ -3,9 +3,11 @@ package am.newway.aca.firebase;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,13 +26,17 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Objects;
+
 import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
+import am.newway.aca.template.Student;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class FirebaseLogin extends BaseActivity {
+public
+class FirebaseLogin extends BaseActivity {
 
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient mGoogleSignInClient;
@@ -40,9 +46,14 @@ public class FirebaseLogin extends BaseActivity {
     private Button buttonLogout;
     private SignInButton buttonSignIn;
     private TextView registerText;
+    private EditText fullName ;
+    private EditText email;
+    private EditText phone;
+    private SimpleDraweeView image;
 
     @Override
-    protected void onCreate ( Bundle savedInstanceState ) {
+    protected
+    void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_firebase_login );
 
@@ -50,31 +61,58 @@ public class FirebaseLogin extends BaseActivity {
         if ( actionBar != null )
             actionBar.setDisplayHomeAsUpEnabled( true );
 
-        final EditText fullName = findViewById( R.id.edit_fullname );
-        final EditText email = findViewById( R.id.edit_email );
-        final EditText phone = findViewById( R.id.edit_phone );
-        final SimpleDraweeView image = findViewById( R.id.imageView );
+        fullName = findViewById( R.id.edit_fullname );
+        email = findViewById( R.id.edit_email );
+        phone = findViewById( R.id.edit_phone );
+        image = findViewById( R.id.imageView );
         final ConstraintLayout layout_user = findViewById( R.id.student_info );
         buttonLogout = findViewById( R.id.logout );
         animation = findViewById( R.id.animation_view );
         registerText = findViewById( R.id.register_text );
 
+        fullName.setOnEditorActionListener( new TextView.OnEditorActionListener() {
+            @Override
+            public
+            boolean onEditorAction ( final TextView textView , final int i ,
+                    final KeyEvent keyEvent ) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    saveStudent();
+                    return true;
+                }
+                return false;
+            }
+        } );
+
+        phone.setOnEditorActionListener( new TextView.OnEditorActionListener() {
+            @Override
+            public
+            boolean onEditorAction ( final TextView textView , final int i ,
+                    final KeyEvent keyEvent ) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    saveStudent();
+                    return true;
+                }
+                return false;
+            }
+        } );
+
         findViewById( R.id.logout ).setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick ( final View view ) {
-                Log.i( TAG , "onClick: Firebase user signOut" );
-                //firebaseUser.delete();
-                //firebaseUser = null;
+            public
+            void onClick ( final View view ) {
                 mGoogleSignInClient.signOut();
                 mAuth.signOut();
                 firebaseUser = mAuth.getCurrentUser();
+                DATABASE.deleteStudent();
+                setResult( 1 );
                 finish();
             }
         } );
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged ( @NonNull FirebaseAuth firebaseAuth ) {
+            public
+            void onAuthStateChanged ( @NonNull FirebaseAuth firebaseAuth ) {
                 firebaseUser = mAuth.getCurrentUser();
                 if ( firebaseUser != null ) {
                     animation.setVisibility( View.GONE );
@@ -86,48 +124,43 @@ public class FirebaseLogin extends BaseActivity {
                     if ( actionBar != null )
                         actionBar.setTitle( R.string.personal );
 
-                    fullName.setText( firebaseUser.getDisplayName() );
+                    Student student = DATABASE.getStudent();
+
+                    fullName.setText( student.getName() == null || student.getName().isEmpty() ?
+                            firebaseUser.getDisplayName() : student.getName());
                     email.setText( firebaseUser.getEmail() );
-                    phone.setText( firebaseUser.getPhoneNumber() );
+                    phone.setText( student.getPhone() == null || student.getPhone().isEmpty() ?
+                            firebaseUser.getPhoneNumber() : student.getPhone() );
                     image.setImageURI( firebaseUser.getPhotoUrl() );
 
-                    Log.e( TAG , "onAuthStateChanged: " + firebaseUser.getUid() );
-                    //                    Log.e( TAG , "onAuthStateChanged: " + user.getUid() );
-                    //                    Log.e( TAG , "onAuthStateChanged: " + user.getEmail() );
-                    //                    Log.e( TAG , "onAuthStateChanged: " + user.getDisplayName() );
-                    //                    Log.e( TAG , "onAuthStateChanged: " + user.getPhoneNumber() );
-                    //                    Log.e( TAG , "onAuthStateChanged: " + user.getPhotoUrl() );
-                    //                    Log.e( TAG , "onAuthStateChanged: " + user.getProviderId() );
+                    student.setId( firebaseUser.getUid() );
+                    student.setEmail( firebaseUser.getEmail() );
+                    student.setName( firebaseUser.getDisplayName() );
+                    student.setPhone( firebaseUser.getPhoneNumber() );
+                    student.setPicture( Objects.requireNonNull( firebaseUser.getPhotoUrl() ).toString() );
+
+                    DATABASE.setStudent( student );
                 }
                 else
                     Log.e( TAG , "onAuthStateChanged: user is null" );
-                hideProgressDialog();
 
+                hideProgressDialog();
             }
         };
 
         // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder( GoogleSignInOptions.DEFAULT_SIGN_IN ).requestIdToken( getString( R.string.default_web_client_id ) ).requestEmail().build();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(
+                GoogleSignInOptions.DEFAULT_SIGN_IN ).requestIdToken(
+                getString( R.string.default_web_client_id ) ).requestEmail().build();
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient( this , gso );
 
-        //        mGoogleApiClient =
-        //                new GoogleApiClient.Builder( getApplicationContext() ).enableAutoManage( this , new GoogleApiClient.OnConnectionFailedListener() {
-        //
-        //            @Override
-        //            public void onConnectionFailed ( @NonNull ConnectionResult connectionResult ) {
-        //
-        //                Toast.makeText( FirebaseLogin.this , "You have got an Error" , Toast.LENGTH_LONG ).show();
-        //            }
-        //        } ).addApi( Auth.GOOGLE_SIGN_IN_API , gso ).build();
-
         buttonSignIn = findViewById( R.id.btnForGoogleSignIn );
         buttonSignIn.setOnClickListener( new View.OnClickListener() {
             @Override
-            public void onClick ( View view ) {
-                //                Intent signInIntent =
-                //                        Auth.GoogleSignInApi.getSignInIntent( mGoogleSignInClient.get );
+            public
+            void onClick ( View view ) {
                 startActivityForResult( mGoogleSignInClient.getSignInIntent() , RC_SIGN_IN );
                 showProgressDialog();
             }
@@ -135,19 +168,22 @@ public class FirebaseLogin extends BaseActivity {
     }
 
     @Override
-    protected void onStart () {
+    protected
+    void onStart () {
         super.onStart();
         mAuth.addAuthStateListener( mAuthListener );
     }
 
     @Override
-    protected void onStop () {
+    protected
+    void onStop () {
         super.onStop();
         mAuth.removeAuthStateListener( mAuthListener );
     }
 
     @Override
-    public void onActivityResult ( int requestCode , int resultCode , Intent data ) {
+    public
+    void onActivityResult ( int requestCode , int resultCode , Intent data ) {
         super.onActivityResult( requestCode , resultCode , data );
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if ( requestCode == RC_SIGN_IN ) {
@@ -156,35 +192,60 @@ public class FirebaseLogin extends BaseActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult( ApiException.class );
                 if ( account != null ) {
-                    AuthCredential credential = GoogleAuthProvider.getCredential( account.getIdToken() , null );
+                    AuthCredential credential =
+                            GoogleAuthProvider.getCredential( account.getIdToken() , null );
                     mAuth.signInWithCredential( credential );
                 }
             } catch ( ApiException e ) {
                 // Google Sign In failed, update UI appropriately
                 Log.w( TAG , "Google sign in failed" , e );
-                Toast.makeText( this , e.getMessage() != null ? e.getMessage() : "null" , Toast.LENGTH_LONG ).show();
+                Toast.makeText( this , e.getMessage() != null ? e.getMessage() : "null" ,
+                        Toast.LENGTH_LONG ).show();
             }
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu ( final Menu menu ) {
+    public
+    boolean onCreateOptionsMenu ( final Menu menu ) {
         getMenuInflater().inflate( R.menu.menu_personal , menu );
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected ( @NonNull final MenuItem item ) {
+    public
+    boolean onOptionsItemSelected ( @NonNull final MenuItem item ) {
         switch ( item.getItemId() ) {
             case android.R.id.home: {
+                setResult( 1 );
                 this.finish();
                 return true;
             }
             case R.id.action_save: {
-                Toast.makeText( this , "Save" , Toast.LENGTH_SHORT ).show();
-                this.finish();
+                saveStudent();
             }
         }
         return super.onOptionsItemSelected( item );
+    }
+
+    private
+    void saveStudent (  ) {
+
+        Student student = DATABASE.getStudent();
+        student.setName( fullName.getText(  ).toString() );
+        student.setPhone( phone.getText(  ).toString() );
+
+        setResult( 1 );
+        this.finish();
+
+        //DATABASE.setStudent( student );
+    }
+
+    @Override
+    public
+    void onBackPressed () {
+        super.onBackPressed();
+        setResult( 1 );
+        this.finish();
     }
 }

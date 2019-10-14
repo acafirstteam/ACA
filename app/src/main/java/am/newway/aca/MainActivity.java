@@ -27,7 +27,7 @@ public
 class MainActivity extends BaseActivity {
 
     private static long back_pressed;
-    private static String TAG = "BaseActivity";
+    private String TAG = getClass().getSimpleName();
 
     @Override
     protected
@@ -35,24 +35,13 @@ class MainActivity extends BaseActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
 
+        int nType = DATABASE.getStudent().getType();
+        if ( nType == 2 )
+            addOnNewStudentListener();
+
         initNavigationBar();
-        Log.e( TAG , "onCreate:555 " + DATABASE.getSettings().getLanguage()  );
 
-        if ( firebaseUser != null ) {
-            Log.e( TAG , "onCreate: " + firebaseUser.getUid() );
-        }
-        else
-            Log.e( TAG , "onCreate: firebase is null" );
-
-        Student student = DATABASE.getStudent();
-        //Student student = getGlobStudent();
-
-        if ( student != null ) {
-            int nType = student.getType();
-            Log.e( TAG , "not nullik:  " + nType );
-            if ( nType == 2 )
-                addOnNewStudentListener();
-        }
+        updateNavigationBar();
 
         fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
@@ -64,7 +53,8 @@ class MainActivity extends BaseActivity {
                 firebaseUser = mAuth.getCurrentUser();
                 if ( firebaseUser == null ) {
                     Log.d( TAG , "Starting SignUp Activity" );
-                    startActivity( new Intent( MainActivity.this , FirebaseLogin.class ) );
+                    startActivityForResult( new Intent( MainActivity.this , FirebaseLogin.class ) ,
+                            1 );
                 }
                 else {
                     Log.d( TAG , "Scan Bar code is ready" );
@@ -96,9 +86,45 @@ class MainActivity extends BaseActivity {
     @Override
     protected
     void onActivityResult ( int requestCode , int resultCode , Intent data ) {
+
+        if ( requestCode == 1 && resultCode == 1 ) {
+
+            updateNavigationBar();
+
+            Student student = DATABASE.getStudent();
+
+            firebaseUser = mAuth.getCurrentUser();
+            if ( firebaseUser != null ) {
+
+                FIRESTORE.checkStudent( student , true , new Firestore.OnStudentCheckListener() {
+                    @Override
+                    public
+                    void OnStudentChecked ( @Nullable final Student student ) {
+                        //if ( student != null )
+                        //DATABASE.setStudent( student );
+                    }
+
+                    @Override
+                    public
+                    void OnStudentCheckFailed ( final String exception ) {
+
+                    }
+
+                    @Override
+                    public
+                    void OnStudentIdentifier ( final Student student ) {
+                        //if ( student != null )
+                        //DATABASE.setStudent( student );
+                    }
+                } );
+            }
+
+            super.onActivityResult( requestCode , resultCode , data );
+            return;
+        }
         if ( requestCode != CUSTOMIZED_REQUEST_CODE &&
                 requestCode != IntentIntegrator.REQUEST_CODE ) {
-            // This is important, otherwise the result will not be passed to the fragment
+
             super.onActivityResult( requestCode , resultCode , data );
             return;
         }
@@ -116,52 +142,16 @@ class MainActivity extends BaseActivity {
                             .getFragments()
                             .get( 0 );
 
-            Student student = DATABASE.getStudent();
-            //Student student = getGlobStudent();
-
-            if ( student == null ) {
-                String uID = "-1";
-                firebaseUser = mAuth.getCurrentUser();
-                if ( firebaseUser != null )
-                    uID = firebaseUser.getUid();
-
-                FIRESTORE.checkStudent( new Student( uID ) , true ,
-                        new Firestore.OnStudentCheckListener() {
-                            @Override
-                            public
-                            void OnStudentChecked ( @Nullable final Student student ) {
-                                if ( student != null )
-                                    DATABASE.setStudent( student );
-                                //setGlobStudent( student );
+            FIRESTORE.addNewVisit( DATABASE.getStudent() , result.getContents() ,
+                    new Firestore.OnVisitChangeListener() {
+                        @Override
+                        public
+                        void OnChangeConfirmed ( final Visit visit ) {
+                            if ( homeFrag != null ) {
+                                homeFrag.addNewVisit( visit );
                             }
-
-                            @Override
-                            public
-                            void OnStudentCheckFailed ( final String exception ) {
-
-                            }
-
-                            @Override
-                            public
-                            void OnStudentIdentifier ( final Student student ) {
-                                if ( student != null )
-                                    DATABASE.setStudent( student );
-                                //setGlobStudent( student );
-                            }
-                        } );
-            }
-            else {
-                FIRESTORE.addNewVisit( student , result.getContents() ,
-                        new Firestore.OnVisitChangeListener() {
-                            @Override
-                            public
-                            void OnChangeConfirmed ( final Visit visit ) {
-                                if ( homeFrag != null ) {
-                                    homeFrag.addNewVisit( visit );
-                                }
-                            }
-                        } );
-            }
+                        }
+                    } );
         }
     }
 
@@ -209,11 +199,12 @@ class MainActivity extends BaseActivity {
     }
 
     public
-    DatabaseHelper getDATABASE(){
+    DatabaseHelper getDATABASE () {
         return DATABASE;
     }
 
-    public Firestore getFIRESTORE(){
+    public
+    Firestore getFIRESTORE () {
         return FIRESTORE;
     }
 }

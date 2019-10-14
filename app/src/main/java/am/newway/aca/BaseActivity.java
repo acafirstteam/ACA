@@ -24,6 +24,8 @@ import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.RotationOptions;
 import com.facebook.imagepipeline.core.ImagePipeline;
 import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
 import com.facebook.imagepipeline.image.CloseableImage;
@@ -53,6 +55,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -60,8 +63,12 @@ import androidx.navigation.ui.NavigationUI;
 
 public
 class BaseActivity extends AppCompatActivity {
+
     public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
     private final String TAG = getClass().getSimpleName();
+    protected final String ENGLISH = "en";
+    protected final String ARMENIAN = "hy";
+
     protected Firestore FIRESTORE;
     protected DatabaseHelper DATABASE;
     @VisibleForTesting
@@ -86,18 +93,6 @@ class BaseActivity extends AppCompatActivity {
 
         DATABASE = DatabaseHelper.getInstance( BaseActivity.this );
     }
-
-    //    public
-//    Student getGlobStudent () {
-//        return globStudent;
-//    }
-//
-//    public
-//    void setGlobStudent ( Student globStudent ) {
-//        this.globStudent = globStudent;
-//        if(globStudent != null)
-//            Log.e( TAG , "setGlobStudent: " + globStudent.getType() );
-//    }
 
     public
     void scanBarcode ( View view ) {
@@ -237,7 +232,8 @@ class BaseActivity extends AppCompatActivity {
             notificationChannel.setLightColor( Color.RED );
             notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
             notificationChannel.enableVibration( true );
-            notificationManager.createNotificationChannel( notificationChannel );
+            if ( notificationManager != null )
+                notificationManager.createNotificationChannel( notificationChannel );
         }
 
         PendingIntent contentIntent =
@@ -264,7 +260,8 @@ class BaseActivity extends AppCompatActivity {
             public
             void OnLoaded ( final Bitmap bmp ) {
                 notificationBuilder.setLargeIcon( bmp );
-                notificationManager.notify( 1 , notificationBuilder.build() );
+                if ( notificationManager != null )
+                    notificationManager.notify( 1 , notificationBuilder.build() );
 
             }
         } );
@@ -278,7 +275,7 @@ class BaseActivity extends AppCompatActivity {
     void getBitmapFromUrl ( Uri uri , final bitmapLoading listener ) {
 
         ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource( uri )
-                .setAutoRotateEnabled( true )
+                .setRotationOptions( RotationOptions.autoRotate() )
                 .build();
 
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
@@ -320,41 +317,6 @@ class BaseActivity extends AppCompatActivity {
         drawer = findViewById( R.id.drawer_layout );
         navController = Navigation.findNavController( this , R.id.nav_host_fragment );
         NavigationView navigationView = findViewById( R.id.nav_view );
-        View headerLayout = navigationView.getHeaderView( 0 );
-        TextView textName = headerLayout.findViewById( R.id.title );
-        TextView textDescription = headerLayout.findViewById( R.id.description );
-        ImageView imageView = headerLayout.findViewById( R.id.imageView );
-
-        imageView.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public
-            void onClick ( final View view ) {
-                String url = "http://www.aca.am";
-                Intent i = new Intent( Intent.ACTION_VIEW );
-                i.setData( Uri.parse( url ) );
-                startActivityWithIntent( new Intent( BaseActivity.this , FirebaseLogin.class ) );
-            }
-        } );
-
-        textName.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public
-            void onClick ( final View view ) {
-                Intent emailIntent = new Intent( Intent.ACTION_SENDTO ,
-                        Uri.fromParts( "mailto" , "info@aca.am" , null ) );
-                startActivityWithIntent( Intent.createChooser( emailIntent , "Send email..." ) );
-            }
-        } );
-
-        textDescription.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public
-            void onClick ( final View view ) {
-                Intent emailIntent = new Intent( Intent.ACTION_SENDTO ,
-                        Uri.fromParts( "mailto" , "info@aca.am" , null ) );
-                startActivityWithIntent( Intent.createChooser( emailIntent , "Send email..." ) );
-            }
-        } );
 
         final AppBarConfiguration mAppBarConfiguration =
                 new AppBarConfiguration.Builder( R.id.nav_home , R.id.nav_settings ,
@@ -406,12 +368,98 @@ class BaseActivity extends AppCompatActivity {
         toggle.syncState();
     }
 
+    protected
+    void updateNavigationBar () {
+        NavigationView navigationView = findViewById( R.id.nav_view );
+        View headerLayout = navigationView.getHeaderView( 0 );
+        TextView textName = headerLayout.findViewById( R.id.title );
+        TextView textDescription = headerLayout.findViewById( R.id.description );
+        SimpleDraweeView imageView = headerLayout.findViewById( R.id.imageView );
+
+        Student student = DATABASE.getStudent();
+
+        if ( student.getId() != null && !student.getId().equals( "-1" ) ) {
+            imageView.setImageURI( Uri.parse( student.getPicture() ) );
+
+            textName.setText( student.getName() );
+
+            textDescription.setText( student.getEmail() );
+
+            imageView.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public
+                void onClick ( final View view ) {
+                    startActivityWithIntent(
+                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
+                }
+            } );
+
+            textName.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public
+                void onClick ( final View view ) {
+                    startActivityWithIntent(
+                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
+                }
+            } );
+
+            textDescription.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public
+                void onClick ( final View view ) {
+                    startActivityWithIntent(
+                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
+                }
+            } );
+        }
+        else {
+            imageView.setImageResource( R.mipmap.ic_launcher );
+
+            textName.setText( getResources().getString( R.string.nav_header_title ) );
+
+            textDescription.setText( getResources().getString( R.string.nav_header_subtitle ) );
+
+            imageView.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public
+                void onClick ( final View view ) {
+                    String url = "http://www.aca.am";
+                    Intent i = new Intent( Intent.ACTION_VIEW );
+                    i.setData( Uri.parse( url ) );
+                    startActivityWithIntent( i );
+                }
+            } );
+
+            textName.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public
+                void onClick ( final View view ) {
+                    Intent emailIntent = new Intent( Intent.ACTION_SENDTO ,
+                            Uri.fromParts( "mailto" , "info@aca.am" , null ) );
+                    startActivityWithIntent(
+                            Intent.createChooser( emailIntent , "Send email..." ) );
+                }
+            } );
+
+            textDescription.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public
+                void onClick ( final View view ) {
+                    Intent emailIntent = new Intent( Intent.ACTION_SENDTO ,
+                            Uri.fromParts( "mailto" , "info@aca.am" , null ) );
+                    startActivityWithIntent(
+                            Intent.createChooser( emailIntent , "Send email..." ) );
+                }
+            } );
+        }
+    }
+
     private
     void startActivityWithIntent ( Intent intent ) {
         if ( drawer.isDrawerOpen( GravityCompat.START ) ) {
             drawer.closeDrawer( GravityCompat.START );
         }
-        startActivity( intent );
+        startActivityForResult( intent , 1 );
     }
 
     @Override
@@ -422,8 +470,10 @@ class BaseActivity extends AppCompatActivity {
 
     private
     boolean isDestination ( int destination ) {
-        return destination != Navigation.findNavController( this , R.id.nav_host_fragment )
-                .getCurrentDestination()
-                .getId();
+        NavDestination view = Navigation.findNavController( this , R.id.nav_host_fragment )
+                .getCurrentDestination();
+        if ( view != null )
+            return destination != view.getId();
+        return true;
     }
 }

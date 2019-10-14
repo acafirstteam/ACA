@@ -14,6 +14,8 @@ class BaseFragment extends Fragment {
 
     protected DatabaseHelper DATABASE;
     protected Firestore FIRESTORE;
+    protected final String ENGLISH = "en";
+    protected final String ARMENIAN = "hy";
 
     @Override
     public

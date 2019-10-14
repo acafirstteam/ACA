@@ -14,12 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public
-class DatabaseHelper extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChangeListener,
+        Settings.OnSettingsChangeListener {
 
-    private final String TAG = "Database";
+    private static final String TAG = "Database";
+    private final static String ENGLISH = "en";
     private Student student;
     private Settings settings;
-    private static volatile DatabaseHelper database;
+    private static volatile DatabaseHelper database = null;
     public Context context;
 
     private static final int DATABASE_VERSION = 1;
@@ -57,8 +59,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 if ( database == null ) {
                     database = new DatabaseHelper( context );
                     database.getStudent();
-                    if ( database.getSettings() == null )
-                        database.setSettings( new Settings( true , true , "English" ) );
+                    if ( database.getSettings() == null ) {
+                        database.setSettings( new Settings( true , true , ENGLISH ) );
+                        database.getSettings().addOnSettingsChangeListener( database );
+                    }
                 }
             }
         return database;
@@ -66,7 +70,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     //Create table SQL query
     private String CREATE_STUDENT_TABLE = String.format(
-            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER )" ,
+            " CREATE TABLE IF NOT EXISTS %s(%s TEXT,%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, " +
+                    "%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER )" ,
             TABLE_STUDENT , COLUMN_STUDENT_ID , COLUMN_STUDENT_EMAIL , COLUMN_STUDENT_NAME ,
             COLUMN_STUDENT_SURNAME , COLUMN_STUDENT_AGE , COLUMN_STUDENT_PHONE ,
             COLUMN_STUDENT_PICTURE , COLUMN_STUDENT_TOKEN , COLUMN_STUDENT_VERIFICATION ,
@@ -78,11 +83,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
             TABLE_SETTINGS , COLUMN_SETTINGS_ID , COLUMN_SETTINGS_LOGIN ,
             COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE );
 
-    public
+    private
     DatabaseHelper ( Context context ) {
         super( context , DATABASE_NAME , null , DATABASE_VERSION );
         this.context = context;
-        settings = new Settings();
+        settings = getSettings();
     }
 
     @Override
@@ -109,7 +114,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         long nCount = DatabaseUtils.longForQuery( db ,
                 String.format( "SELECT COUNT(*) FROM %s" , TABLE_STUDENT ) , null );
-        Log.e( TAG , "setStudent: " + nCount );
+
+        this.student = student;
 
         if ( nCount > 0 ) {
             updateStudent( student );
@@ -117,6 +123,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         ContentValues values = new ContentValues();
+        values.put( COLUMN_STUDENT_ID , student.getId() );
         values.put( COLUMN_STUDENT_EMAIL , student.getEmail() );
         values.put( COLUMN_STUDENT_NAME , student.getName() );
         values.put( COLUMN_STUDENT_SURNAME , student.getSurname() );
@@ -134,20 +141,23 @@ class DatabaseHelper extends SQLiteOpenHelper {
         Log.d( TAG , "------------------------------------------------------Data inserted" );
     }
 
+    @NonNull
     public
     Student getStudent () {
 
-        if ( database == null )
-            Log.e( TAG , "getStudent: database is null" );
-        else
-            Log.e( TAG , "getStudent: database is not null" );
         Cursor cursor;
         SQLiteDatabase myDB = this.getReadableDatabase();
-        String queryName = "SELECT * FROM  " + TABLE_STUDENT + " LIMIT " + "1";
+        String queryName = String.format( "SELECT * FROM  %s LIMIT 1" , TABLE_STUDENT );
         cursor = myDB.rawQuery( queryName , null );
 
-        if ( cursor.getCount() > 0 ) {
+        if ( cursor.getCount() > 0 && student == null ) {
             cursor.moveToFirst();
+
+            student = new Student();
+
+            student.addOnStudentChangeListener( this );
+
+            student.setId( cursor.getString( cursor.getColumnIndex( COLUMN_STUDENT_ID ) ) );
             student.setEmail( cursor.getString( cursor.getColumnIndex( COLUMN_STUDENT_EMAIL ) ) );
             student.setName( cursor.getString( cursor.getColumnIndex( COLUMN_STUDENT_NAME ) ) );
             student.setSurname(
@@ -165,7 +175,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
             student.setType( cursor.getInt( cursor.getColumnIndex( COLUMN_STUDENT_TYPE ) ) );
 
             Log.d( TAG , "-----------------------Get Student Handled" );
-        }
+        }else if(student == null)
+            student = new Student(  );
+
         cursor.close();
 
         return student;
@@ -177,24 +189,27 @@ class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase myDB = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
+        contentValues.put( COLUMN_STUDENT_ID , student.getId() );
         contentValues.put( COLUMN_STUDENT_EMAIL , student.getEmail() );
-        contentValues.put( COLUMN_STUDENT_NAME , student.getName() );
+        //contentValues.put( COLUMN_STUDENT_NAME , student.getName() );
         contentValues.put( COLUMN_STUDENT_SURNAME , student.getSurname() );
         contentValues.put( COLUMN_STUDENT_AGE , student.getAge() );
-        contentValues.put( COLUMN_STUDENT_PHONE , student.getPhone() );
+        //contentValues.put( COLUMN_STUDENT_PHONE , student.getPhone() );
         contentValues.put( COLUMN_STUDENT_PICTURE , student.getPicture() );
         contentValues.put( COLUMN_STUDENT_TOKEN , student.getToken() );
         contentValues.put( COLUMN_STUDENT_VERIFICATION , student.isVerified() );
         contentValues.put( COLUMN_STUDENT_COURSE , student.getCourse() );
         contentValues.put( COLUMN_STUDENT_TYPE , student.getType() );
 
-        myDB.update( TABLE_STUDENT , contentValues , COLUMN_STUDENT_ID + " = 1 " , null );
+        myDB.update( TABLE_STUDENT , contentValues ,
+                String.format( "%s in (SELECT %s FROM %s LIMIT 1) " , COLUMN_STUDENT_ID ,
+                        COLUMN_STUDENT_ID , TABLE_SETTINGS ) , null );
 
-        Log.d( TAG , "--------------------------------------Database Updated" );
+        Log.e( TAG , "--------------------------------------Student Updated" );
     }
 
     //Add settings
-    public
+    private
     void setSettings ( Settings settings ) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -221,13 +236,23 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public
     Settings getSettings () {
 
+        if ( settings != null ) {
+            return settings;
+        }
+
+        settings = new Settings();
+        settings.addOnSettingsChangeListener( this );
+
         Cursor cursor;
         SQLiteDatabase myDB = this.getReadableDatabase();
-        String queryName = "SELECT * FROM  " + TABLE_SETTINGS + " LIMIT " + "1";
+        String queryName = String.format( "SELECT * FROM  %s LIMIT 1" , TABLE_SETTINGS );
 
         cursor = myDB.rawQuery( queryName , null );
         if ( cursor.getCount() > 0 ) {
             cursor.moveToFirst();
+
+            Log.e( TAG , "getSettings: Creating new Settings  " +
+                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
 
             settings.setLogin( cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LOGIN ) )
                     .equals( "1" ) );
@@ -255,6 +280,25 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         myDB.update( TABLE_SETTINGS , contentValues , COLUMN_SETTINGS_ID + " = 1 " , null );
 
-        Log.d( TAG , "--------------------------------------Database Updated" );
+        Log.d( TAG , "--------------------------------------Settings Updated" );
+    }
+
+    @Override
+    public
+    void OnStudentChanged () {
+        Log.e( TAG , "OnStudentChanged: " );
+        //setStudent( student );
+    }
+
+    @Override
+    public
+    void OnSettingsChanged () {
+        setSettings( settings );
+    }
+
+    public
+    void deleteStudent () {
+        SQLiteDatabase myDB = this.getWritableDatabase();
+        myDB.delete( TABLE_SETTINGS , "", null);
     }
 }
