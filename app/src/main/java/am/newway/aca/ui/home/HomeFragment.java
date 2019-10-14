@@ -84,7 +84,7 @@ public class HomeFragment extends BaseFragment {
         RecyclerView.LayoutManager mManager = new GridLayoutManager( getActivity(), 3  );
         mManager.setItemPrefetchEnabled( true );
         recyclerView.setLayoutManager( mManager );
-        homeViewModel.getProducts();
+        homeViewModel.getCourses();
     }
 
     @Override

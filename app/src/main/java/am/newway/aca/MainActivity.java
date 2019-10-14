@@ -18,6 +18,8 @@ import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
 import am.newway.aca.ui.home.HomeFragment;
+import am.newway.aca.ui.student.StudenActivity;
+
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 
@@ -85,6 +87,7 @@ class MainActivity extends BaseActivity {
     boolean onOptionsItemSelected ( MenuItem item ) {
         int id = item.getItemId();
         if ( id == R.id.action_settings ) {
+            startActivity(new Intent(MainActivity.this, StudenActivity.class));
             return true;
         }
         return super.onOptionsItemSelected( item );
