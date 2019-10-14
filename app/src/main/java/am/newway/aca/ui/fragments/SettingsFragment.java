@@ -12,6 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import am.newway.aca.R;
 import am.newway.aca.ui.BaseFragment;
+import am.newway.aca.util.LocaleHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -22,30 +23,17 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         View.OnClickListener {
 
     private final String TAG = getClass().getSimpleName();
-    private SwitchCompat notificationSwitch;
     private SimpleDraweeView armenia, english;
-    private final String ENGLISH = "en";
-    private final String ARMENIAN = "hy";
 
     public
     SettingsFragment () {
 
     }
 
-    public static
-    SettingsFragment newInstance () {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments( args );
-        return fragment;
-    }
-
     @Override
     public
     void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        if ( getArguments() != null ) {
-        }
     }
 
     @Override
@@ -62,7 +50,7 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
 
         armenia = view.findViewById( R.id.armenian_flag_settings_id );
         english = view.findViewById( R.id.english_flag_settings_id );
-        notificationSwitch = view.findViewById( R.id.notification_switch );
+        final SwitchCompat notificationSwitch = view.findViewById( R.id.notification_switch );
 
         notificationSwitch.setChecked( DATABASE.getSettings().isNotification() );
 
@@ -70,8 +58,13 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         english.setOnClickListener( this );
         armenia.setOnClickListener( this );
 
+                Log.e( TAG ,
+                        "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage().equals( ENGLISH )  );
+                Log.e( TAG ,
+                        "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage() );
+
         setSelectLanguage(
-                DATABASE.getSettings().getLanguage().equals( ENGLISH ) ? english : armenia );
+                DATABASE.getSettings().getLanguage().equals( ARMENIAN ) ? armenia : english );
     }
 
     private
@@ -85,7 +78,7 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         english.getHierarchy().setRoundingParams( roundingParams );
         armenia.getHierarchy().setRoundingParams( roundingParams );
 
-        roundingParams.setBorder( color , 10.0f );
+        roundingParams.setBorder( color , 8.0f );
         drawer.getHierarchy().setRoundingParams( roundingParams );
     }
 
@@ -102,21 +95,32 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
     public
     void onClick ( View v ) {
 
-        switch ( v.getId() ) {
+        if ( getActivity() != null ) {
+            switch ( v.getId() ) {
 
-            case R.id.english_flag_settings_id:
-                setSelectLanguage( english );
-                DATABASE.getSettings().setLanguage( ENGLISH , getActivity() );
-                Log.d( TAG , "------------------Set English" );
+                case R.id.english_flag_settings_id:
+                    DATABASE.getSettings().setLanguage( ENGLISH , getActivity() );
+                    setSelectLanguage( english );
+                    changeLanguage( ENGLISH );
+                    Log.e( TAG , "------------------Set English" );
 
-                break;
-            case R.id.armenian_flag_settings_id:
-                setSelectLanguage( armenia );
-                DATABASE.getSettings().setLanguage( ARMENIAN , getActivity() );
-                Log.d( TAG , "------------------Set Armenian" );
+                    break;
+                case R.id.armenian_flag_settings_id:
+                    DATABASE.getSettings().setLanguage( ARMENIAN , getActivity() );
+                    setSelectLanguage( armenia );
+                    changeLanguage( ARMENIAN );
+                    Log.e( TAG , "------------------Set Armenian" );
 
-                break;
+                    break;
+            }
         }
+    }
+
+    private
+    void changeLanguage ( String lang ) {
+        LocaleHelper.setLocale( getActivity() , lang );
+        if ( getActivity() != null )
+            getActivity().recreate();
     }
 }
 
