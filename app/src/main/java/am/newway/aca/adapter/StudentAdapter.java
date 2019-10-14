@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -35,25 +36,17 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     private Context context;
 
     public StudentAdapter(
-            List<Student> students , RecyclerView recyclerView
+            List<Student> students, RecyclerView recyclerView
     ) {
-
         this.students = students;
         this.context = recyclerView.getContext();
     }
 
-    public int getPosition(String name) {
-        for (int i = 0; i != students.size(); i++) {
-//            if (students.get(i).getUrl().equals(name.trim())) {
-//                return i;
-//            }
-        }
-        return -1;
-    }
-
-    public void setStudents ( List<Student> students ) {
+    public void setStudents(List<Student> students) {
         this.students.clear();
-        this.students.addAll( students );
+        this.students.addAll(students);
+        Log.e("@@@@@@@@@@@@@@@@@@", "onComplete: " + students.size());
+
         notifyDataSetChanged();
     }
 
@@ -71,38 +64,39 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return super.getItemViewType(position);
-    }
-
-    @Override
     public int getItemCount() {
         return students.size();
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewCourseName;
-        TextView textViewCourseDescription;
+        TextView textEmailStudentItm;
+        TextView textPhoneStudentItm;
+        TextView textIdStudentItm;
+        TextView textNameStudentItm;
+
         SimpleDraweeView imageView;
         Student student;
 
         ViewHolder(@NonNull final View itemView) {
             super(itemView);
 
-            textViewCourseDescription = itemView.findViewById(R.id.textDialogCoursesDescription);
             textViewCourseName = itemView.findViewById(R.id.textDialogCoursesName);
+            textNameStudentItm = itemView.findViewById(R.id.textNameStudentItm);
+            textEmailStudentItm = itemView.findViewById(R.id.textEmailStudentItm);
+            textPhoneStudentItm = itemView.findViewById(R.id.textPhoneStudentItm);
+            textIdStudentItm = itemView.findViewById(R.id.textIdStudentItm);
 
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageViewStudentItem);
 
             imageView.setOnClickListener(new View.OnClickListener() {
-                DialogFragments dialogFragments = new DialogFragments();
+                // DialogFragments dialogFragments = new DialogFragments();
 
                 @Override
                 public void onClick(View view) {
-                    FragmentManager fragmentManager = ((AppCompatActivity) context)
+       /*             FragmentManager fragmentManager = ((AppCompatActivity) context)
                             .getSupportFragmentManager()
-                            .getFragments().get(0).getChildFragmentManager();
+                            .getFragments().get(0).getChildFragmentManager();*/
 
 //                    Uri uri = Uri.parse(student.getUrl());
 //                    dialogFragments.setImageUrl(uri);
@@ -122,6 +116,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         @SuppressLint("DefaultLocale")
         void bind(Student student) {
             this.student = student;
+            textNameStudentItm.setText(student.getName());
+            textEmailStudentItm.setText(student.getEmail());
+            textIdStudentItm.setText(student.getId());
+            textPhoneStudentItm.setText(student.getPhone());
+            imageView.setImageURI(student.getPicture());
             //imageView.setImageURI(Uri.parse(course.getUrl()));
         }
     }
