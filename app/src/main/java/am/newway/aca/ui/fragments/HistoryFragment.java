@@ -1,6 +1,7 @@
 package am.newway.aca.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the
@@ -30,6 +32,7 @@ public class HistoryFragment extends BaseFragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
+    private final String TAG = "History";
     private String mParam1;
     private String mParam2;
     private ArrayList<Visit> items;
@@ -82,27 +85,26 @@ public class HistoryFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+//        Visit ob1, ob2, ob3, ob4, ob5, ob6,ob7;
+
+
+//        items = new ArrayList<Visit>(FIRESTORE.getVisits(new Firestore.OnVisitListener() {
+//            @Override
+//            public void OnLoaded(@Nullable List<Visit> visits) {
+//                Log.d(TAG, "--------------ArrayList, GetVisits");
+//
+//
+//            }
+//        }));
+
+        FIRESTORE.getVisits(new Firestore.OnVisitListener() {
+            @Override
+            public void OnLoaded(@Nullable List<Visit> visits) {
+                items = new ArrayList<Visit>(visits);
+            }
+        });
         recyclerView = view.findViewById(R.id.recycler_view_history_id);
 
-//        Visit ob1, ob2,ob3,ob4,ob5,ob6,ob7,ob8;
-//        ob1 = new Visit(true, "00.00.01", "qrcode", "ident");
-//        ob2 = new Visit(true, "00.00.02", "qrcode", "ident");
-//        ob3 = new Visit(true, "00.00.03", "qrcode", "ident");
-//        ob4 = new Visit(true, "00.00.04", "qrcode", "ident");
-//        ob5 = new Visit(true, "00.00.05", "qrcode", "ident");
-//        ob6 = new Visit(true, "00.00.06", "qrcode", "ident");
-//        ob7 = new Visit(true, "00.00.07", "qrcode", "ident");
-//        ob8 = new Visit(true, "00.00.08", "qrcode", "ident");
-
-
-//        items.add(ob1);
-//        items.add(ob2);
-//        items.add(ob3);
-//        items.add(ob4);
-//        items.add(ob5);
-//        items.add(ob6);
-//        items.add(ob7);
-//        items.add(ob8);
 
         adapter = new HistoryAdapter(items);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL,false);
@@ -111,8 +113,4 @@ public class HistoryFragment extends BaseFragment {
 
     }
 
-    @Override
-    public int getIndex() {
-        return 0;
-    }
 }

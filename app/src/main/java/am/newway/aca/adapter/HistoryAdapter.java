@@ -15,7 +15,7 @@ import am.newway.aca.template.Visit;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
 
-    ArrayList<Visit> items = new ArrayList<Visit>();
+    private ArrayList<Visit> items = new ArrayList<Visit>();
 
     public HistoryAdapter(ArrayList<Visit> items){
         this.items = items;
@@ -36,7 +36,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return 0;
     }
 
 
