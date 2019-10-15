@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id = "@+id/mobile_navigation"
+	xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools = "http://schemas.android.com/tools"
+	app:startDestination = "@+id/nav_home">
+
+	<fragment
+		android:id = "@+id/nav_home"
+		android:name = "am.newway.aca.ui.home.HomeFragment"
+		android:label = "@string/menu_home"
+		tools:layout = "@layout/fragment_home" >
+	</fragment>
+
+	<fragment
+		android:id = "@+id/nav_settings"
+		android:name = "am.newway.aca.ui.fragments.SettingsFragment"
+		android:label = "@string/menu_settings"
+		tools:layout = "@layout/fragment_settings" >
+	</fragment>
+
+	<fragment
+		android:id = "@+id/nav_history"
+		android:name = "am.newway.aca.ui.fragments.HistoryFragment"
+		android:label = "@string/history"
+		tools:layout = "@layout/fragment_history" >
+	</fragment>
+
+	<fragment
+		android:id = "@+id/nav_company"
+		android:name = "am.newway.aca.ui.fragments.CompanyFragment"
+		android:label = "@string/menu_company"
+		tools:layout = "@layout/fragment_company" >
+	</fragment>
+
+	<fragment
+		android:id = "@+id/nav_about"
+		android:name = "am.newway.aca.ui.fragments.AboutFragment"
+		android:label = "@string/menu_about"
+		tools:layout = "@layout/fragment_about" >
+	</fragment>
+
+</navigation>

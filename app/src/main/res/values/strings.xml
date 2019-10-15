@@ -4,6 +4,7 @@
 	<string name = "cancelled">Cancelled</string>
 	<string name = "log_out">Log Out</string>
 
+
 	<string name = "nav_header_title">Armenian Code Academy</string>
 	<string name = "nav_header_subtitle">info@aca.am</string>
 	<string name = "nav_header_desc">Navigation header</string>
@@ -55,5 +56,6 @@
 	<string name = "signup">SignUp</string>
 	<string name = "personal">Personal page</string>
 	<string name = "save">Save</string>
+
 
 </resources>
