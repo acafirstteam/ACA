@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "22469083043-6jpn2iu7g62ap1rh15e9ricrljovo9r7.apps.googleusercontent.com",
+          "client_id": "22469083043-e5ar1jdga7nfg3c6s87rn8ph0jk7c5ru.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "am.newway.aca",
             "certificate_hash": "05ec6c508d379ea39adc45c33485a8753f3b8adb"
+          }
+        },
+        {
+          "client_id": "22469083043-r8vppudm37jn78ptcralne04p2dpl093.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "am.newway.aca",
+            "certificate_hash": "d91a34da220ee7c447d57eb8bc34b5c9f52f28c8"
           }
         },
         {

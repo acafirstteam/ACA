@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import am.newway.aca.BaseActivity;
 import am.newway.aca.MainActivity;
 import am.newway.aca.R;
@@ -24,17 +26,29 @@ import static am.newway.aca.ui.SplashScreen.activity.QR;
 
 public
 class SplashScreen extends BaseActivity {
-    private int nAnimation = 0;
+
     private String TAG = getClass().getSimpleName();
+    private int nAnimation = 0;
+    private activity nActivityType;
+    private boolean isStarted = false;
 
     @Override
     public
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
 
+        String lang = Locale.getDefault().getLanguage();
+
+        if ( DATABASE.getSettings().getLanguage().isEmpty() )
+            DATABASE.getSettings().setLanguage( lang.equals( "en" ) || lang.equals( "hy" ) ?
+                            lang : "en" ,
+                    this );
+
         // inflate your main layout here (use RelativeLayout or whatever your root ViewGroup type is
         final ConstraintLayout mainLayout = ( ConstraintLayout ) this.getLayoutInflater()
                 .inflate( R.layout.activity_splash_screen , null );
+
+        checkStudent();
 
         mainLayout.getViewTreeObserver()
                 .addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -46,24 +60,24 @@ class SplashScreen extends BaseActivity {
                                 new OnAnimationListener() {
                                     @Override
                                     public
-                                    void OnAnimationEnded () {
-                                        startStudentChecking( nAnimation++ );
+                                    void OnAnimationEnded () {nAnimation++;
+                                        startActivity(  );
                                     }
                                 } );
                         startSpringAnimation( findViewById( R.id.text_View2 ) , 2 ,
                                 new OnAnimationListener() {
                                     @Override
                                     public
-                                    void OnAnimationEnded () {
-                                        startStudentChecking( nAnimation++ );
+                                    void OnAnimationEnded () {nAnimation++;
+                                        startActivity(  );
                                     }
                                 } );
                         startSpringAnimation( findViewById( R.id.text_View3 ) , 3 ,
                                 new OnAnimationListener() {
                                     @Override
                                     public
-                                    void OnAnimationEnded () {
-                                        startStudentChecking( nAnimation++ );
+                                    void OnAnimationEnded () {nAnimation++;
+                                        startActivity(  );
                                     }
                                 } );
                     }
@@ -73,12 +87,6 @@ class SplashScreen extends BaseActivity {
         final TextView textView3 = findViewById( R.id.text_View3 );
         Typeface font = Typeface.createFromAsset( getAssets() , "AGREV4.TTF" );
         textView3.setTypeface( font );
-    }
-
-    private
-    void startStudentChecking ( int nIterator ) {
-        if ( nIterator == 2 )
-            checkStudent();
     }
 
     enum activity {
@@ -114,7 +122,6 @@ class SplashScreen extends BaseActivity {
                     float velocity ) {
                 if ( listener != null )
                     listener.OnAnimationEnded();
-
             }
         } );
     }
@@ -126,33 +133,38 @@ class SplashScreen extends BaseActivity {
         firebaseUser = mAuth.getCurrentUser();
         if ( firebaseUser != null )
             uID = firebaseUser.getUid();
-        Student student = new Student( uID );
+
+        Student student = DATABASE.getStudent();
+        if(student.getId() == null)
+            student.setId( uID );
 
         FIRESTORE.checkStudent( student , false , new Firestore.OnStudentCheckListener() {
             @Override
             public
-            void OnStudentChecked ( final Student student ) {
-                Log.e( TAG , "OnStudentCheckFailed 111" );
+            void OnStudentChecked ( Student student ) {
 
-                setGlobStudent( student );
                 if ( student != null ) {
-                    Log.e( TAG , "OnStudentCheckFailed not null" );
+
+                    DATABASE.setStudent( student );
                     if ( student.getType() == 1 ) {
-                        startActivity( QR );
+                        nActivityType = QR;
+                        startActivity(  );
                         return;
                     }
                 }
                 else
                     Log.e( TAG , "OnStudentCheckFailed null" );
 
-                startActivity( MAIN );
+                nActivityType = MAIN;
+                startActivity(  );
             }
 
             @Override
             public
             void OnStudentCheckFailed ( final String exception ) {
                 Log.e( TAG , "OnStudentCheckFailed" );
-                startActivity( MAIN );
+                nActivityType = MAIN;
+                startActivity(  );
             }
 
             @Override
@@ -163,9 +175,11 @@ class SplashScreen extends BaseActivity {
     }
 
     private
-    void startActivity ( activity nType ) {
-        startActivity( new Intent( SplashScreen.this ,
-                nType == MAIN ? MainActivity.class : QrActivity.class ) );
-        finish();
+    void startActivity (  ) {
+        if(nAnimation >= 2 && nActivityType != null && !isStarted) {
+            startActivity( new Intent( SplashScreen.this , nActivityType == MAIN ? MainActivity.class : QrActivity.class ) );
+            isStarted = true;
+            finish();
+        }
     }
 }

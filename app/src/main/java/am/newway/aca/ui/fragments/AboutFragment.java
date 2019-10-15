@@ -1,17 +1,18 @@
 package am.newway.aca.ui.fragments;
 
-import android.app.ProgressDialog;
+
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import am.newway.aca.R;
+
 import am.newway.aca.ui.BaseFragment;
+import androidx.annotation.NonNull;
+
 import am.newway.aca.ui.fragments.api.Client;
 import am.newway.aca.ui.fragments.api.Service;
 import am.newway.aca.ui.fragments.model.Item;
@@ -20,11 +21,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 public class AboutFragment extends BaseFragment {
     private RecyclerView recyclerView;
@@ -48,10 +49,12 @@ public class AboutFragment extends BaseFragment {
         super.onPrepareOptionsMenu( menu );
     }
 
-    @Override
+    //@Override
     public int getIndex () {
         return 2;
     }
+//ArrayList<String> name=new ArrayList<String>();
+  //  name.add("arsen-simonyan");
 
 private  void loadJson(){
 
@@ -76,5 +79,3 @@ private  void loadJson(){
         }
     });
 }
-
-    }

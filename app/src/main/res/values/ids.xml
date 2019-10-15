@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="notifications_text" type="id" />
+    <item name="line_settings0" type="id" />
+    <item name="armenian_flag_settings_id" type="id" />
+</resources>
