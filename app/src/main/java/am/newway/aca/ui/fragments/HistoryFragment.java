@@ -101,6 +101,7 @@ public class HistoryFragment extends BaseFragment {
             @Override
             public void OnLoaded(@Nullable List<Visit> visits) {
                 items = new ArrayList<Visit>(visits);
+                Log.d(TAG,"---------------------ListItem Count = " + items.size());
             }
         });
         recyclerView = view.findViewById(R.id.recycler_view_history_id);
