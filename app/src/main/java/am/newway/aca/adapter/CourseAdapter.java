@@ -1,7 +1,6 @@
 package am.newway.aca.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -150,6 +148,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         @SuppressLint("DefaultLocale")
         void bind(Course course) {
             this.course = course;
+            Log.e( TAG , "bind: " + course.getGroup()  );
+            Log.e( TAG , "bind: " + course.getUrl()  );
             imageView.setImageURI(Uri.parse(course.getUrl()));
         }
     }

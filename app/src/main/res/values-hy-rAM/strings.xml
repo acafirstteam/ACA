@@ -53,5 +53,6 @@
 	<string name = "save">Պահպանել</string>
 	<string name = "language">Լեզու</string>
 	<string name = "notifications">Զգուշացումներ</string>
+	<string name = "welcome_to_aca">Բարի Գալուստ ACA</string>
 
 </resources>

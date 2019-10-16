@@ -44,9 +44,9 @@
 
 	<androidx.cardview.widget.CardView xmlns:card_view = "http://schemas.android.com/apk/res-auto"
 		android:id = "@+id/user_card"
-		android:layout_width = "wrap_content"
+		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginBottom = "15dp"
+		android:layout_margin = "10dp"
 		android:focusable = "true"
 		android:foreground = "?android:attr/selectableItemBackground"
 		android:visibility = "invisible"
@@ -68,7 +68,7 @@
 				android:layout_width = "wrap_content"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
-				android:text = "Welcome to ACA "
+				android:text = "@string/welcome_to_aca"
 				android:textSize = "18sp"
 				android:textStyle = "bold"
 				card_view:layout_constraintLeft_toRightOf = "@+id/user_picture"
@@ -76,8 +76,8 @@
 
 			<com.facebook.drawee.view.SimpleDraweeView
 				android:id = "@+id/user_picture"
-				android:layout_width = "48dp"
-				android:layout_height = "48dp"
+				android:layout_width = "56dp"
+				android:layout_height = "56dp"
 				android:layout_margin = "10dp"
 				app:layout_constraintBottom_toBottomOf = "parent"
 				app:layout_constraintLeft_toLeftOf = "parent"

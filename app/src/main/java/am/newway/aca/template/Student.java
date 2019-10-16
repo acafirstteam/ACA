@@ -41,11 +41,6 @@ class Student {
     }
 
     public
-    Student ( final String id ) {
-        this.id = id;
-    }
-
-    public
     Student () {
     }
 

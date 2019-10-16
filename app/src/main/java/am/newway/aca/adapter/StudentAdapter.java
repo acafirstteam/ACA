@@ -1,35 +1,21 @@
 package am.newway.aca.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.anim.RecyclerViewAnimator;
-import am.newway.aca.template.Course;
 import am.newway.aca.template.Student;
-import am.newway.aca.ui.fragments.DialogFragments;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
     private List<Student> students;

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import am.newway.aca.template.Settings;
 import am.newway.aca.template.Student;
+import am.newway.aca.template.Visit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -21,6 +22,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     private final static String ENGLISH = "en";
     private Student student;
     private Settings settings;
+    private Visit visit;
     private static volatile DatabaseHelper database = null;
     public Context context;
 
@@ -101,6 +103,16 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     public
     void onUpgrade ( SQLiteDatabase db , int oldVersion , int newVersion ) {
 
+    }
+
+    public
+    Visit getVisit () {
+        return visit;
+    }
+
+    public
+    void setVisit ( final Visit visit ) {
+        this.visit = visit;
     }
 
     //Add student
