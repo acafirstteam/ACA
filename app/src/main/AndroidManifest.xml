@@ -14,10 +14,12 @@
 		android:supportsRtl = "true"
 		android:theme = "@style/AppTheme">
 
-		<receiver android:name=".service.MyStartServiceReceiver" >
+		<activity android:name = ".ui.student.StudenActivity" />
+
+		<receiver android:name = ".service.MyStartServiceReceiver">
 			<intent-filter>
-				<action android:name="android.intent.action.BOOT_COMPLETED" />
-				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
+				<action android:name = "android.intent.action.BOOT_COMPLETED" />
+				<action android:name = "android.intent.action.QUICKBOOT_POWERON" />
 			</intent-filter>
 		</receiver>
 
@@ -33,10 +35,12 @@
 				<action android:name = "android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
+
 		<activity
 			android:name = ".firebase.FirebaseLogin"
 			android:label = "@string/signup"
-			android:screenOrientation = "portrait"/>
+			android:screenOrientation = "portrait" />
+
 		<activity
 			android:name = ".MainActivity"
 			android:label = "@string/app_name"
@@ -48,6 +52,7 @@
 				<action android:name = "android.intent.action.VIEW" />
 			</intent-filter>
 		</activity>
+
 		<activity
 			android:name = "com.journeyapps.barcodescanner.CaptureActivity"
 			android:banner = "@string/action_settings"
@@ -55,6 +60,7 @@
 			android:hardwareAccelerated = "true"
 			android:screenOrientation = "fullSensor"
 			tools:replace = "screenOrientation" />
+
 		<activity
 			android:name = ".ui.SplashScreen"
 			android:screenOrientation = "portrait"
@@ -68,10 +74,6 @@
 			</intent-filter>
 		</activity>
 
-		<service
-			android:name = ".service.AlertService"
-			android:exported = "true"
-			android:permission = "android.permission.BIND_JOB_SERVICE" />
 	</application>
 
 </manifest>

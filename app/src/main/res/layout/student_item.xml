@@ -1,153 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:focusable = "true"
+        android:foreground = "?android:attr/selectableItemBackground"
+        card_view:cardBackgroundColor = "@color/colorPrimary"
+        card_view:cardCornerRadius = "8dp"
+        card_view:cardElevation = "4dp"
+        card_view:cardUseCompatPadding = "true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf = "parent">
 
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/imageViewStudentItm"
-            android:layout_width="140dp"
-            android:layout_height="160dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            fresco:backgroundImage = "@color/recyclerview_item"
-            fresco:fadeDuration = "300"
-            fresco:placeholderImage = "@mipmap/ic_launcher"
-            fresco:placeholderImageScaleType = "centerCrop"
-            fresco:roundAsCircle = "true"
-            fresco:roundingBorderColor = "@color/colorPrimaryDark"
-            />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/textNameStudentItm"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Arsen"
-                    android:textSize="30dp"
-                    android:layout_marginLeft="10dp"/>
-                <TextView
-                    android:id="@+id/textSurNameStudentItm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:text="Avetisyan"
-                    android:textSize="30dp"/>
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
+                    android:textSize="30sp"
+                    tools:text="Arsen" />
 
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_school_black_24dp" />
                 <TextView
                     android:id="@+id/textCourseStudentItm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Android"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="18dp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="4dp"
+                    android:drawableStart="@drawable/ic_school_black_24dp"
+                    android:drawablePadding="8dp"
+                    android:textSize="18sp"
+                    tools:text="Android" />
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_email" />
                 <TextView
                     android:id="@+id/textEmailStudentItm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="mail.com"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="18dp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="4dp"
+                    android:drawableStart="@drawable/ic_email"
+                    android:drawablePadding="8dp"
+                    android:textSize="18sp"
+                    tools:text="mail.com" />
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_phone_black_24dp" />
                 <TextView
                     android:id="@+id/textPhoneStudentItm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="+37498800869"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="4dp"
+                    android:drawableStart="@drawable/ic_phone_black_24dp"
+                    android:drawablePadding="8dp"
+                    android:textSize="18sp"
+                    tools:text="+37498800869" />
 
-                    android:layout_marginLeft="15dp"
-                    android:textSize="18dp"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_perm_identity" />
                 <TextView
                     android:id="@+id/textIdStudentItm"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="85873261548525"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="18dp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="4dp"
+                    android:drawableStart="@drawable/ic_perm_identity"
+                    android:drawablePadding="8dp"
+                    android:textSize="18sp"
+                    tools:text="85873261548525" />
 
             </LinearLayout>
 
-        </LinearLayout>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imageViewStudentItem"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                fresco:backgroundImage="@color/recyclerview_item"
+                fresco:fadeDuration="300"
+                fresco:placeholderImage="@mipmap/ic_launcher"
+                fresco:placeholderImageScaleType="centerCrop"
+                fresco:roundAsCircle="true"
+                fresco:roundingBorderColor="@color/colorPrimaryDark" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.cardview.widget.CardView>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

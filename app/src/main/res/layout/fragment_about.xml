@@ -16,4 +16,16 @@
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent" />
+
+	<Button
+		android:id="@+id/btnAdminExample"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Admin example"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/text_slideshow">
+
+	</Button>
 </androidx.constraintlayout.widget.ConstraintLayout>

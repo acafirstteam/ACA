@@ -20,7 +20,7 @@ public class HomeViewModel extends ViewModel {
         model = new HomeModel();
     }
 
-    void getProducts () {
+    void getCourses() {
         //List<Course> courses = App.getInstance().getCourses();
         //if ( courses.size() == 0 ) {
         model.getProducts( new HomeModel.CourseLoadCallback() {
