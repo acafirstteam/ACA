@@ -6,41 +6,46 @@ import com.google.gson.annotations.SerializedName;
 public class Item {
     @SerializedName("login")
     @Expose
-    private  String login;
-    @SerializedName("avatar")
+    private String login;
+    @SerializedName("avatar_url")
     @Expose
-    private  String avatarurl;
-    @SerializedName("html")
+    private String avatar_url;
+    @SerializedName("html_url")
     @Expose
-    private  String htmlurl;
-
-    public Item(String login, String avatarurl, String htmlurl) {
-        this.login = login;
-        this.avatarurl = avatarurl;
-        this.htmlurl = htmlurl;
-    }
+    private String html_url;
+    @SerializedName("name")
+    @Expose
+    private String name;
 
     public String getLogin() {
         return login;
-    }
-
-    public String getAvatarurl() {
-        return avatarurl;
-    }
-
-    public String getHtmlurl() {
-        return htmlurl;
     }
 
     public void setLogin(String login) {
         this.login = login;
     }
 
-    public void setAvatarurl(String avatarurl) {
-        this.avatarurl = avatarurl;
+    public String getAvatar_url() {
+        return avatar_url;
     }
 
-    public void setHtmlurl(String htmlurl) {
-        this.htmlurl = htmlurl;
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    public String getHtml_url() {
+        return html_url;
+    }
+
+    public void setHtml_url(String html_url) {
+        this.html_url = html_url;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

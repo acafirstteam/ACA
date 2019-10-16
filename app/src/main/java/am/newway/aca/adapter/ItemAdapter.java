@@ -1,4 +1,4 @@
-package am.newway.aca.ui.fragments;
+package am.newway.aca.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,18 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import am.newway.aca.R;
+import am.newway.aca.ui.fragments.DetailActivity;
 import am.newway.aca.ui.fragments.model.Item;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     private List<Item> items;
     private Context context;
 
-    public ItemAdapter(Context applicationContext, List<Item> itemArrayList) {
+    public ItemAdapter(Context applicationContext) {
         this.context = applicationContext;
-        this.items = itemArrayList;
+        this.items = new ArrayList<>();
+    }
+    public void setItems(List<Item> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -36,10 +43,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ItemAdapter.ViewHolder viewHolder, int i) {
         viewHolder.title.setText(items.get(i).getLogin());
-        viewHolder.githublink1.setText(items.get(i).getHtmlurl());
+        viewHolder.githublink1.setText(items.get(i).getHtml_url());
+
 
         Picasso.get()
-                .load(items.get(i).getAvatarurl())
+                .load(items.get(i).getAvatar_url())
                 .placeholder(R.drawable.load)
                 .into(viewHolder.imageView);
     }
@@ -69,8 +77,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                         Item clickedDataItem = items.get(pos);
                         Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("login", items.get(pos).getLogin());
-                        intent.putExtra("html_url", items.get(pos).getHtmlurl());
-                        intent.putExtra("avatar_url", items.get(pos).getAvatarurl());
+                        intent.putExtra("html_url", items.get(pos).getHtml_url());
+                        intent.putExtra("avatar_url", items.get(pos).getAvatar_url());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                         Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getLogin(), Toast.LENGTH_SHORT).show();

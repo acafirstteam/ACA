@@ -91,7 +91,7 @@ class BaseActivity extends AppCompatActivity {
     void onCreate ( @Nullable final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
 
-        DATABASE = DatabaseHelper.getInstance( BaseActivity.this );
+        DATABASE = DatabaseHelper.getInstance( getApplicationContext() );
     }
 
     public
@@ -371,9 +371,11 @@ class BaseActivity extends AppCompatActivity {
     protected
     void updateNavigationBar () {
         NavigationView navigationView = findViewById( R.id.nav_view );
+
         View headerLayout = navigationView.getHeaderView( 0 );
+
         TextView textName = headerLayout.findViewById( R.id.title );
-        TextView textDescription = headerLayout.findViewById( R.id.textDescription );
+        TextView textDescription = headerLayout.findViewById( R.id.desc );
         SimpleDraweeView imageView = headerLayout.findViewById( R.id.imageView );
 
         Student student = DATABASE.getStudent();
