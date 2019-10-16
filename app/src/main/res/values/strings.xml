@@ -57,5 +57,6 @@
 	<string name = "save">Save</string>
 	<string name = "notifications">Notifications</string>
 	<string name = "language">Language</string>
+	<string name = "welcome_to_aca">Welcome to ACA</string>
 
 </resources>

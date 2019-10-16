@@ -134,9 +134,13 @@ class SplashScreen extends BaseActivity {
         if ( firebaseUser != null )
             uID = firebaseUser.getUid();
 
+        Log.e( TAG , "checkStudent: " + DATABASE.getStudent().getId()  );
+        Log.e( TAG , "checkStudent: " + DATABASE.getStudent().getName()  );
         Student student = DATABASE.getStudent();
-        if(student.getId() == null)
+        if(student.getId() == null) {
+            Log.e( TAG , "checkStudent: " + uID  );
             student.setId( uID );
+        }
 
         FIRESTORE.checkStudent( student , false , new Firestore.OnStudentCheckListener() {
             @Override

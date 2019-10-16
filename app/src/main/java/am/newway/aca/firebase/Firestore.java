@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -39,7 +40,9 @@ class Firestore {
     private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
     private FirebaseFirestore db;
-    private OnVisitChangeListener listener;
+    private OnVisitAddListener listener;
+    private OnVisitCheckListener listener_check_visit;
+    private OnVisitCompleteListener listener_complete_visit;
     private OnStudentCheckListener listener_student;
     private OnCourseReadListener listener_course;
     private OnQRGenerator listener_qr;
@@ -66,7 +69,7 @@ class Firestore {
     }
 
     public
-    void addNewVisit ( Student student , String qrCode , OnVisitChangeListener listener ) {
+    void addNewVisit ( Student student , String qrCode , OnVisitAddListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         this.listener = listener;
@@ -89,6 +92,76 @@ class Firestore {
                         addListener( Objects.requireNonNull( task.getResult() ).getId() );
                     }
                 } );
+    }
+
+    public
+    void checkVisit ( Student student , final OnVisitCheckListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        this.listener_check_visit = listener;
+
+        CollectionReference doc = db.collection( VISIT_COLLECTION );
+
+        doc.whereEqualTo( "open" , true )
+        .whereEqualTo( "userIdent" , student.getId() )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        if ( task.isSuccessful() ) {
+                            QuerySnapshot query = task.getResult();
+                            if ( query != null ) {
+                                List<DocumentSnapshot> list = query.getDocuments();
+                                if ( list.size() > 0 ) {
+                                    DocumentSnapshot document = list.get( 0 );
+                                    if ( document != null && document.exists() ) {
+                                        Visit visit = document.toObject( Visit.class );
+                                        visit.setId(document.getId()  );
+                                        listener_check_visit.OnVisitExisted( visit );
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        listener_check_visit.OnVisitNotExist();
+                    }
+
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: check visit" );
+                    }
+                } );
+    }
+
+    public
+    void completeVisit ( String Id , final OnVisitCompleteListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        this.listener_complete_visit = listener;
+
+        SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
+        Date date = new Date();
+
+        DocumentReference doc = db.collection( VISIT_COLLECTION ).document( Id );
+
+        doc.update( "completeTime" , formatter.format( date ) );
+        doc.update( "open" , false ).addOnCompleteListener( new OnCompleteListener<Void>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<Void> task ) {
+                listener_complete_visit.OnVisitCompleted();
+            }
+        } ).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull final Exception e ) {
+                Log.e( TAG , "onFailure: complete visit" );
+            }
+        } );
     }
 
     /**
@@ -124,8 +197,13 @@ class Firestore {
                         if ( bltCreateNew ) {
                             updateStudent( docRef , student , listener );
                         }
-                        else if ( listener_student != null )
-                            listener_student.OnStudentChecked( document.toObject( Student.class ) );
+                        else if ( listener_student != null ) {
+                            Student student = document.toObject( Student.class );
+                            if ( student != null ) {
+                                student.setId( document.getId() );
+                                listener_student.OnStudentChecked( student );
+                            }
+                        }
                     }
                     else {
                         Log.w( TAG , "No such document" );
@@ -229,6 +307,8 @@ class Firestore {
                     public
                     void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
                             @Nullable final FirebaseFirestoreException e ) {
+                        Log.d( "Servce" , "sdgfsdgsdhsdhg" );
+
                         if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() ) {
                             List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                             for ( DocumentSnapshot doc : docs ) {
@@ -389,8 +469,7 @@ class Firestore {
      * @return List<Students>
      */
     public
-    List<Student> getNewStudents () {
-        final List<Student> students = new ArrayList<>();
+    void getNewStudents () {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         db.collection( STUDENT_COLLECTION )
@@ -400,6 +479,7 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        final List<Student> students = new ArrayList<>();
                         List<DocumentSnapshot> docs = task.getResult().getDocuments();
                         for ( DocumentSnapshot doc : docs ) {
                             students.add( doc.toObject( Student.class ) );
@@ -413,12 +493,10 @@ class Firestore {
                         Log.e( TAG , "onFailure: loading students" );
                     }
                 } );
-        return students;
     }
 
     public
-    List<Visit> getVisits ( final OnVisitListener listener ) {
-        final List<Visit> visits = new ArrayList<>();
+    void getVisits ( final OnVisitListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         db.collection( VISIT_COLLECTION )
@@ -427,6 +505,7 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        final List<Visit> visits = new ArrayList<>();
                         List<DocumentSnapshot> docs = task.getResult().getDocuments();
                         for ( DocumentSnapshot doc : docs ) {
                             visits.add( doc.toObject( Visit.class ) );
@@ -442,7 +521,6 @@ class Firestore {
                         Log.e( TAG , "onFailure: loading visits" );
                     }
                 } );
-        return visits;
     }
 
     /**
@@ -586,8 +664,20 @@ class Firestore {
     }
 
     public
-    interface OnVisitChangeListener {
+    interface OnVisitAddListener {
         void OnChangeConfirmed ( Visit visit );
+    }
+
+    public
+    interface OnVisitCheckListener {
+        void OnVisitExisted ( Visit visit );
+
+        void OnVisitNotExist ();
+    }
+
+    public
+    interface OnVisitCompleteListener {
+        void OnVisitCompleted ();
     }
 
     public

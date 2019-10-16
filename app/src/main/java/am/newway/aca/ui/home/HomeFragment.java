@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,23 +25,25 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeFragment extends BaseFragment {
+public
+class HomeFragment extends BaseFragment {
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
     private CourseAdapter courseAdapter;
     private CardView cardView;
+    private TextView time;
+    private TextView course;
 
-    public View onCreateView (
-            @NonNull LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState
-    ) {
+    public
+    View onCreateView ( @NonNull LayoutInflater inflater , ViewGroup container ,
+            Bundle savedInstanceState ) {
         homeViewModel = ViewModelProviders.of( this ).get( HomeViewModel.class );
         View root = inflater.inflate( R.layout.fragment_home , container , false );
 
-        final SimpleDraweeView imageView = root.findViewById( R.id.user_picture );
-        cardView = root.findViewById( R.id.user_card);
-        final TextView name = root.findViewById( R.id.name );
-        final TextView surName = root.findViewById( R.id.surname );
+        cardView = root.findViewById( R.id.user_card );
+        time = root.findViewById( R.id.time );
+        course = root.findViewById( R.id.course );
 
         progressBar = root.findViewById( R.id.loading );
         recyclerView = root.findViewById( R.id.recycler_view );
@@ -52,24 +52,31 @@ public class HomeFragment extends BaseFragment {
         recyclerView.setDrawingCacheEnabled( true );
         recyclerView.setDrawingCacheQuality( View.DRAWING_CACHE_QUALITY_HIGH );
 
-        RecyclerViewMargin decoration = new RecyclerViewMargin( (int) getResources().getDimension( R.dimen.recycler_item_margin ) );
-        recyclerView.addItemDecoration(decoration);
+        RecyclerViewMargin decoration = new RecyclerViewMargin(
+                ( int ) getResources().getDimension( R.dimen.recycler_item_margin ) );
+        recyclerView.addItemDecoration( decoration );
         //setHasOptionsMenu( true );
+
+        if(DATABASE.getVisit() != null)
+            addNewVisit( DATABASE.getVisit() );
 
         courseAdapter = new CourseAdapter( new ArrayList<Course>() , recyclerView ,
                 new CourseAdapter.OnOrientationChangingListener() {
-            @Override
-            public void OnChanged ( boolean isLarge , int position ) {
-                RecyclerView.LayoutManager mManager = new GridLayoutManager(getActivity(), 3  );
-                recyclerView.setLayoutManager( mManager );
-                recyclerView.scrollToPosition( position );
-            }
-        } );
+                    @Override
+                    public
+                    void OnChanged ( boolean isLarge , int position ) {
+                        RecyclerView.LayoutManager mManager =
+                                new GridLayoutManager( getActivity() , 3 );
+                        recyclerView.setLayoutManager( mManager );
+                        recyclerView.scrollToPosition( position );
+                    }
+                } );
         recyclerView.setAdapter( courseAdapter );
 
         homeViewModel.getData().observe( this , new Observer<List<Course>>() {
             @Override
-            public void onChanged ( @Nullable List<Course> courses ) {
+            public
+            void onChanged ( @Nullable List<Course> courses ) {
                 courseAdapter.setProducts( courses );
                 progressBar.setVisibility( View.GONE );
             }
@@ -78,28 +85,36 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated ( @NonNull View view , @Nullable Bundle savedInstanceState ) {
+    public
+    void onViewCreated ( @NonNull View view , @Nullable Bundle savedInstanceState ) {
         super.onViewCreated( view , savedInstanceState );
 
-        RecyclerView.LayoutManager mManager = new GridLayoutManager( getActivity(), 3  );
+        RecyclerView.LayoutManager mManager = new GridLayoutManager( getActivity() , 3 );
         mManager.setItemPrefetchEnabled( true );
         recyclerView.setLayoutManager( mManager );
         homeViewModel.getProducts();
     }
 
     @Override
-    public void onPrepareOptionsMenu ( Menu menu ) {
+    public
+    void onPrepareOptionsMenu ( Menu menu ) {
         //menu.findItem( R.id.app_bar_search ).setVisible( true );
         //menu.findItem( R.id.action_filter ).setVisible( true );
         super.onPrepareOptionsMenu( menu );
     }
 
-    public void addNewVisit( Visit visit){
-        if(visit != null){
-//            surName.setText( student.getSurname() );
-//            cardView.setVisibility( View.VISIBLE );
-//            imageView.setImageURI( student.getPicture() );
+    public
+    void addNewVisit ( Visit visit ) {
+        if ( visit != null ) {
+            time.setText( visit.getDateTime() );
+            course.setText( DATABASE.getStudent().getCourse() );
             cardView.setVisibility( View.VISIBLE );
         }
+    }
+
+    public
+    void completeVisit () {
+        if ( cardView.getVisibility() == View.VISIBLE )
+            cardView.setVisibility( View.GONE );
     }
 }

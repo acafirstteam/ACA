@@ -45,6 +45,7 @@ import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.ui.QrActivity;
+import am.newway.aca.ui.home.HomeFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -78,6 +79,7 @@ class BaseActivity extends AppCompatActivity {
     protected DrawerLayout drawer;
     protected FirebaseAuth mAuth;
     protected FirebaseUser firebaseUser;
+    private HomeFragment homeFragment;
 
     public
     BaseActivity () {
@@ -91,7 +93,7 @@ class BaseActivity extends AppCompatActivity {
     void onCreate ( @Nullable final Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
 
-        DATABASE = DatabaseHelper.getInstance( BaseActivity.this );
+        DATABASE = DatabaseHelper.getInstance( getApplicationContext() );
     }
 
     public
@@ -475,5 +477,17 @@ class BaseActivity extends AppCompatActivity {
         if ( view != null )
             return destination != view.getId();
         return true;
+    }
+
+    public
+    HomeFragment getHomeFragment () {
+        if ( homeFragment != null )
+            return homeFragment;
+
+        return ( HomeFragment ) getSupportFragmentManager().getFragments()
+                .get( 0 )
+                .getChildFragmentManager()
+                .getFragments()
+                .get( 0 );
     }
 }
