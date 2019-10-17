@@ -39,7 +39,7 @@ public class HistoryFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
 
-    public HistoryFragment () {
+    public HistoryFragment() {
         // Required empty public constructor
     }
 
@@ -47,37 +47,35 @@ public class HistoryFragment extends BaseFragment {
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
      *
-     * @param param1
-     *         Parameter 1.
-     * @param param2
-     *         Parameter 2.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
      * @return A new instance of fragment HistoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HistoryFragment newInstance ( String param1 , String param2 ) {
+    public static HistoryFragment newInstance(String param1, String param2) {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
-        args.putString( ARG_PARAM1 , param1 );
-        args.putString( ARG_PARAM2 , param2 );
-        fragment.setArguments( args );
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate ( Bundle savedInstanceState ) {
-        super.onCreate( savedInstanceState );
-        if ( getArguments() != null ) {
-            mParam1 = getArguments().getString( ARG_PARAM1 );
-            mParam2 = getArguments().getString( ARG_PARAM2 );
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
-    public View onCreateView (
-            LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState
     ) {
         // Inflate the layout for this fragment
-        return inflater.inflate( R.layout.fragment_history , container , false );
+        return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
     @Override
@@ -85,32 +83,26 @@ public class HistoryFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-//        Visit ob1, ob2, ob3, ob4, ob5, ob6,ob7;
 
-
-//        items = new ArrayList<Visit>(FIRESTORE.getVisits(new Firestore.OnVisitListener() {
-//            @Override
-//            public void OnLoaded(@Nullable List<Visit> visits) {
-//                Log.d(TAG, "--------------ArrayList, GetVisits");
-//
-//
-//            }
-//        }));
+        recyclerView = view.findViewById(R.id.recycler_view_history_id);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
         FIRESTORE.getVisits(new Firestore.OnVisitListener() {
             @Override
             public void OnLoaded(@Nullable List<Visit> visits) {
                 items = new ArrayList<Visit>(visits);
+                adapter = new HistoryAdapter(items);
+                recyclerView.setAdapter(adapter);
                 Log.d(TAG,"---------------------ListItem Count = " + items.size());
+
             }
         });
-        recyclerView = view.findViewById(R.id.recycler_view_history_id);
 
 
-        adapter = new HistoryAdapter(items);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+
+
+
 
     }
 
