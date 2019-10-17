@@ -1,5 +1,6 @@
 package am.newway.aca.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,14 @@ import am.newway.aca.template.Visit;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
 
+
+    private final String TAG = "AdapterHistory";
     private ArrayList<Visit> items = new ArrayList<Visit>();
 
     public HistoryAdapter(ArrayList<Visit> items){
         this.items = items;
+        Log.d(TAG,"Adapter items = items, items size = " + this.items.size());
+
     }
 
     @NonNull
@@ -36,7 +41,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
 

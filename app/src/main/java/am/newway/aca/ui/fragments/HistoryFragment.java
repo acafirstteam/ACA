@@ -85,32 +85,21 @@ public class HistoryFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-//        Visit ob1, ob2, ob3, ob4, ob5, ob6,ob7;
-
-
-//        items = new ArrayList<Visit>(FIRESTORE.getVisits(new Firestore.OnVisitListener() {
-//            @Override
-//            public void OnLoaded(@Nullable List<Visit> visits) {
-//                Log.d(TAG, "--------------ArrayList, GetVisits");
-//
-//
-//            }
-//        }));
+        recyclerView = view.findViewById(R.id.recycler_view_history_id);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
 
         FIRESTORE.getVisits(new Firestore.OnVisitListener() {
             @Override
             public void OnLoaded(@Nullable List<Visit> visits) {
                 items = new ArrayList<Visit>(visits);
+                adapter = new HistoryAdapter(items);
+                recyclerView.setAdapter(adapter);
                 Log.d(TAG,"---------------------ListItem Count = " + items.size());
             }
         });
-        recyclerView = view.findViewById(R.id.recycler_view_history_id);
 
 
-        adapter = new HistoryAdapter(items);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
     }
 
