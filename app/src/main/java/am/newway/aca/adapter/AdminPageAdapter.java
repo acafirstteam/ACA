@@ -1,6 +1,7 @@
 package am.newway.aca.adapter;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import java.util.ArrayList;
 
 import am.newway.aca.R;
@@ -18,6 +21,7 @@ import am.newway.aca.template.Course;
 
 public class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyViewHolder> {
 
+    private final String TAG = "AdminAdapter";
     private ArrayList<Course> courses = new ArrayList<>();
 
     public AdminPageAdapter(ArrayList<Course> courses){
@@ -43,16 +47,16 @@ public class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyVi
         return courses.size();
     }
 
-    public static class MyViewHolder extends ViewHolder {
+    public class MyViewHolder extends ViewHolder {
 
-        private ImageView logo;
+        private SimpleDraweeView logo;
         private TextView name;
         private View editBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            logo = (ImageView) itemView.findViewById(R.id.admin_course_item_logo_id);
+            logo = (SimpleDraweeView) itemView.findViewById(R.id.admin_course_item_logo_id);
             name = (TextView) itemView.findViewById(R.id.admin_course_item_name_id);
             editBtn = (View) itemView.findViewById(R.id.admin_course_item_edit_btn_id);
 

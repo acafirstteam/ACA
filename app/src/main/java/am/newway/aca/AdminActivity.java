@@ -1,9 +1,14 @@
 package am.newway.aca;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+
 import java.util.ArrayList;
 import java.util.List;
 import am.newway.aca.BaseActivity;
@@ -22,6 +27,7 @@ public class AdminActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_admin);
 
         recyclerView = findViewById(R.id.recycler_view_adminPage_id);
@@ -38,6 +44,7 @@ public class AdminActivity extends BaseActivity {
                  courseItems = new ArrayList<Course>(courses);
                  adapter = new AdminPageAdapter(courseItems);
                  recyclerView.setAdapter(adapter);
+                 Log.d(TAG,"-------------------------ListSize = " + courseItems.size());
              }
          });
 
