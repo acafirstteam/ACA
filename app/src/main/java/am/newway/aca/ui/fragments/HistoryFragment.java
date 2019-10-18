@@ -83,7 +83,6 @@ public class HistoryFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
         recyclerView = view.findViewById(R.id.recycler_view_history_id);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -95,14 +94,10 @@ public class HistoryFragment extends BaseFragment {
                 adapter = new HistoryAdapter(items);
                 recyclerView.setAdapter(adapter);
                 Log.d(TAG,"---------------------ListItem Count = " + items.size());
+                Log.d(TAG,"---------------------List 1st data = " + items.get(0).getCompleteTime());
 
             }
         });
-
-
-
-
-
 
     }
 

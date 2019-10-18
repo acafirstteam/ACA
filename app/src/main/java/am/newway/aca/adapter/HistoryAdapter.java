@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import am.newway.aca.R;
 import am.newway.aca.template.Visit;
@@ -44,16 +47,36 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView dateTime;
+        private TextView commingTime;
+        private TextView completeTime;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dateTime = (TextView) itemView.findViewById(R.id.dateTime_history_item);
-
+            commingTime = (TextView) itemView.findViewById(R.id.comming_time_history_id);
+            completeTime = (TextView) itemView.findViewById(R.id.complete_time_history_id);
         }
 
         public void bind(Visit item){
-            dateTime.setText(item.getDateTime());
+            String dateString = item.getDateTime();
+//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
+//            try {
+//                Date date = format.parse(dateString);
+//            }catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//            SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+
+            String[] split = dateString.split(" ");
+            dateTime.setText(split[0]);
+            commingTime.setText(split[1] + " - ");
+
+            completeTime.setText(item.getCompleteTime());
+            String dateString2 = item.getCompleteTime();
+            String[] split2 = dateString2.split(" ");
+            completeTime.setText(split2[1]);
     }
 }
 

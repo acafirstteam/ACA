@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:layout_margin="4dp"
-    android:background="@color/cardview_light_background"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/dateTime_history_item"
+    <ImageView
+        android:id="@+id/admin_course_item_logo_id"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="15/10/2019"
-        android:textSize="14sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/comming_time_history_id"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/complete_time_history_id"
-        tools:text="19:00 - "
-        android:textSize="22sp"
+        tools:background="@drawable/ic_launcher_foreground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/complete_time_history_id"
+        android:id="@+id/admin_course_item_name_id"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/comming_time_history_id"
-        tools:text="21:00"
+        app:layout_constraintLeft_toRightOf="@+id/admin_course_item_logo_id"
+        android:layout_margin="8dp"
+        tools:text="Android"
         android:textSize="22sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/admin_course_item_edit_btn_id"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/vector_edit"
+        android:layout_margin="10dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
