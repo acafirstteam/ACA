@@ -1,5 +1,6 @@
 package am.newway.aca.adapter;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,15 +45,23 @@ public class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyVi
 
     public static class MyViewHolder extends ViewHolder {
 
-        private ImageView lgog;
+        private ImageView logo;
         private TextView name;
         private View editBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            logo = (ImageView) itemView.findViewById(R.id.admin_course_item_logo_id);
+            name = (TextView) itemView.findViewById(R.id.admin_course_item_name_id);
+            editBtn = (View) itemView.findViewById(R.id.admin_course_item_edit_btn_id);
+
         }
 
         public void bind(Course course){
+
+            logo.setImageURI(Uri.parse(course.getUrl()));
+            name.setText(course.getName());
 
         }
 
