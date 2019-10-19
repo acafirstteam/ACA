@@ -36,13 +36,16 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_welcome);
+
 
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }
-// Making notification bar transparent
+
+        // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -54,13 +57,14 @@ public class InfoActivity extends AppCompatActivity {
                 R.layout.infoslide3,
                 R.layout.infoslide4};
 
+        dotsLayout = findViewById(R.id.layoutDots);
+
         addBottomDots(0);
         changeStatusBarColor();
 
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        setContentView(R.layout.activity_welcome);
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +113,7 @@ public class InfoActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(InfoActivity.this, BaseActivity.class));
+        startActivity(new Intent(InfoActivity.this, MainActivity.class));
         finish();
     }
 

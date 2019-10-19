@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="100dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:elevation="60dp"
     android:foreground="@color/cardview_shadow_end_color"
-    >
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    card_view:cardBackgroundColor="@color/colorPrimary"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/cover"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="fitXY" />
-
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Username"
-        android:id="@+id/title"
-        android:layout_toRightOf="@id/cover"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:textStyle="bold"/>
+        android:gravity="center_vertical"
+        android:padding="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/github_link"
-        android:text="GithubLink"
-        android:layout_toRightOf="@id/cover"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/title"
-        android:visibility="invisible"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:textStyle="bold"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/cover"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            tools:text="Username" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/cover"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            fresco:actualImageScaleType="focusCrop"
+            fresco:backgroundImage="@color/recyclerview_item"
+            fresco:fadeDuration="300"
+            fresco:placeholderImage="@drawable/load"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundAsCircle="true"
+            fresco:roundingBorderColor="@color/colorPrimaryDark"
+            fresco:roundingBorderWidth="1dp" />
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
