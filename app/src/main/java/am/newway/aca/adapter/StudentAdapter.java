@@ -3,6 +3,7 @@ package am.newway.aca.adapter;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,22 +95,22 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
                 @Override
                 public void onClick(View view) {
-       /*             FragmentManager fragmentManager = ((AppCompatActivity) context)
-                            .getSupportFragmentManager()
-                            .getFragments().get(0).getChildFragmentManager();*/
 
-//                    Uri uri = Uri.parse(student.getUrl());
-//                    dialogFragments.setImageUrl(uri);
-//                    dialogFragments.show(fragmentManager, " ara");
-                }
+
+
+
+
+
+
+               }
             });
 
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    //dialogFragments.getActivity().getFragmentManager();
-                }
+
+                 }
             });
         }
 
