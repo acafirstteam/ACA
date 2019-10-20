@@ -92,7 +92,7 @@
         android:id="@+id/textForChosseStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chosse_status_for_visitor"
+        android:text="@string/choose_status_for_visitor"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textIdStudentItm"
@@ -112,12 +112,12 @@
             android:id="@+id/rbtnStudent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_student"/>
+            android:text="@string/student"/>
          <RadioButton
             android:id="@+id/rbtnAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:text="@string/rbtn_admin"/>
+             android:text="@string/admin_text"/>
 
 
 

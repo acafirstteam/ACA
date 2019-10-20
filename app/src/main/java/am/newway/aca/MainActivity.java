@@ -1,5 +1,7 @@
 package am.newway.aca;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,12 +38,33 @@ class MainActivity extends BaseActivity {
         setContentView( R.layout.activity_main );
 
         int nType = DATABASE.getStudent().getType();
-        if ( nType == 2 )
+        if ( nType == 2 ) {
             addOnNewStudentListener();
+            //Util.scheduleJob( this );
+        }
 
         initNavigationBar();
 
         updateNavigationBar();
+
+
+        FIRESTORE.checkVisit( DATABASE.getStudent() , new Firestore.OnVisitCheckListener() {
+
+            @Override
+            public
+            void OnVisitExisted ( final Visit visit ) {
+                DATABASE.setVisit( visit );
+                if ( getHomeFragment() != null )
+                    getHomeFragment().addNewVisit( visit );
+            }
+
+            @Override
+            public
+            void OnVisitNotExist () {
+
+            }
+        } );
+
 
         fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
@@ -135,24 +158,50 @@ class MainActivity extends BaseActivity {
         final IntentResult result = IntentIntegrator.parseActivityResult( resultCode , data );
 
         if ( result.getContents() != null ) {
-            final HomeFragment homeFrag =
-                    ( HomeFragment ) getSupportFragmentManager().getFragments()
-                            .get( 0 )
-                            .getChildFragmentManager()
-                            .getFragments()
-                            .get( 0 );
 
-            FIRESTORE.addNewVisit( DATABASE.getStudent() , result.getContents() ,
-                    new Firestore.OnVisitChangeListener() {
-                        @Override
-                        public
-                        void OnChangeConfirmed ( final Visit visit ) {
-                            if ( homeFrag != null ) {
-                                homeFrag.addNewVisit( visit );
+            final Visit visit = DATABASE.getVisit();
+            if ( visit != null ) {
+                new AlertDialog.Builder( MainActivity.this ).setTitle( "Ուշադրություն" )
+                        .setMessage( "Ցանկանում ե՞ք ավարտել դասաժամը" )
+                        .setPositiveButton( "Այո" , new DialogInterface.OnClickListener() {
+                            @Override
+                            public
+                            void onClick ( final DialogInterface dialogInterface , final int i ) {
+                                completeVisit( visit.getId() );
                             }
-                        }
-                    } );
+                        } )
+                        .setNegativeButton( "Ոչ" , null )
+                        .show();
+            }
+            else {
+                FIRESTORE.addNewVisit( DATABASE.getStudent() , result.getContents() ,
+                        new Firestore.OnVisitAddListener() {
+                            @Override
+                            public
+                            void OnChangeConfirmed ( final Visit visit ) {
+                                if ( getHomeFragment() != null ) {
+                                    getHomeFragment().addNewVisit( visit );
+                                    DATABASE.setVisit( visit );
+                                }
+                            }
+                        } );
+            }
         }
+    }
+
+    private
+    void completeVisit ( String Id ) {
+        FIRESTORE.completeVisit( Id , new Firestore.OnVisitCompleteListener() {
+            @Override
+            public
+            void OnVisitCompleted () {
+                if ( getHomeFragment() != null ) {
+                    getHomeFragment().completeVisit();
+                    DATABASE.setVisit( null );
+                }
+                Log.e( TAG , "OnVisitCompleted: " );
+            }
+        } );
     }
 
     @Override

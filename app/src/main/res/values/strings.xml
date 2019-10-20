@@ -57,10 +57,10 @@
     <string name="save">Save</string>
     <string name="notifications">Notifications</string>
     <string name="language">Language</string>
-    <string name="chosse_status_for_visitor">Chosse Status For Visitor</string>
-    <string name="rbtn_student">Student</string>
-    <string name="rbtn_admin">Admin</string>
+    <string name="choose_status_for_visitor">Choose status for visitor</string>
+    <string name="student">Student</string>
+    <string name="admin_text">Admin</string>
     <string name="please_choose_the_level">Please choose the level</string>
-    <string name="please_choose_the_course">Please choose the Course</string>
+    <string name="please_choose_the_course">Please choose the course</string>
 
 </resources>
