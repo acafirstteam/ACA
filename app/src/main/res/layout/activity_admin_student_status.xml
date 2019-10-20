@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     tools:context=".AdminStudentStatus">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/imageViewStudentItem"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        fresco:backgroundImage="@color/recyclerview_item"
+        fresco:fadeDuration="300"
+        fresco:placeholderImage="@mipmap/ic_launcher"
+        fresco:placeholderImageScaleType="centerCrop"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/textNameStudentItm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+
+        android:textSize="30sp"
+        app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:text="Arsen" />
+
+    <TextView
+        android:id="@+id/textCourseStudentItm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
+        android:drawableStart="@drawable/ic_school_black_24dp"
+        android:drawablePadding="8dp"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textNameStudentItm"
+        tools:text="Android" />
+
+    <TextView
+        android:id="@+id/textPhoneStudentItm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
+        android:drawableStart="@drawable/ic_phone_black_24dp"
+        android:drawablePadding="8dp"
+        android:textSize="18sp"
+
+        app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCourseStudentItm"
+        tools:text="+37498800869" />
+    <TextView
+        android:id="@+id/textEmailStudentItm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textPhoneStudentItm"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="4dp"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="8dp"
+        android:textSize="18sp"
+        tools:text="mail.com" />
+    <TextView
+        android:id="@+id/textIdStudentItm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textEmailStudentItm"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="4dp"
+        android:drawableStart="@drawable/ic_perm_identity"
+        android:drawablePadding="8dp"
+        android:textSize="18sp"
+        tools:text="85873261548525" />
+
+    <TextView
+        android:id="@+id/textForChosseStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_status_for_visitor"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textIdStudentItm"
+
+        android:textSize="24sp"
+        />
+    <RadioGroup
+        android:id="@+id/RadioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textForChosseStatus"
+
+        >
+        <RadioButton
+            android:id="@+id/rbtnStudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student"/>
+         <RadioButton
+            android:id="@+id/rbtnAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:text="@string/admin_text"/>
+
+
+
+    </RadioGroup>
+<TextView
+    android:id="@+id/TextChoseLevel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/RadioGroup1"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginTop="4dp"
+    android:gravity="center"
+    android:text="@string/please_choose_the_level"/>
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:layout_constraintEnd_toEndOf="parent"
+        fresco:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextChoseLevel"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        tools:layout_editor_absoluteY="298dp"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:id="@+id/TextChoseCourse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner1"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:gravity="center"
+        android:text="@string/please_choose_the_course"/>
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:layout_constraintEnd_toEndOf="parent"
+        fresco:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextChoseCourse"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        tools:layout_editor_absoluteY="298dp"
+        tools:ignore="MissingConstraints" />
+   <!-- <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    -->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
