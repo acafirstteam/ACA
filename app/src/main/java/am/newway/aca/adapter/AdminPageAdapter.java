@@ -1,11 +1,9 @@
 package am.newway.aca.adapter;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,9 +15,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 
 import am.newway.aca.R;
+import am.newway.aca.interfaces.BottomReachedListener;
 import am.newway.aca.template.Course;
 
 public class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyViewHolder> {
+
+//    BottomReachedListener bottomReachedListener;
 
     private final String TAG = "AdminAdapter";
     private ArrayList<Course> courses = new ArrayList<>();
@@ -27,6 +28,10 @@ public class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyVi
     public AdminPageAdapter(ArrayList<Course> courses){
         this.courses = courses;
     }
+
+//    public void setBottomReachedListener(BottomReachedListener bottomReachedListener){
+//        this.bottomReachedListener = bottomReachedListener;
+//    }
 
     @NonNull
     @Override
@@ -38,6 +43,10 @@ public class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+//        if (position == courses.size() - 1){
+//            bottomReachedListener.onBottomReached(position);
+//        }
         holder.bind(courses.get(position));
 
     }

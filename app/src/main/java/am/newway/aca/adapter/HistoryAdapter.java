@@ -71,12 +71,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
             String[] split = dateString.split(" ");
             dateTime.setText(split[0]);
-            commingTime.setText(split[1] + " - ");
+            String str1 = split[1].substring(0,5);
+            commingTime.setText(str1 + " - ");
+//            commingTime.setText(split[1] + " - ");
 
-            completeTime.setText(item.getCompleteTime());
             String dateString2 = item.getCompleteTime();
             String[] split2 = dateString2.split(" ");
-            completeTime.setText(split2[1]);
+            String str2 = split2[1].substring(0,5);
+            completeTime.setText(str2);
     }
 }
 
