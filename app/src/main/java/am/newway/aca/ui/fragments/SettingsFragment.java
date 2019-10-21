@@ -124,6 +124,7 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
                     Intent intent = new Intent(getActivity(), AdminActivity.class);
                     startActivity(intent);
                     Log.d(TAG, "------------------------------StartActivity ADMIN");
+                    break;
             }
         }
     }

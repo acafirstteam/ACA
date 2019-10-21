@@ -5,15 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
 import am.newway.aca.R;
 import am.newway.aca.template.Visit;
 
@@ -60,25 +54,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         public void bind(Visit item){
             String dateString = item.getDateTime();
-//            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss");
-//            try {
-//                Date date = format.parse(dateString);
-//            }catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//
-//            SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+
 
             String[] split = dateString.split(" ");
             dateTime.setText(split[0]);
             String str1 = split[1].substring(0,5);
-            commingTime.setText(str1 + " - ");
-//            commingTime.setText(split[1] + " - ");
+            commingTime.setText(str1 + "  - ");
 
-            String dateString2 = item.getCompleteTime();
-            String[] split2 = dateString2.split(" ");
-            String str2 = split2[1].substring(0,5);
-            completeTime.setText(str2);
+            String dateString2 = item.getCompleteTime().substring(10,16);
+            completeTime.setText(dateString2);
     }
 }
 

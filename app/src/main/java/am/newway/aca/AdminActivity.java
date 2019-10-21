@@ -14,8 +14,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
-import am.newway.aca.BaseActivity;
-import am.newway.aca.R;
 import am.newway.aca.adapter.AdminPageAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.interfaces.BottomReachedListener;
