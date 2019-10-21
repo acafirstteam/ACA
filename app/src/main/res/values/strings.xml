@@ -58,5 +58,24 @@
 	<string name = "notifications">Notifications</string>
 	<string name = "language">Language</string>
 	<string name = "welcome_to_aca">Welcome to ACA</string>
+	<string name = "title_activity_notification">Notifications</string>
+	<string name = "notification_type">Notification type</string>
+	<string name = "notification_segment">Notification segment</string>
+	<string name = "select_person">Select person</string>
+	<string name = "notification">Notification</string>
+
+	<string-array name="notification_type">
+		<item>Message</item>
+		<item>Alert</item>
+		<item>News</item>
+	</string-array>
+	<string-array name="notification_segment">
+		<item>All</item>
+		<item>Administrators</item>
+		<item>Lecturers</item>
+		<item>Students</item>
+	</string-array>
+	<string name = "reception">We are waiting for you at the reception</string>
+	<string name = "new_student">New student</string>
 
 </resources>

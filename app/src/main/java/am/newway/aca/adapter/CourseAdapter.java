@@ -148,8 +148,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         @SuppressLint("DefaultLocale")
         void bind(Course course) {
             this.course = course;
-            Log.e( TAG , "bind: " + course.getGroup()  );
-            Log.e( TAG , "bind: " + course.getUrl()  );
             imageView.setImageURI(Uri.parse(course.getUrl()));
         }
     }

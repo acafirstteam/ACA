@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent"
+	app:layout_behavior = "@string/appbar_scrolling_view_behavior"
+	tools:context = ".ui.NotificationActivity"
+	android:padding="20dp"
+	tools:showIn = "@layout/activity_notification">
+
+	<TextView
+		android:id="@+id/titleType"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:text="@string/notification_type"
+		app:layout_constraintTop_toTopOf="parent"/>
+
+	<Spinner
+		android:id="@+id/spinner_type"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/titleType"
+		android:dropDownHeight="100dp"
+		android:layout_marginTop="5dp"
+		/>
+
+	<TextView
+		android:id="@+id/titleSegment"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop="15dp"
+		android:text="@string/notification_segment"
+		app:layout_constraintTop_toBottomOf="@id/spinner_type"/>
+
+	<Spinner
+		android:id="@+id/spinner_segment"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/titleSegment"
+		android:dropDownHeight="100dp"
+		android:layout_marginTop="5dp"
+		/>
+
+	<TextView
+		android:id="@+id/titlePerson"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop="15dp"
+		android:text="@string/select_person"
+		app:layout_constraintTop_toBottomOf="@id/spinner_segment"/>
+
+	<AutoCompleteTextView
+		android:id="@+id/spinner_person"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:completionHint="Select person"
+		app:layout_constraintTop_toBottomOf="@id/titlePerson"
+		android:layout_marginTop="5dp"
+		android:completionThreshold="1"/>
+
+	<TextView
+		android:id="@+id/titleText"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop="15dp"
+		android:text="@string/notification"
+		app:layout_constraintTop_toBottomOf="@id/spinner_person"/>
+
+	<EditText
+		android:id = "@+id/edit_text"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop = "5dp"
+		android:imeOptions = "actionSend"
+		android:singleLine = "true"
+		android:inputType="text"
+		app:layout_constraintTop_toBottomOf = "@id/titleText"
+		tools:layout_editor_absoluteX = "20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

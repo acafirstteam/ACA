@@ -55,4 +55,24 @@
 	<string name = "notifications">Զգուշացումներ</string>
 	<string name = "welcome_to_aca">Բարի Գալուստ ACA</string>
 
+	<string-array name="notification_type">
+		<item>Հաղորդագրություն</item>
+		<item>Զգուշացում</item>
+		<item>Նորություն</item>
+	</string-array>
+	<string-array name="notification_segment">
+		<item>Բոլորը</item>
+		<item>Ադմինիստրատորներ</item>
+		<item>Դասախոսներ</item>
+		<item>Ուսանոցներ</item>
+	</string-array>
+	<string name = "title_activity_notification">Հաղորդագրություններ</string>
+	<string name = "notification">Հաղորդագրություն</string>
+	<string name = "notification_segment">Օգտատերերի հատված</string>
+	<string name = "notification_type">Հաղորդագրության տեսակ</string>
+	<string name = "select_person">Ընտրել օգտատիրոջը</string>
+	<string name = "reception">Ընդունարանում Ձեզ սպասում են</string>
+	<string name = "new_student">Նոր ուսանող</string>
+
+
 </resources>

@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:fresco="http://schemas.android.com/tools"
-    android:layout_gravity="center"
-    android:gravity="center_vertical"
-    android:background="@android:color/transparent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:fresco = "http://schemas.android.com/apk/res-auto"
+	android:layout_width = "match_parent"
+	android:layout_height = "wrap_content"
+	android:layout_gravity = "center"
+	android:background = "@android:color/transparent"
+	>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#232323"
-        android:layout_marginTop="80dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="vertical">
+	<LinearLayout
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "20dp"
+		android:layout_marginTop = "70dp"
+		android:layout_marginEnd = "20dp"
+		android:background = "@drawable/popup_dialog"
+		android:orientation = "vertical"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintLeft_toLeftOf = "parent"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent">
 
-        <TextView
-            android:id="@+id/textDialogCoursesName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginTop="70dp"
-            android:text="Course name"
-            android:textColor="#ffff"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+		<TextView
+			android:id = "@+id/textDialogCoursesName"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_marginTop = "90dp"
+			android:textAlignment = "center"
+			android:text="Android"
+			android:textColor = "#ffff"
+			android:textSize = "24sp"
+			android:textStyle = "bold" />
 
-        <TextView
-            android:id="@+id/textDialogCoursesDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:text="Այս դասընթացը մշակված է նրանց համար, ովքեր ցանկանում են սովորել ծրագրավորման արդի տեխնոլոգիաներից մեկը՝ React-ը, որն ուղեկցվում է JavaScript լեզվի ուսումնասիրությամբ։"
-            android:textColor="#ffff"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+		<TextView
+			android:id = "@+id/textDialogCoursesDescription"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_marginTop = "20dp"
+			android:layout_marginBottom = "5dp"
+			android:gravity = "center"
+			android:text = "Այս դասընթացը մշակված է նրանց համար, ովքեր ցանկանում են սովորել ծրագրավորման արդի տեխնոլոգիաներից մեկը՝ React-ը, որն ուղեկցվում է JavaScript լեզվի ուսումնասիրությամբ։"
+			android:textColor = "#ffff"
+			android:textSize = "18sp"
+			android:textStyle = "normal" />
 
 
-        <Button
-            android:id="@+id/btnGoWebsec"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:drawableLeft="@drawable/ic_language_black_24dp"
-            android:padding="20dp"
-            android:text="go to website" />
+		<Button
+			android:id = "@+id/btnGoWebsec"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_marginTop = "15dp"
+			android:drawableLeft = "@drawable/ic_language_black_24dp"
+			android:padding = "20dp"
+			android:text = "go to website" />
 
-    </LinearLayout>
+	</LinearLayout>
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/imageView"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        fresco:backgroundImage = "@color/recyclerview_item"
-        fresco:fadeDuration = "300"
-        fresco:placeholderImage = "@mipmap/ic_launcher"
-        fresco:placeholderImageScaleType = "centerCrop"
-        fresco:roundAsCircle = "true"
-        fresco:roundingBorderColor = "@color/colorPrimaryDark"
-        />
+	<com.facebook.drawee.view.SimpleDraweeView
+		android:id = "@+id/imageView"
+		android:layout_width = "140dp"
+		android:layout_height = "140dp"
+		android:layout_alignParentTop = "true"
+		android:layout_centerHorizontal = "true"
+		app:layout_constraintLeft_toLeftOf = "parent"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent"
+		fresco:actualImageScaleType = "centerCrop"
+		fresco:backgroundImage = "@color/colorAccentDark"
+		fresco:fadeDuration = "300"
+		fresco:placeholderImage = "@mipmap/ic_launcher"
+		fresco:placeholderImageScaleType = "centerCrop"
+		fresco:roundAsCircle = "true"
+		fresco:roundingBorderColor = "@color/colorPrimaryDark"
+		fresco:roundingBorderWidth = "2dp" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
