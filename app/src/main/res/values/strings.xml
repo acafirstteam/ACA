@@ -77,5 +77,11 @@
 	</string-array>
 	<string name = "reception">We are waiting for you at the reception</string>
 	<string name = "new_student">New student</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="choose_status_for_visitor">Choose status for visitor</string>
+    <string name="student">Student</string>
+    <string name="admin_text">Admin</string>
+    <string name="please_choose_the_level">Please choose the level</string>
+    <string name="please_choose_the_course">Please choose the course</string>
 
 </resources>

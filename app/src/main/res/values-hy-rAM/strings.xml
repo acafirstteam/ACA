@@ -73,6 +73,11 @@
 	<string name = "select_person">Ընտրել օգտատիրոջը</string>
 	<string name = "reception">Ընդունարանում Ձեզ սպասում են</string>
 	<string name = "new_student">Նոր ուսանող</string>
+	<string name = "admin_text">Ադմին</string>
+	<string name = "student">Ուսանող</string>
+	<string name = "please_choose_the_course">Խնդրում եմ ընտրել կուրսը</string>
+	<string name = "choose_status_for_visitor">Ընտրել այցելուի ստատուսը</string>
+	<string name = "please_choose_the_level">Ընտրել աստիճանը</string>
 
 
 </resources>
