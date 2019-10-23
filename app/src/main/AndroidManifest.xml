@@ -58,6 +58,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AdminActivity" />
+
         <meta-data
             android:name="am.newway.aca.MainActivity"
             android:value="true" />

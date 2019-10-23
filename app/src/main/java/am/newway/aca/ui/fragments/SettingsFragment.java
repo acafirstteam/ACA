@@ -1,15 +1,19 @@
 package am.newway.aca.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.EventLogTags;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import am.newway.aca.AdminActivity;
 import am.newway.aca.R;
 import am.newway.aca.ui.BaseFragment;
 import am.newway.aca.util.LocaleHelper;
@@ -24,6 +28,7 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
 
     private final String TAG = getClass().getSimpleName();
     private SimpleDraweeView armenia, english;
+    private Button adminActivityBtn;
 
     public
     SettingsFragment () {
@@ -48,6 +53,7 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
     void onViewCreated ( @NonNull View view , @Nullable Bundle savedInstanceState ) {
         super.onViewCreated( view , savedInstanceState );
 
+        adminActivityBtn = view.findViewById(R.id.to_adminActivityBtn_id);
         armenia = view.findViewById( R.id.armenian_flag_settings_id );
         english = view.findViewById( R.id.english_flag_settings_id );
         final SwitchCompat notificationSwitch = view.findViewById( R.id.notification_switch );
@@ -57,6 +63,7 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         notificationSwitch.setOnCheckedChangeListener( this );
         english.setOnClickListener( this );
         armenia.setOnClickListener( this );
+        adminActivityBtn.setOnClickListener(this);
 
                 Log.e( TAG ,
                         "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage().equals( ENGLISH )  );
@@ -111,6 +118,12 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
                     changeLanguage( ARMENIAN );
                     Log.e( TAG , "------------------Set Armenian" );
 
+                    break;
+
+                case R.id.to_adminActivityBtn_id:
+                    Intent intent = new Intent(getActivity(), AdminActivity.class);
+                    startActivity(intent);
+                    Log.d(TAG, "------------------------------StartActivity ADMIN");
                     break;
             }
         }
