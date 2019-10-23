@@ -124,23 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <ImageView
-                android:id="@+id/IMAGE"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameArm_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_margin="8dp"
-                android:background="@drawable/ic_launcher_foreground"
-                android:layout_width="200dp"
-                android:layout_height="300dp"/>
 
-            <ImageView
-                android:id="@+id/IMAGE2"
-                app:layout_constraintTop_toBottomOf="@+id/IMAGE"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_margin="8dp"
-                android:background="@drawable/ic_launcher_foreground"
-                android:layout_width="200dp"
-                android:layout_height="300dp"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
