@@ -59,6 +59,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AdminActivity" />
+        <activity android:name=".util.AdminEditCourseActivity" />
 
         <meta-data
             android:name="am.newway.aca.MainActivity"

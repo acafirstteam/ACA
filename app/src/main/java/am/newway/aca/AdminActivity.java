@@ -18,6 +18,7 @@ import am.newway.aca.adapter.AdminPageAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.interfaces.BottomReachedListener;
 import am.newway.aca.template.Course;
+import am.newway.aca.util.AdminEditCourseActivity;
 
 public class AdminActivity extends BaseActivity implements View.OnClickListener {
 
@@ -64,5 +65,7 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(AdminActivity.this, AdminEditCourseActivity.class);
+        startActivity(intent);
     }
 }

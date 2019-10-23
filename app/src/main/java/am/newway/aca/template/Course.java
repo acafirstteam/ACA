@@ -5,7 +5,7 @@ public class Course {
     private String link = "";
     private String description;
     private boolean isdel;
-    private String group;
+    private long group;
     private String group_name;
     private String url;
     private String color;
@@ -64,12 +64,12 @@ public class Course {
     }
 
     public
-    String getGroup () {
+    long getGroup () {
         return group;
     }
 
     public
-    void setGroup ( final String group ) {
+    void setGroup ( final long group ) {
         this.group = group;
     }
 
