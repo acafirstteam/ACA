@@ -57,18 +57,16 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         armenia = view.findViewById( R.id.armenian_flag_settings_id );
         english = view.findViewById( R.id.english_flag_settings_id );
         final SwitchCompat notificationSwitch = view.findViewById( R.id.notification_switch );
+        final SwitchCompat animationSwitch = view.findViewById( R.id.animation_switch );
 
         notificationSwitch.setChecked( DATABASE.getSettings().isNotification() );
+        animationSwitch.setChecked( DATABASE.getSettings().isFirstAnimation() );
 
         notificationSwitch.setOnCheckedChangeListener( this );
+        animationSwitch.setOnCheckedChangeListener( this );
         english.setOnClickListener( this );
         armenia.setOnClickListener( this );
         adminActivityBtn.setOnClickListener(this);
-
-                Log.e( TAG ,
-                        "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage().equals( ENGLISH )  );
-                Log.e( TAG ,
-                        "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage() );
 
         setSelectLanguage(
                 DATABASE.getSettings().getLanguage().equals( ARMENIAN ) ? armenia : english );
@@ -95,8 +93,9 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
 
         if ( buttonView.getId() == R.id.notification_switch )
             DATABASE.getSettings().setNotification( isChecked );
+        else if ( buttonView.getId() == R.id.animation_switch )
+            DATABASE.getSettings().setFirstAnimation( isChecked );
     }
-
 
     @Override
     public
