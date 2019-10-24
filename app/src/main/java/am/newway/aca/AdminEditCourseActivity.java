@@ -2,7 +2,10 @@ package am.newway.aca;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -12,12 +15,11 @@ import java.util.List;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Course;
 
-public class AdminEditCourseActivity extends BaseActivity {
+public class AdminEditCourseActivity extends BaseActivity implements View.OnClickListener {
 
     private final String TAG = getClass().getSimpleName();
     private final String ADD = "add";
     private final String UPDATE = "update";
-
 
     private EditText editCourseName;
     private EditText editLecturer;
@@ -25,6 +27,9 @@ public class AdminEditCourseActivity extends BaseActivity {
     private EditText editGroupNameArm;
     private EditText editDescriptionEng;
     private EditText editDescriptionArm;
+    private EditText editLink;
+    private ImageView setImage;
+    private Button saveButton;
     private Bundle bundle;
     private ArrayList<Course> courseItems;
     private int position;
@@ -41,6 +46,11 @@ public class AdminEditCourseActivity extends BaseActivity {
         editGroupNameArm = (EditText) findViewById(R.id.admin_edit_groupNameArm_id);
         editDescriptionEng = (EditText) findViewById(R.id.admin_edit_DescriptionEng_id);
         editDescriptionArm = (EditText) findViewById(R.id.admin_edit_DescriptionArm_id);
+        editLink = (EditText) findViewById(R.id.admin_edit_Link_id);
+        saveButton = (Button) findViewById(R.id.admin_edit_Save_btn_id);
+        setImage = (ImageView) findViewById(R.id.admin_edit_imageView_id);
+        setImage.setOnClickListener(this);
+        saveButton.setOnClickListener(this);
 
         bundle = getIntent().getExtras();
         String action = bundle.getString("action");
@@ -50,6 +60,10 @@ public class AdminEditCourseActivity extends BaseActivity {
         } else {
             gotActionUpdateCourse();
         }
+
+//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//        photoPickerIntent.setType("image/*");
+//        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
 
     }
 
@@ -68,6 +82,7 @@ public class AdminEditCourseActivity extends BaseActivity {
                 editGroupNameArm.setText(courseItems.get(position).getGroup_name().get("hy").toString());
                 editDescriptionEng.setText(courseItems.get(position).getDescription().get("en").toString());
                 editDescriptionArm.setText(courseItems.get(position).getDescription().get("hy").toString());
+                editLink.setText(courseItems.get(position).getLink());
             }
         });
 
@@ -78,4 +93,16 @@ public class AdminEditCourseActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+
+            case R.id.admin_edit_Save_btn_id:
+
+                break;
+
+
+        }
+    }
 }
