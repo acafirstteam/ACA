@@ -11,6 +11,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.List;
 
+import am.newway.aca.AdminActivity;
 import am.newway.aca.R;
 import am.newway.aca.adapter.ViewPagerAdapter;
 import am.newway.aca.template.Course;
