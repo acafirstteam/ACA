@@ -48,7 +48,6 @@ class AlertService extends JobService {
     @Override
     public
     boolean onStartJob ( final JobParameters jobParameters ) {
-        Log.e( "########" , "onStartJob: ######"   );
         String uID = "-1";
         firebaseUser = mAuth.getCurrentUser();
         if ( firebaseUser != null )
@@ -64,7 +63,7 @@ class AlertService extends JobService {
             @Override
             public
             void OnStudentChecked ( Student student ) {
-                Log.d( "Servce", "OnStudentChecked" );
+                Log.d( "Service", "OnStudentChecked" );
 
                 if ( student != null ) {
 
@@ -74,7 +73,7 @@ class AlertService extends JobService {
                             @Override
                             public
                             void OnNewStudentAdded ( @Nullable final Student student ) {
-                                Log.d( "Servce", "OnNewStudentAdded" );
+                                Log.d( "Service", "OnNewStudentAdded" );
 
                                 if ( student != null ) {
                                     notificationDialog();
