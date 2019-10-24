@@ -1,16 +1,50 @@
 package am.newway.aca.template;
 
-public class Course {
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+@IgnoreExtraProperties
+public
+class Course {
     private String name;
     private String link = "";
-    private String description;
+    private Map<String, Object> description;
     private boolean isdel;
-    private String group;
-    private String group_name;
+    private int group;
+    private Map<String, Object> group_name;
     private String url;
     private String color;
+    private String lecturer;
 
-    public Course (  ) {
+    public
+    Course ( final String name , final String link , final boolean isdel , final int group ,
+             final String url ) {
+        this.name = name;
+        this.link = link;
+        this.isdel = isdel;
+        this.group = group;
+        this.url = url;
+
+        description = new HashMap<>();
+        group_name = new HashMap<>();
+    }
+
+    public
+    Course () {
+    }
+
+    public
+    String getLecturer () {
+        return lecturer;
+    }
+
+    public
+    void setLecturer ( final String lecturer ) {
+        this.lecturer = lecturer;
     }
 
     public
@@ -28,6 +62,12 @@ public class Course {
         return name;
     }
 
+    @Exclude
+    public
+    String getNameFormated () {
+        return name.replace( " " , "_" ).replace( "/" , "_" ).toLowerCase( Locale.US );
+    }
+
     public
     void setName ( final String name ) {
         this.name = name;
@@ -35,7 +75,7 @@ public class Course {
 
     public
     String getLink () {
-        return link;
+        return link.trim();
     }
 
     public
@@ -44,12 +84,12 @@ public class Course {
     }
 
     public
-    String getDescription () {
+    Map<String, Object> getDescription () {
         return description;
     }
 
     public
-    void setDescription ( final String description ) {
+    void setDescription ( final Map<String, Object> description ) {
         this.description = description;
     }
 
@@ -64,28 +104,28 @@ public class Course {
     }
 
     public
-    String getGroup () {
+    int getGroup () {
         return group;
     }
 
     public
-    void setGroup ( final String group ) {
+    void setGroup ( final int group ) {
         this.group = group;
     }
 
     public
-    String getGroup_name () {
+    Map<String, Object> getGroup_name () {
         return group_name;
     }
 
     public
-    void setGroup_name ( final String group_name ) {
+    void setGroup_name ( final Map<String, Object> group_name ) {
         this.group_name = group_name;
     }
 
     public
     String getUrl () {
-        return url;
+        return url.trim();
     }
 
     public

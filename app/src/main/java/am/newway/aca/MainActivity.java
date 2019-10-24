@@ -48,6 +48,8 @@ class MainActivity extends BaseActivity {
 
         initNotifications();
 
+        //FIRESTORE.addCourses( CoursesInit.addCourse() );
+
         FIRESTORE.checkVisit( DATABASE.getStudent() , new Firestore.OnVisitCheckListener() {
 
             @Override

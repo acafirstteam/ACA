@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
 	xmlns:fresco = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools = "http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "wrap_content"
 	android:layout_gravity = "center"
-	android:background = "@android:color/transparent"
-	>
+	android:background = "@android:color/transparent">
 
 	<LinearLayout
 		android:layout_width = "wrap_content"
@@ -27,10 +27,10 @@
 			android:layout_height = "wrap_content"
 			android:layout_marginTop = "90dp"
 			android:textAlignment = "center"
-			android:text="Android"
 			android:textColor = "#ffff"
 			android:textSize = "24sp"
-			android:textStyle = "bold" />
+			android:textStyle = "bold"
+			tools:text = "Android" />
 
 		<TextView
 			android:id = "@+id/textDialogCoursesDescription"
@@ -39,20 +39,22 @@
 			android:layout_marginTop = "20dp"
 			android:layout_marginBottom = "5dp"
 			android:gravity = "center"
-			android:text = "Այս դասընթացը մշակված է նրանց համար, ովքեր ցանկանում են սովորել ծրագրավորման արդի տեխնոլոգիաներից մեկը՝ React-ը, որն ուղեկցվում է JavaScript լեզվի ուսումնասիրությամբ։"
 			android:textColor = "#ffff"
 			android:textSize = "18sp"
-			android:textStyle = "normal" />
-
+			android:textStyle = "normal"
+			android:maxLines="10"
+			android:scrollbars="vertical"
+			tools:text = "Այս դասընթացը մշակված է նրանց համար, ովքեր ցանկանում են սովորել ծրագրավորման արդի տեխնոլոգիաներից մեկը՝ React-ը, որն ուղեկցվում է JavaScript լեզվի ուսումնասիրությամբ։" />
 
 		<Button
 			android:id = "@+id/btnGoWebsec"
 			android:layout_width = "match_parent"
 			android:layout_height = "wrap_content"
 			android:layout_marginTop = "15dp"
-			android:drawableLeft = "@drawable/ic_language_black_24dp"
+			android:drawableStart = "@drawable/ic_language_black_24dp"
 			android:padding = "20dp"
-			android:text = "go to website" />
+			android:text="@string/open_web_page"
+			tools:text = "go to website" />
 
 	</LinearLayout>
 
@@ -66,7 +68,7 @@
 		app:layout_constraintRight_toRightOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		fresco:actualImageScaleType = "centerCrop"
-		fresco:backgroundImage = "@color/colorAccentDark"
+		fresco:backgroundImage = "@color/colorPrimaryLight"
 		fresco:fadeDuration = "300"
 		fresco:placeholderImage = "@mipmap/ic_launcher"
 		fresco:placeholderImageScaleType = "centerCrop"

@@ -83,5 +83,7 @@
     <string name="admin_text">Admin</string>
     <string name="please_choose_the_level">Please choose the level</string>
     <string name="please_choose_the_course">Please choose the course</string>
+	<string name = "first_anim">First animation</string>
+	<string name = "open_web_page">Open web page</string>
 
 </resources>

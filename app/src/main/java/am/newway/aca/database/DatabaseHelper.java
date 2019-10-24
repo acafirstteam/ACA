@@ -53,6 +53,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     private static final String COLUMN_SETTINGS_LOGIN = "login";
     private static final String COLUMN_SETTINGS_NOTIFICATIONS = "notifications";
     private static final String COLUMN_SETTINGS_LANGUAGE = "language";
+    private static final String COLUMN_SETTINGS_ANIMATION= "first_animation";
 
     public static
     DatabaseHelper getInstance ( Context context ) {
@@ -62,7 +63,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                     database = new DatabaseHelper( context );
                     database.getStudent();
                     if ( database.getSettings() == null ) {
-                        database.setSettings( new Settings( true , true , ENGLISH ) );
+                        database.setSettings( new Settings( true , true , ENGLISH, false ) );
                         database.getSettings().addOnSettingsChangeListener( database );
                     }
                 }
@@ -81,9 +82,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
 
     //Create table SQL query
     private String CREATE_SETTINGS_TABLE = String.format(
-            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT)" ,
+            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT, %s TEXT)" ,
             TABLE_SETTINGS , COLUMN_SETTINGS_ID , COLUMN_SETTINGS_LOGIN ,
-            COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE );
+            COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE, COLUMN_SETTINGS_ANIMATION );
 
     private
     DatabaseHelper ( Context context ) {
@@ -238,6 +239,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         values.put( COLUMN_SETTINGS_LOGIN , settings.isLogin() );
         values.put( COLUMN_SETTINGS_NOTIFICATIONS , settings.isNotification() );
         values.put( COLUMN_SETTINGS_LANGUAGE , settings.getLanguage() );
+        values.put( COLUMN_SETTINGS_ANIMATION , settings.isFirstAnimation() );
 
         //Insert Row
         db.insert( TABLE_SETTINGS , null , values );
@@ -274,6 +276,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
             settings.setNotification(
                     cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_NOTIFICATIONS ) )
                             .equals( "1" ) );
+            settings.setFirstAnimation(
+                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) )
+                            .equals( "1" ) );
         }
         cursor.close();
 
@@ -289,6 +294,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         contentValues.put( COLUMN_SETTINGS_LOGIN , settings.isLogin() );
         contentValues.put( COLUMN_SETTINGS_NOTIFICATIONS , settings.isNotification() );
         contentValues.put( COLUMN_SETTINGS_LANGUAGE , settings.getLanguage() );
+        contentValues.put( COLUMN_SETTINGS_ANIMATION , settings.isFirstAnimation() );
 
         myDB.update( TABLE_SETTINGS , contentValues , COLUMN_SETTINGS_ID + " = 1 " , null );
 

@@ -464,6 +464,18 @@ class Firestore {
                 } );
     }
 
+    public
+    void addCourses ( List<Course> courses ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+
+        final String COURSE_COLLECTION = "Courses";
+
+        for ( Course co : courses ) {
+            db.collection( COURSE_COLLECTION ).document( co.getNameFormated() ).set( co );
+        }
+    }
+
     /**
      * Վերադարձնում է նոր ուսանողների ցանկը
      *

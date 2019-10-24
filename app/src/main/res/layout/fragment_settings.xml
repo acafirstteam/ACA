@@ -86,5 +86,35 @@
 		fresco:roundingBorderColor = "@color/colorAccentDark"
 		fresco:roundingBorderWidth = "1dp" />
 
+	<View
+		android:id = "@+id/line_settings1"
+		android:layout_width = "match_parent"
+		android:layout_height = "1dp"
+		android:layout_margin = "12dp"
+		android:background = "@android:color/black"
+		app:layout_constraintTop_toBottomOf = "@id/armenian_flag_settings_id" />
+
+	<TextView
+		android:id = "@+id/animation_text"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "8dp"
+		android:layout_marginTop = "20dp"
+		android:text = "@string/first_anim"
+		android:textColor = "#000000"
+		android:textSize = "24sp"
+		app:layout_constraintLeft_toLeftOf = "parent"
+		app:layout_constraintTop_toBottomOf="@+id/line_settings1" />
+
+	<androidx.appcompat.widget.SwitchCompat
+		android:id = "@+id/animation_switch"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginEnd = "25dp"
+		android:layout_marginTop = "20dp"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintTop_toBottomOf = "@id/line_settings1" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

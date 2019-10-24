@@ -78,6 +78,8 @@
 	<string name = "please_choose_the_course">Խնդրում եմ ընտրել կուրսը</string>
 	<string name = "choose_status_for_visitor">Ընտրել այցելուի ստատուսը</string>
 	<string name = "please_choose_the_level">Ընտրել աստիճանը</string>
+	<string name = "first_anim">Սկզբնական անիմացիա</string>
+	<string name = "open_web_page">Բացել վեբ կայքը</string>
 
 
 </resources>
