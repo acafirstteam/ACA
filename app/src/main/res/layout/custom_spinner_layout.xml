@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/customSpinnerLayout"
+        android:layout_width="match_parent"
+        android:layout_toLeftOf="@+id/customSpinnerIcon"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/icon_spinner_levl"
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_school_black_24dp"/>
+        <TextView
+            android:id="@+id/icon_spinner_levl_text"
+            android:text="@string/courses_levels"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/customSpinnerIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_arrow_drop_down_black_24dp"/>
+
+</RelativeLayout>

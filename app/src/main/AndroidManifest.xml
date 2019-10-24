@@ -62,5 +62,7 @@
             android:name="am.newway.aca.MainActivity"
             android:value="true" />
     </application>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

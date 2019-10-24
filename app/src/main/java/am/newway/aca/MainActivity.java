@@ -100,7 +100,9 @@ class MainActivity extends BaseActivity {
     boolean onOptionsItemSelected ( MenuItem item ) {
         int id = item.getItemId();
         if ( id == R.id.action_settings ) {
-            startActivity(new Intent(MainActivity.this, StudenActivity.class));
+
+            
+          //  startActivity(new Intent(MainActivity.this, StudenActivity.class));
             return true;
         }
         return super.onOptionsItemSelected( item );
