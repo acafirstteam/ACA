@@ -13,7 +13,7 @@ class Util {
     void scheduleJob ( Context context ) {
         ComponentName serviceComponent = new ComponentName( context , AlertService.class );
         JobInfo.Builder builder = new JobInfo.Builder( 0 , serviceComponent );
-        //        builder.setMinimumLatency(30 * 1000); // Wait at least 30s
+                builder.setMinimumLatency(0); // Wait at least 30s
         //        builder.setOverrideDeadline(60 * 1000); // Maximum delay 60s
 
         JobScheduler jobScheduler =
