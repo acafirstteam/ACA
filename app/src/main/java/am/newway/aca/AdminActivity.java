@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
-
 import java.util.ArrayList;
 import java.util.List;
 import am.newway.aca.adapter.AdminPageAdapter;
@@ -29,7 +26,6 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fresco.initialize(this);
         setContentView(R.layout.activity_admin);
 
         recyclerView = findViewById(R.id.recycler_view_adminPage_id);
@@ -46,24 +42,23 @@ public class AdminActivity extends BaseActivity implements View.OnClickListener 
              @Override
              public void OnCourseRead(List<Course> courses) {
                  courseItems = new ArrayList<Course>(courses);
-                 adapter = new AdminPageAdapter(courseItems);
+                 adapter = new AdminPageAdapter(getApplicationContext(), courseItems);
                  recyclerView.setAdapter(adapter);
                  Log.d(TAG,"-------------------------ListSize = " + courseItems.size());
              }
          });
 
-//         adapter.setBottomReachedListener(new BottomReachedListener() {
-//             @Override
-//             public void onBottomReached(int position) {
-//
-//             }
-//         });
+
 
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(AdminActivity.this, AdminEditCourseActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("action", "add");
+        bundle.putInt("pos", 0);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

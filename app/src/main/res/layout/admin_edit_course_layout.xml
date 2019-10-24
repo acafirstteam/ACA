@@ -72,28 +72,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/admin_lecturerArm_TV_id"
-            app:layout_constraintTop_toBottomOf="@+id/admin_edit_lecturerEng_id"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Դասախոս:"
-            android:textSize="18sp"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/admin_edit_lecturerArm_id"
-            app:layout_constraintTop_toBottomOf="@+id/admin_lecturerArm_TV_id"
-            android:layout_margin="8dp"
-            tools:text="Անուն Ազգանուն"
-            android:singleLine="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
 
         <TextView
             android:id="@+id/admin_edit_groupNameEng_TV_id"
-            app:layout_constraintTop_toBottomOf="@+id/admin_edit_lecturerArm_id"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_margin="8dp"
             android:text="Group Name:"
@@ -140,11 +123,11 @@
             android:id="@+id/admin_edit_DescriptionEng_id"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/admin_edit_DescriptionArm_TV_id"
-            android:text="Description"
+            android:text="Նկարագրություն"
             android:layout_margin="8dp"
             android:textSize="18sp"
             android:layout_width="match_parent"
@@ -154,7 +137,7 @@
             android:id="@+id/admin_edit_DescriptionArm_id"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="140dp"/>
+            android:layout_height="wrap_content"/>
 
 
     </LinearLayout>

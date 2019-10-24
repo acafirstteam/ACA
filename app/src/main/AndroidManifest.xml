@@ -90,9 +90,12 @@
 			android:name = ".service.AlertService"
 			android:permission = "android.permission.BIND_JOB_SERVICE" />
 
-		<activity android:name = ".AdminActivity" />
+		<activity android:name = ".AdminActivity"
+			android:theme = "@style/AppTheme.NoActionBar"/>
+        <activity android:name=".AdminEditCourseActivity"
+			android:theme = "@style/AppTheme.NoActionBar"/>
 
-		<meta-data
+        <meta-data
 			android:name = "am.newway.aca.MainActivity"
 			android:value = "true" />
 	</application>
