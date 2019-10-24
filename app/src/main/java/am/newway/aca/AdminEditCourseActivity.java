@@ -1,4 +1,4 @@
-package am.newway.aca.util;
+package am.newway.aca;
 
 import android.os.Bundle;
 

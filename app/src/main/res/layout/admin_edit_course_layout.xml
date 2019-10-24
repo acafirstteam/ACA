@@ -48,92 +48,116 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/admin_lecturerEng_TV_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_imageView_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_margin="8dp"
-                android:text="Lecturer:"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/admin_edit_lecturerEng_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_lecturerEng_TV_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:singleLine="true"
-                tools:text="Anun Azganun"
-                android:layout_margin="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/admin_lecturerArm_TV_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_lecturerEng_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:text="Դասախոս:"
-                android:textSize="18sp"
-                android:layout_margin="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/admin_edit_lecturerArm_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_lecturerArm_TV_id"
-                android:layout_margin="8dp"
-                tools:text="Անուն Ազգանուն"
-                android:singleLine="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/admin_edit_groupNameEng_TV_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_lecturerArm_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_margin="8dp"
-                android:text="Group Name:"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/admin_edit_groupNameEng_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameEng_TV_id"
-                android:layout_margin="8dp"
-                android:singleLine="true"
-                tools:text="group name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/admin_edit_groupNameArm_TV_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameEng_id"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:text="Խմբի անունը:"
-                android:textSize="18sp"
-                android:layout_margin="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/admin_edit_groupNameArm_id"
-                app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameArm_TV_id"
-                android:layout_margin="8dp"
-                tools:text="խմբի անուն"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/admin_lecturerEng_TV_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_edit_imageView_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_margin="8dp"
+            android:text="Lecturer:"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_lecturerEng_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_lecturerEng_TV_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:singleLine="true"
+            tools:text="Anun Azganun"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/admin_lecturerArm_TV_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_edit_lecturerEng_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Դասախոս:"
+            android:textSize="18sp"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_lecturerArm_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_lecturerArm_TV_id"
+            android:layout_margin="8dp"
+            tools:text="Անուն Ազգանուն"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/admin_edit_groupNameEng_TV_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_edit_lecturerArm_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_margin="8dp"
+            android:text="Group Name:"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_groupNameEng_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameEng_TV_id"
+            android:layout_margin="8dp"
+            android:singleLine="true"
+            tools:text="group name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/admin_edit_groupNameArm_TV_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameEng_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Խմբի անունը:"
+            android:textSize="18sp"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_groupNameArm_id"
+            app:layout_constraintTop_toBottomOf="@+id/admin_edit_groupNameArm_TV_id"
+            android:layout_margin="8dp"
+            tools:text="խմբի անուն"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/admin_edit_DescriptionEng_TV_id"
+            android:text="Description"
+            android:layout_margin="8dp"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_DescriptionEng_id"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"/>
+
+        <TextView
+            android:id="@+id/admin_edit_DescriptionArm_TV_id"
+            android:text="Description"
+            android:layout_margin="8dp"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_DescriptionArm_id"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"/>
 
 
     </LinearLayout>
-
-
 
 
 

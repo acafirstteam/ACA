@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import am.newway.aca.adapter.AdminPageAdapter;
 import am.newway.aca.firebase.Firestore;
-import am.newway.aca.interfaces.BottomReachedListener;
 import am.newway.aca.template.Course;
-import am.newway.aca.util.AdminEditCourseActivity;
 
 public class AdminActivity extends BaseActivity implements View.OnClickListener {
 
