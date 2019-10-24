@@ -696,6 +696,49 @@ class Firestore {
     }
 
     private
+    void updateCourse ( final DocumentReference doc , final Course course ,
+            final OnStudentCheckListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        this.listener_student = listener;
+
+        ObjectMapper oMapper = new ObjectMapper();
+        Map<String, Object> map = oMapper.convertValue( course , Map.class );
+
+        doc.update( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<Void> task ) {
+                doc.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<DocumentSnapshot> task ) {
+                        DocumentSnapshot document = task.getResult();
+                        if ( document != null ) {
+
+//                            if ( course != null ) {
+//                                course.setId( document.getId() );
+//                                Map<String, Object> map = document.getData();
+//                                if ( map != null ) {
+//                                    Object object = map.get( "verified" );
+//                                    if ( object != null )
+//                                        course.setVerified( object.equals( "1" ) );
+//                                    object = map.get( "type" );
+//                                    if ( object != null )
+//                                        course.setType( ( int ) ( long ) object );
+//
+//                                    if ( listener != null )
+//                                        listener.OnStudentChecked( course );
+//                                }
+//                            }
+                        }
+                    }
+                } );
+            }
+        } );
+    }
+
+    private
     void addListener ( String docID ) {
         Log.e( TAG , "document id = " + docID );
         final DocumentReference docRef = db.collection( VISIT_COLLECTION ).document( docID );

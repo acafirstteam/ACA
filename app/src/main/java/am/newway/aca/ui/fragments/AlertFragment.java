@@ -1,16 +1,13 @@
 package am.newway.aca.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.adapter.HistoryAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Visit;
 import am.newway.aca.ui.BaseFragment;
@@ -22,23 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment must implement the the
- * {@link HistoryFragment#newInstance} factory method to create an instance of this fragment.
+ * {@link AlertFragment#newInstance} factory method to create an instance of this fragment.
  */
 public
-class HistoryFragment extends BaseFragment {
-    private final String TAG = "History";
-    private ArrayList<Visit> items;
+class AlertFragment extends BaseFragment {
+    private final String TAG = "Alert";
     private RecyclerView recyclerView;
-    private HistoryAdapter adapter;
 
     public
-    HistoryFragment () {
+    AlertFragment () {
         // Required empty public constructor
     }
 
     public static
-    HistoryFragment newInstance ( String param1 , String param2 ) {
-        HistoryFragment fragment = new HistoryFragment();
+    AlertFragment newInstance ( String param1 , String param2 ) {
+        AlertFragment fragment = new AlertFragment();
         Bundle args = new Bundle();
         fragment.setArguments( args );
         return fragment;
@@ -72,12 +67,8 @@ class HistoryFragment extends BaseFragment {
             @Override
             public
             void OnLoaded ( @Nullable List<Visit> visits ) {
-                items = new ArrayList<>( visits );
-                adapter = new HistoryAdapter( items );
-                recyclerView.setAdapter( adapter );
-                Log.d( TAG , "---------------------ListItem Count = " + items.size() );
-                Log.d( TAG , "---------------------List 1st data = " +
-                        items.get( 0 ).getCompleteTime() );
+                //recyclerView.setAdapter(adapter);
+
             }
         } );
     }

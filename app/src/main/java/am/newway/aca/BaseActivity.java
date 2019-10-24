@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -341,9 +342,16 @@ class BaseActivity extends AppCompatActivity {
         navController = Navigation.findNavController( this , R.id.nav_host_fragment );
         NavigationView navigationView = findViewById( R.id.nav_view );
 
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_admin).setVisible(false);
+
+        if(DATABASE.getStudent().getType() == 2)
+            nav_Menu.findItem(R.id.nav_admin).setVisible(true);
+
         final AppBarConfiguration mAppBarConfiguration =
                 new AppBarConfiguration.Builder( R.id.nav_home , R.id.nav_settings ,
-                        R.id.nav_history , R.id.nav_company , R.id.nav_about ).setDrawerLayout(
+                        R.id.nav_history , R.id.nav_alert , R.id.nav_admin, R.id.nav_company ,
+                        R.id.nav_about ).setDrawerLayout(
                         drawer ).build();
         NavigationUI.setupActionBarWithNavController( this , navController , mAppBarConfiguration );
         NavigationUI.setupWithNavController( navigationView , navController );

@@ -51,9 +51,11 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
     public
     void setCourses ( List<Course> courses ) {
-        this.courses.clear();
-        this.courses.addAll( courses );
-        notifyDataSetChanged();
+        if(courses != null) {
+            this.courses.clear();
+            this.courses.addAll( courses );
+            notifyDataSetChanged();
+        }
     }
 
     public
