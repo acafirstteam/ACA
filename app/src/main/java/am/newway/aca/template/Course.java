@@ -21,12 +21,8 @@ class Course {
     private String lecturer;
 
     public
-    Course ( final String name ,
-             final String link ,
-             final boolean isdel ,
-             final int group ,
-             final String url ) {
-
+    Course ( final String name , final String link , final boolean isdel , final int group ,
+            final String url ) {
         this.name = name;
         this.link = link;
         this.isdel = isdel;
@@ -35,7 +31,6 @@ class Course {
 
         description = new HashMap<>();
         group_name = new HashMap<>();
-
     }
 
     public
@@ -130,7 +125,7 @@ class Course {
 
     public
     String getUrl () {
-        return url.trim();
+        return url == null ? "" : url.trim();
     }
 
     public
