@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco = "http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -15,15 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/admin_edit_imageView_id"
+                fresco:layout_constraintTop_toTopOf="parent"
+                fresco:layout_constraintLeft_toLeftOf="parent"
                 android:layout_margin="8dp"
+                fresco:actualImageScaleType = "focusCrop"
                 android:background="@drawable/image_border"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_width="140dp"
-                android:layout_height="140dp"/>
+                fresco:fadeDuration = "300"
+                fresco:placeholderImageScaleType = "centerCrop"
+                fresco:roundAsCircle = "true"
+                fresco:roundingBorderColor = "@color/colorPrimaryDark"
+                fresco:roundingBorderWidth = "1dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"/>
+
 
             <TextView
                 android:id="@+id/admin_courseName_TV_id"
@@ -107,6 +114,20 @@
             android:layout_margin="8dp"
             tools:text="խմբի անուն"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/admin_edit_groupType_TV_id"
+            android:text="Group Type:\nFor Beginners: 0\nSpecialized: 1\nAdvanced: 2"
+            android:textSize="18sp"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/admin_edit_groupType_id"
+            android:maxLength="1"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"/>
 
         <TextView

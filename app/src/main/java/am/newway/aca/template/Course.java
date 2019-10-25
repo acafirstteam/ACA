@@ -21,8 +21,12 @@ class Course {
     private String lecturer;
 
     public
-    Course ( final String name , final String link , final boolean isdel , final int group ,
+    Course ( final String name ,
+             final String link ,
+             final boolean isdel ,
+             final int group ,
              final String url ) {
+
         this.name = name;
         this.link = link;
         this.isdel = isdel;
