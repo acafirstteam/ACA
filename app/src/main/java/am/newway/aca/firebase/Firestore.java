@@ -46,6 +46,7 @@ class Firestore {
     private static String NOTIFICATION_COLLECTION = "Notification";
     private static String VISIT_COLLECTION = "Visits";
     private static String STUDENT_COLLECTION = "Students";
+    private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
     private FirebaseFirestore db;
     private OnVisitCompleteListener listener_complete_visit;
@@ -713,44 +714,32 @@ class Firestore {
     }
 
     private
-    void updateCourse ( final DocumentReference doc , final Course course ,
-            final OnStudentCheckListener listener ) {
+    void initFirestore () {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
-        this.listener_student = listener;
+    }
+
+    public
+    void updateCourse ( final Course course , final OnCourseUpdateListener listener ) {
+
+        initFirestore();
+        final DocumentReference docRef =
+                db.collection( COURSE_COLLECTION ).document( String.valueOf( course.getName() ) );
 
         ObjectMapper oMapper = new ObjectMapper();
         Map<String, Object> map = oMapper.convertValue( course , Map.class );
 
-        doc.update( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
+        docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
             @Override
             public
             void onComplete ( @NonNull final Task<Void> task ) {
-                doc.get().addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public
-                    void onComplete ( @NonNull final Task<DocumentSnapshot> task ) {
-                        DocumentSnapshot document = task.getResult();
-                        if ( document != null ) {
-
-                            //                            if ( course != null ) {
-                            //                                course.setId( document.getId() );
-                            //                                Map<String, Object> map = document.getData();
-                            //                                if ( map != null ) {
-                            //                                    Object object = map.get( "verified" );
-                            //                                    if ( object != null )
-                            //                                        course.setVerified( object.equals( "1" ) );
-                            //                                    object = map.get( "type" );
-                            //                                    if ( object != null )
-                            //                                        course.setType( ( int ) ( long ) object );
-                            //
-                            //                                    if ( listener != null )
-                            //                                        listener.OnStudentChecked( course );
-                            //                                }
-                            //                            }
-                        }
-                    }
-                } );
+                listener.OnCourseUpdateed();
+            }
+        } ).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull final Exception e ) {
+                listener.OnCourseUpdateFailed();
             }
         } );
     }
@@ -839,11 +828,10 @@ class Firestore {
     }
 
     public
-    void uploadImage ( Uri path, String imageName, final OnImageUploadListener listener ) {
+    void uploadImage ( Uri path , String imageName , final OnImageUploadListener listener ) {
         initFirebaseStorage();
 
-        final StorageReference riversRef =
-                storageReference.child( "courses/" + imageName );
+        final StorageReference riversRef = storageReference.child( "courses/" + imageName );
         UploadTask uploadTask = riversRef.putFile( path );
 
         // Register observers to listen for when the download is done or if it fails
@@ -870,10 +858,17 @@ class Firestore {
     }
 
     public
+    interface OnCourseUpdateListener {
+        void OnCourseUpdateed ();
+
+        void OnCourseUpdateFailed ();
+    }
+
+    public
     interface OnImageUploadListener {
         void OnImageUploaded ( String uri );
 
-        void OnImageUploadFailed (String error);
+        void OnImageUploadFailed ( String error );
     }
 
     public

@@ -22,7 +22,7 @@ class Course {
 
     public
     Course ( final String name , final String link , final boolean isdel , final int group ,
-             final String url ) {
+            final String url ) {
         this.name = name;
         this.link = link;
         this.isdel = isdel;
@@ -125,7 +125,7 @@ class Course {
 
     public
     String getUrl () {
-        return url.trim();
+        return url == null ? "" : url.trim();
     }
 
     public

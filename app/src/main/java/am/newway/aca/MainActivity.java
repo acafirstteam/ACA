@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentResult;
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
+import am.newway.aca.template.Course;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
 import am.newway.aca.util.Util;
@@ -110,6 +111,25 @@ class MainActivity extends BaseActivity {
 //            intent.setType("image/*");
 //            intent.setAction(Intent.ACTION_GET_CONTENT);
 //            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+            Course course = new Course(  );
+            course.setName( "123" );
+            course.setLecturer( "test 123 456 789" );
+
+            FIRESTORE.updateCourse( course , new Firestore.OnCourseUpdateListener() {
+                @Override
+                public
+                void OnCourseUpdateed () {
+                    Log.e( TAG , "OnCourseUpdateed: "   );
+                }
+
+                @Override
+                public
+                void OnCourseUpdateFailed () {
+                    Log.e( TAG , "OnCourseUpdateFailed: "   );
+                }
+            } );
+
             return true;
         }
         return super.onOptionsItemSelected( item );
