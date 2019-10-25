@@ -1,8 +1,9 @@
 package am.newway.aca.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.EventLogTags;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -58,6 +60,19 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         english = view.findViewById( R.id.english_flag_settings_id );
         final SwitchCompat notificationSwitch = view.findViewById( R.id.notification_switch );
         final SwitchCompat animationSwitch = view.findViewById( R.id.animation_switch );
+
+        Drawable background = view.getBackground();
+        if (background instanceof ColorDrawable ) {
+            RoundingParams roundingParams = RoundingParams.fromCornersRadius(7f);
+            armenia.setHierarchy(new GenericDraweeHierarchyBuilder(getResources())
+                    .setRoundingParams(roundingParams)
+                    .setOverlay( background )
+                    .build());
+            english.setHierarchy(new GenericDraweeHierarchyBuilder(getResources())
+                    .setRoundingParams(roundingParams)
+                    .setOverlay( background )
+                    .build());
+        }
 
         notificationSwitch.setChecked( DATABASE.getSettings().isNotification() );
         animationSwitch.setChecked( DATABASE.getSettings().isFirstAnimation() );
