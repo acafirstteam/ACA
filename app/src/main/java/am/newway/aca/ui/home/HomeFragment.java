@@ -5,35 +5,34 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+
 import java.util.List;
 
+import am.newway.aca.AdminActivity;
 import am.newway.aca.R;
-import am.newway.aca.adapter.CourseAdapter;
+import am.newway.aca.adapter.ViewPagerAdapter;
 import am.newway.aca.template.Course;
 import am.newway.aca.template.Visit;
 import am.newway.aca.ui.BaseFragment;
-import am.newway.aca.util.RecyclerViewMargin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 public
 class HomeFragment extends BaseFragment {
-    private ProgressBar progressBar;
-    private RecyclerView recyclerView;
     private HomeViewModel homeViewModel;
-    private CourseAdapter courseAdapter;
     private CardView cardView;
     private TextView time;
     private TextView course;
+    private TextView group;
+    private ViewPagerAdapter pagerAdapter;
+    private DotsIndicator dotsIndicator;
 
     public
     View onCreateView ( @NonNull LayoutInflater inflater , ViewGroup container ,
@@ -44,41 +43,48 @@ class HomeFragment extends BaseFragment {
         cardView = root.findViewById( R.id.user_card );
         time = root.findViewById( R.id.time );
         course = root.findViewById( R.id.course );
+        group = root.findViewById( R.id.group );
+        final ViewPager viewPager = root.findViewById( R.id.view_pager );
 
-        progressBar = root.findViewById( R.id.loading );
-        recyclerView = root.findViewById( R.id.recycler_view );
-        recyclerView.setHasFixedSize( true );
-        recyclerView.setItemViewCacheSize( 20 );
-        recyclerView.setDrawingCacheEnabled( true );
-        recyclerView.setDrawingCacheQuality( View.DRAWING_CACHE_QUALITY_HIGH );
+        pagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), DATABASE.getSettings().getLanguage());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
 
-        RecyclerViewMargin decoration = new RecyclerViewMargin(
-                ( int ) getResources().getDimension( R.dimen.recycler_item_margin ) );
-        recyclerView.addItemDecoration( decoration );
-        //setHasOptionsMenu( true );
+        dotsIndicator = root.findViewById(R.id.dots_indicator);
+        dotsIndicator.setViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener( new ViewPager.OnPageChangeListener() {
+            @Override
+            public
+            void onPageScrolled ( final int position , final float positionOffset ,
+                    final int positionOffsetPixels ) {
+
+            }
+
+            @Override
+            public
+            void onPageSelected ( final int position ) {
+                group.setText( pagerAdapter.getGroup( position ) );
+            }
+
+            @Override
+            public
+            void onPageScrollStateChanged ( final int state ) {
+
+            }
+        } );
 
         if(DATABASE.getVisit() != null)
             addNewVisit( DATABASE.getVisit() );
-
-        courseAdapter = new CourseAdapter( new ArrayList<Course>() , recyclerView ,
-                new CourseAdapter.OnOrientationChangingListener() {
-                    @Override
-                    public
-                    void OnChanged ( boolean isLarge , int position ) {
-                        RecyclerView.LayoutManager mManager =
-                                new GridLayoutManager( getActivity() , 3 );
-                        recyclerView.setLayoutManager( mManager );
-                        recyclerView.scrollToPosition( position );
-                    }
-                } );
-        recyclerView.setAdapter( courseAdapter );
 
         homeViewModel.getData().observe( this , new Observer<List<Course>>() {
             @Override
             public
             void onChanged ( @Nullable List<Course> courses ) {
-                courseAdapter.setProducts( courses );
-                progressBar.setVisibility( View.GONE );
+                if(courses != null){
+                    pagerAdapter.setCourses( courses, getActivity() );
+                    group.setText( pagerAdapter.getGroup( 0 ) );
+                }
             }
         } );
         return root;
@@ -89,15 +95,12 @@ class HomeFragment extends BaseFragment {
     void onViewCreated ( @NonNull View view , @Nullable Bundle savedInstanceState ) {
         super.onViewCreated( view , savedInstanceState );
 
-        RecyclerView.LayoutManager mManager = new GridLayoutManager( getActivity() , 3 );
-        mManager.setItemPrefetchEnabled( true );
-        recyclerView.setLayoutManager( mManager );
         homeViewModel.getCourses();
     }
 
     @Override
     public
-    void onPrepareOptionsMenu ( Menu menu ) {
+    void onPrepareOptionsMenu ( @NonNull Menu menu ) {
         //menu.findItem( R.id.app_bar_search ).setVisible( true );
         //menu.findItem( R.id.action_filter ).setVisible( true );
         super.onPrepareOptionsMenu( menu );

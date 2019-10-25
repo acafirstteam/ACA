@@ -12,7 +12,8 @@ public class Visit {
     private boolean open = true;
     private boolean confirm;
 
-    public Visit (  ) {
+    public Visit () {
+
     }
 
     public

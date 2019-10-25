@@ -11,7 +11,7 @@
         android:src="@drawable/ic_school_black_24dp"/>
 <TextView
     android:id="@+id/icon_status_levl_text"
-    android:text="Courses levels"
+    android:text="@string/courses_levels"
     android:textSize="20sp"
     android:padding="10dp"
     android:layout_width="match_parent"

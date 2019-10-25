@@ -11,15 +11,17 @@ class Settings {
 
     private boolean login;
     private boolean notification;
+    private boolean firstAnimation;
     private String language;
     private OnSettingsChangeListener listener;
 
     public
-    Settings ( boolean login , boolean notification , String language) {
+    Settings ( boolean login , boolean notification , String language, boolean anim) {
 
         this.login = login;
         this.notification = notification;
         this.language = language;
+        this.firstAnimation = anim;
         this.listener = listener;
     }
 
@@ -29,6 +31,16 @@ class Settings {
 
     public Settings(){
 
+    }
+
+    public
+    boolean isFirstAnimation () {
+        return firstAnimation;
+    }
+
+    public
+    void setFirstAnimation ( final boolean firstAnimation ) {
+        this.firstAnimation = firstAnimation;
     }
 
     public

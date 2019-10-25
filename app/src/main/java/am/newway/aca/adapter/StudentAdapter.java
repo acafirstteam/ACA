@@ -37,6 +37,8 @@ import am.newway.aca.R;
 import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.Course;
 import am.newway.aca.template.Student;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import am.newway.aca.ui.fragments.DialogFragments;
 import am.newway.aca.ui.fragments.SettingsFragment;
 import am.newway.aca.ui.student.StudenActivity;
@@ -50,10 +52,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     private static final int REQUEST_EMAIL=1;
 
     public StudentAdapter(
-            List<Student> students, RecyclerView recyclerView
+            List<Student> students, Context context
     ) {
         this.students = students;
-        this.context = recyclerView.getContext();
+        this.context = context;
     }
 
     public void setStudents(List<Student> students) {
@@ -124,9 +126,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
 
             imageView.setOnClickListener(new View.OnClickListener() {
+                // DialogFragments dialogFragments = new DialogFragments();
 
                 @Override
                 public void onClick(View view) {
+       /*             FragmentManager fragmentManager = ((AppCompatActivity) context)
+                            .getSupportFragmentManager()
+                            .getFragments().get(0).getChildFragmentManager();*/
 
 
                 }

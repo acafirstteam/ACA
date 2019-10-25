@@ -56,30 +56,33 @@ class SplashScreen extends BaseActivity {
                     void onGlobalLayout () {
                         mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener( this );
 
-                        startSpringAnimation( findViewById( R.id.text_View1 ) , 1 ,
-                                new OnAnimationListener() {
-                                    @Override
-                                    public
-                                    void OnAnimationEnded () {nAnimation++;
-                                        startActivity(  );
-                                    }
-                                } );
-                        startSpringAnimation( findViewById( R.id.text_View2 ) , 2 ,
-                                new OnAnimationListener() {
-                                    @Override
-                                    public
-                                    void OnAnimationEnded () {nAnimation++;
-                                        startActivity(  );
-                                    }
-                                } );
-                        startSpringAnimation( findViewById( R.id.text_View3 ) , 3 ,
-                                new OnAnimationListener() {
-                                    @Override
-                                    public
-                                    void OnAnimationEnded () {nAnimation++;
-                                        startActivity(  );
-                                    }
-                                } );
+                        if( DATABASE.getSettings().isFirstAnimation()) {
+
+                            startSpringAnimation( findViewById( R.id.text_View1 ) , 1 , new OnAnimationListener() {
+                                @Override
+                                public
+                                void OnAnimationEnded () {
+                                    nAnimation++;
+                                    startActivity();
+                                }
+                            } );
+                            startSpringAnimation( findViewById( R.id.text_View2 ) , 2 , new OnAnimationListener() {
+                                @Override
+                                public
+                                void OnAnimationEnded () {
+                                    nAnimation++;
+                                    startActivity();
+                                }
+                            } );
+                            startSpringAnimation( findViewById( R.id.text_View3 ) , 3 , new OnAnimationListener() {
+                                @Override
+                                public
+                                void OnAnimationEnded () {
+                                    nAnimation++;
+                                    startActivity();
+                                }
+                            } );
+                        }
                     }
                 } );
 
@@ -180,7 +183,8 @@ class SplashScreen extends BaseActivity {
 
     private
     void startActivity (  ) {
-        if(nAnimation >= 2 && nActivityType != null && !isStarted) {
+        boolean isAnim = DATABASE.getSettings().isFirstAnimation();
+        if(( !isAnim || nAnimation >= 2 ) && nActivityType != null && !isStarted) {
             startActivity( new Intent( SplashScreen.this , nActivityType == MAIN ? MainActivity.class : QrActivity.class ) );
             isStarted = true;
             finish();
