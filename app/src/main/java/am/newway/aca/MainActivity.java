@@ -19,6 +19,7 @@ import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
+import am.newway.aca.ui.NotificationActivity;
 import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
@@ -102,8 +103,7 @@ class MainActivity extends BaseActivity {
         int id = item.getItemId();
         if ( id == R.id.action_settings ) {
             //startActivity(new Intent(MainActivity.this, StudenActivity.class));
-            //startActivity(new Intent(MainActivity.this, NotificationActivity.class));
-            startActivity(new Intent(MainActivity.this, AdminActivity.class));
+            startActivity(new Intent(MainActivity.this, NotificationActivity.class));
             return true;
         }
         return super.onOptionsItemSelected( item );

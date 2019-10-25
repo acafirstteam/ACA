@@ -768,6 +768,8 @@ class Firestore {
     public
     void addListenerNotifications ( int nUserType , final OnNotificationListener listener ) {
         Log.e( TAG , "user type = " + nUserType );
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
         final CollectionReference collRef = db.collection( NOTIFICATION_COLLECTION );
         collRef.whereEqualTo( "messageSegment" , nUserType );
         collRef.whereEqualTo( "messageSegment" , 0 );

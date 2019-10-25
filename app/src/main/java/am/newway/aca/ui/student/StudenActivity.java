@@ -49,7 +49,7 @@ public class StudenActivity extends AppCompatActivity {
         //setHasOptionsMenu( true );
         RecyclerView.LayoutManager mManager = new LinearLayoutManager(StudenActivity.this, LinearLayoutManager.VERTICAL, false);
 
-        studentAdapter = new StudentAdapter(new ArrayList<Student>(), recyclerView);
+        studentAdapter = new StudentAdapter(new ArrayList<Student>(), this);
 
         recyclerView.setLayoutManager( mManager );
         studentViewModel.getStudents();
