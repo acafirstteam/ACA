@@ -46,6 +46,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     private Map<String, Object> groupName;
     private Map<String, Object> description;
     private String action = null;
+    private Uri imageURI;
 
 
     @Override
@@ -117,14 +118,20 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         switch (v.getId()) {
 
             case R.id.admin_edit_Save_btn_id:
-                createCourse();
 
-                switch (action) {
-                    case ADD:
-                        break;
-                    case UPDATE:
-                        break;
-                }
+//                if (!editCourseName.getText().toString().equals("") || !editCourseName.getText().toString().isEmpty()){
+//                    createCourse();
+//
+//                    switch (action) {
+//                        case ADD:
+//                            break;
+//                        case UPDATE:
+//                            int a =1;
+//                            break;
+//                    }
+//                }else{
+//                    Toast.makeText(getApplicationContext(),"Please fill all fields", Toast.LENGTH_SHORT).show();
+//                }
                 break;
 
             case R.id.admin_edit_imageView_id:
@@ -143,9 +150,22 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();
+                imageURI = imageUri;
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 setImage.setImageBitmap(selectedImage);
+
+                FIRESTORE.uploadImage(imageUri, editCourseName.getText().toString(), new Firestore.OnImageUploadListener() {
+                    @Override
+                    public void OnImageUploaded(String uri) {
+
+                    }
+
+                    @Override
+                    public void OnImageUploadFailed(String error) {
+
+                    }
+                });
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();

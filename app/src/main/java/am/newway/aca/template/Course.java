@@ -33,6 +33,9 @@ class Course {
         this.group = group;
         this.url = url;
 
+        description = new HashMap<>();
+        group_name = new HashMap<>();
+
     }
 
     public
