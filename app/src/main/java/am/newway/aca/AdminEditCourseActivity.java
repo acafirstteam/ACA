@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +45,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     private int position;
     private Map<String, Object> groupName;
     private Map<String, Object> description;
+    private String action = null;
 
 
     @Override
@@ -67,12 +67,16 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         saveButton.setOnClickListener(this);
 
         bundle = getIntent().getExtras();
-        String action = bundle.getString("action");
+        action = bundle.getString("action");
         Log.d(TAG, "action: " + action);
-        if (action.equals(ADD)) {
-            gotActionAddCourse();
-        } else {
-            gotActionUpdateCourse();
+
+        switch (action) {
+            case ADD:
+                gotActionAddCourse();
+                break;
+            case UPDATE:
+                gotActionUpdateCourse();
+                break;
         }
 
 
@@ -87,14 +91,16 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                 courseItems = new ArrayList<Course>(courses);
                 Log.d(TAG, "-----------------------------Courses count = " + courseItems.size());
 
+                setImage.setImageURI(Uri.parse(courseItems.get(position).getUrl()));
                 editCourseName.setText(courseItems.get(position).getName());
                 editLecturer.setText(courseItems.get(position).getLecturer());
                 editGroupNameEng.setText(courseItems.get(position).getGroup_name().get("en").toString());
                 editGroupNameArm.setText(courseItems.get(position).getGroup_name().get("hy").toString());
+                editGroupType.setText(String.valueOf(courseItems.get(position).getGroup()));
                 editDescriptionEng.setText(courseItems.get(position).getDescription().get("en").toString());
                 editDescriptionArm.setText(courseItems.get(position).getDescription().get("hy").toString());
                 editLink.setText(courseItems.get(position).getLink());
-                setImage.setImageURI(Uri.parse(courseItems.get(position).getUrl()));
+
             }
         });
 
@@ -111,26 +117,14 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         switch (v.getId()) {
 
             case R.id.admin_edit_Save_btn_id:
+                createCourse();
 
-                groupName.put(editGroupNameEng.getText().toString(), "en");
-                groupName.put(editGroupNameArm.getText().toString(), "hy");
-                description.put(editDescriptionEng.getText().toString(), "en");
-                description.put(editDescriptionArm.getText().toString(), "hy");
-
-                String url = "url";
-                Course course = new Course(
-                        editCourseName.getText().toString(),
-                        editLink.getText().toString(),
-                        false,
-                        Integer.parseInt(editGroupType.getText().toString()),
-                        url
-                );
-
-                course.setGroup(Integer.parseInt(editGroupType.getText().toString()));
-                course.setGroup_name(groupName);
-                course.setDescription(description);
-                course.setLecturer(editLecturer.getText().toString());
-
+                switch (action) {
+                    case ADD:
+                        break;
+                    case UPDATE:
+                        break;
+                }
                 break;
 
             case R.id.admin_edit_imageView_id:
@@ -138,7 +132,6 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
                 break;
-
 
         }
     }
@@ -161,5 +154,28 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         } else {
             Toast.makeText(getApplicationContext(), "You haven't picked Image", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void createCourse() {
+
+        groupName.put(editGroupNameEng.getText().toString(), "en");
+        groupName.put(editGroupNameArm.getText().toString(), "hy");
+        description.put(editDescriptionEng.getText().toString(), "en");
+        description.put(editDescriptionArm.getText().toString(), "hy");
+
+        String url = "url";
+        Course course = new Course(
+                editCourseName.getText().toString(),
+                editLink.getText().toString(),
+                false,
+                Integer.parseInt(editGroupType.getText().toString()),
+                url
+        );
+
+        course.setGroup(Integer.parseInt(editGroupType.getText().toString()));
+        course.setGroup_name(groupName);
+        course.setDescription(description);
+        course.setLecturer(editLecturer.getText().toString());
+
     }
 }

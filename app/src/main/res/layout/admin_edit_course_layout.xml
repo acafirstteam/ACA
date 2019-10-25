@@ -116,19 +116,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/admin_edit_groupType_TV_id"
-            android:text="Group Type:\nFor Beginners: 0\nSpecialized: 1\nAdvanced: 2"
-            android:textSize="18sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/admin_edit_groupConstraint_id"
             android:layout_margin="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/admin_edit_groupType_id"
-            android:maxLength="1"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/admin_edit_groupType_TV_id"
+                fresco:layout_constraintTop_toTopOf="parent"
+                fresco:layout_constraintLeft_toLeftOf="parent"
+                android:text="Group Type:"
+                fresco:layout_constraintRight_toLeftOf="@+id/admin_edit_groupType_types_TV_id"
+                android:textSize="18sp"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/admin_edit_groupType_types_TV_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="8dp"
+                android:text="0 - For Beginners\n1 - Specialized\n2 - Advanced"
+                android:textSize="18sp"
+                fresco:layout_constraintLeft_toRightOf="@+id/admin_edit_groupType_TV_id"
+                fresco:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/admin_edit_groupType_id"
+                fresco:layout_constraintTop_toBottomOf="@+id/admin_edit_groupType_TV_id"
+                fresco:layout_constraintLeft_toLeftOf="parent"
+                android:maxLength="1"
+                android:layout_margin="8dp"
+                android:inputType="number"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/admin_edit_DescriptionEng_TV_id"
