@@ -65,7 +65,12 @@ class ViewPagerAdapter extends FragmentPagerAdapter {
                 homeFragmentChildList.add( child );
                 nGroup = co.getGroup();
                 Map<String, Object> map = co.getGroup_name();
-                courseGroup.put( nGroup, map.get( lang ).toString() );
+                if(map != null) {
+                    Object object = map.get( lang );
+                    if ( object != null ) {
+                        courseGroup.put( nGroup , object.toString() );
+                    }
+                }
                 homeFragmentChildList.get( homeFragmentChildList.size() - 1 ).setValues( courses );
             }
         }
