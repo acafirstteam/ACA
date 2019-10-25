@@ -119,19 +119,28 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
 
             case R.id.admin_edit_Save_btn_id:
 
-//                if (!editCourseName.getText().toString().equals("") || !editCourseName.getText().toString().isEmpty()){
+                if (!editCourseName.getText().toString().trim().isEmpty() ||
+                        !editCourseName.getText().toString().trim().isEmpty() ||
+                        !editGroupType.getText().toString().trim().isEmpty() ||
+                        !editGroupNameEng.getText().toString().trim().isEmpty() ||
+                        !editGroupNameArm.getText().toString().trim().isEmpty() ||
+                        !editDescriptionEng.getText().toString().trim().isEmpty() ||
+                        !editDescriptionArm.getText().toString().trim().isEmpty() ||
+                        !editLink.getText().toString().trim().isEmpty()
+                ) {
+                    Toast.makeText(getApplicationContext(), "string is empty", Toast.LENGTH_SHORT).show();
 //                    createCourse();
 //
 //                    switch (action) {
 //                        case ADD:
 //                            break;
 //                        case UPDATE:
-//                            int a =1;
+//                            int a = 1;
 //                            break;
 //                    }
-//                }else{
-//                    Toast.makeText(getApplicationContext(),"Please fill all fields", Toast.LENGTH_SHORT).show();
-//                }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.admin_edit_imageView_id:

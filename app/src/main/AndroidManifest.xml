@@ -93,6 +93,7 @@
 
 		<activity android:name = ".AdminActivity" />
         <activity android:name=".AdminStudentStatus" />
+        <activity android:name=".AdminEditCourseActivity" />
 
         <meta-data
 			android:name = "am.newway.aca.MainActivity"
