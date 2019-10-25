@@ -19,7 +19,6 @@ import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
-import am.newway.aca.ui.NotificationActivity;
 import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
@@ -29,6 +28,7 @@ class MainActivity extends BaseActivity {
 
     private static long back_pressed;
     private String TAG = getClass().getSimpleName();
+    private final int PICK_IMAGE_REQUEST = 71;
 
     @Override
     protected
@@ -103,7 +103,13 @@ class MainActivity extends BaseActivity {
         int id = item.getItemId();
         if ( id == R.id.action_settings ) {
             //startActivity(new Intent(MainActivity.this, StudenActivity.class));
-            startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+            //startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+            //startActivity(new Intent(MainActivity.this, AdminActivity.class));
+
+//            Intent intent = new Intent();
+//            intent.setType("image/*");
+//            intent.setAction(Intent.ACTION_GET_CONTENT);
+//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             return true;
         }
         return super.onOptionsItemSelected( item );
@@ -112,6 +118,26 @@ class MainActivity extends BaseActivity {
     @Override
     protected
     void onActivityResult ( int requestCode , int resultCode , Intent data ) {
+
+//        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+//                && data != null && data.getData() != null )
+//        {
+//            FIRESTORE.uploadImage( data.getData() , "testik" , new Firestore.OnImageUploadListener() {
+//                @Override
+//                public
+//                void OnImageUploaded ( final String uri ) {
+//
+//                }
+//
+//                @Override
+//                public
+//                void OnImageUploadFailed ( final String error ) {
+//
+//                }
+//            } );
+//
+//            return;
+//        }
 
         if ( requestCode == 1 && resultCode == 1 ) {
 

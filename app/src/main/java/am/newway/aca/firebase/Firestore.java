@@ -1,10 +1,12 @@
 package am.newway.aca.firebase;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -14,6 +16,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +41,8 @@ public
 class Firestore {
     private static final String TAG = "Firestore";
     private static volatile Firestore firestore;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
     private static String NOTIFICATION_COLLECTION = "Notification";
     private static String VISIT_COLLECTION = "Visits";
     private static String STUDENT_COLLECTION = "Students";
@@ -59,12 +66,22 @@ class Firestore {
                     firestore = new Firestore();
                 }
             }
+
         return firestore;
     }
 
     public
     void addOnStudentCheckListener ( OnStudentCheckListener listener ) {
         this.listener_student = listener;
+    }
+
+    public
+    void initFirebaseStorage () {
+        if ( storage == null ) {
+            storage = FirebaseStorage.getInstance();
+            if ( storageReference == null )
+                storageReference = storage.getReference();
+        }
     }
 
     public
@@ -716,21 +733,21 @@ class Firestore {
                         DocumentSnapshot document = task.getResult();
                         if ( document != null ) {
 
-//                            if ( course != null ) {
-//                                course.setId( document.getId() );
-//                                Map<String, Object> map = document.getData();
-//                                if ( map != null ) {
-//                                    Object object = map.get( "verified" );
-//                                    if ( object != null )
-//                                        course.setVerified( object.equals( "1" ) );
-//                                    object = map.get( "type" );
-//                                    if ( object != null )
-//                                        course.setType( ( int ) ( long ) object );
-//
-//                                    if ( listener != null )
-//                                        listener.OnStudentChecked( course );
-//                                }
-//                            }
+                            //                            if ( course != null ) {
+                            //                                course.setId( document.getId() );
+                            //                                Map<String, Object> map = document.getData();
+                            //                                if ( map != null ) {
+                            //                                    Object object = map.get( "verified" );
+                            //                                    if ( object != null )
+                            //                                        course.setVerified( object.equals( "1" ) );
+                            //                                    object = map.get( "type" );
+                            //                                    if ( object != null )
+                            //                                        course.setType( ( int ) ( long ) object );
+                            //
+                            //                                    if ( listener != null )
+                            //                                        listener.OnStudentChecked( course );
+                            //                                }
+                            //                            }
                         }
                     }
                 } );
@@ -819,6 +836,44 @@ class Firestore {
                             listener.OnLastId( nID );
                     }
                 } );
+    }
+
+    public
+    void uploadImage ( Uri path, String imageName, final OnImageUploadListener listener ) {
+        initFirebaseStorage();
+
+        final StorageReference riversRef =
+                storageReference.child( "courses/" + imageName );
+        UploadTask uploadTask = riversRef.putFile( path );
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull Exception exception ) {
+                listener.OnImageUploadFailed( exception.getMessage() );
+            }
+        } ).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public
+            void onSuccess ( UploadTask.TaskSnapshot taskSnapshot ) {
+                riversRef.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                    @Override
+                    public
+                    void onSuccess ( Uri uri ) {
+                        //Log.d( TAG , "onSuccess: uri= " + uri.toString() );
+                        listener.OnImageUploaded( uri.toString() );
+                    }
+                } );
+            }
+        } );
+    }
+
+    public
+    interface OnImageUploadListener {
+        void OnImageUploaded ( String uri );
+
+        void OnImageUploadFailed (String error);
     }
 
     public

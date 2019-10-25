@@ -1,7 +1,6 @@
 package am.newway.aca.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import am.newway.aca.AdminStudentStatus;
-import am.newway.aca.MainActivity;
 import am.newway.aca.R;
 import am.newway.aca.template.CustomItemSpinner;
-import am.newway.aca.ui.QrActivity;
-import am.newway.aca.ui.SplashScreen;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 
