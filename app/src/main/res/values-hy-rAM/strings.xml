@@ -54,6 +54,8 @@
 	<string name = "language">Լեզու</string>
 	<string name = "notifications">Զգուշացումներ</string>
 	<string name = "welcome_to_aca">Բարի Գալուստ ACA</string>
+	<!--<string name="student">Ուսանող</string>
+	<string name="admin_text">Ադմինիստրատոր</string>-->
 
 	<string-array name="notification_type">
 		<item>Հաղորդագրություն</item>

@@ -88,4 +88,7 @@
 	<string name = "alert">Alert</string>
 	<string name = "administrator">Administrator</string>
 
+	<string name = "courses_levels">Courses levels</string>
+
+
 </resources>
