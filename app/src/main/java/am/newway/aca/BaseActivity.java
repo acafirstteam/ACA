@@ -39,6 +39,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.util.Locale;
+
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
@@ -48,6 +50,7 @@ import am.newway.aca.ui.home.HomeFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -82,6 +85,7 @@ class BaseActivity extends AppCompatActivity {
     protected FirebaseUser firebaseUser;
     private HomeFragment homeFragment;
     private Toolbar toolbar;
+    private ActionBar actionBar;
 
     public
     BaseActivity () {
@@ -96,6 +100,19 @@ class BaseActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
 
         DATABASE = DatabaseHelper.getInstance( getApplicationContext() );
+
+        String lang = Locale.getDefault().getLanguage();
+
+        if ( DATABASE.getSettings().getLanguage().isEmpty() ) {
+            DATABASE.getSettings()
+                    .setLanguage( lang.equals( "en" ) || lang.equals( "hy" ) ? lang : "en" , this );
+            Log.e( TAG , "onCreate: getLanguage is Empty" );
+        }
+        else {
+            DATABASE.getSettings()
+                    .setLanguage( DATABASE.getSettings().getLanguage() , this );
+            Log.e( TAG , "onCreate: " + DATABASE.getSettings().getLanguage() );
+        }
     }
 
     public
@@ -220,8 +237,7 @@ class BaseActivity extends AppCompatActivity {
         final NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
 
-        String[] notifSegment =
-                getResources().getStringArray( R.array.notification_type );
+        String[] notifSegment = getResources().getStringArray( R.array.notification_type );
 
         notificationBuilder.setAutoCancel( true )
                 .setDefaults( Notification.DEFAULT_ALL )
@@ -229,8 +245,8 @@ class BaseActivity extends AppCompatActivity {
                 .setSmallIcon( R.drawable.ic_book_black_24dp )
                 //.setTicker( "TutorialsPoint" )
                 //.setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ?
-                        notification.getTitle(notifSegment) : notification.getTitle())
+                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
+                        notifSegment ) : notification.getTitle() )
                 .setContentText( notification.getMessage() )
                 .setContentIntent( contentIntent )
         //.setContentInfo( "Ինֆորմացիա" )
@@ -327,12 +343,14 @@ class BaseActivity extends AppCompatActivity {
     void initNavigationBar ( int nType ) {
         toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
+        actionBar = getSupportActionBar();
 
         if ( nType == 1 )
             initNavigationView();
         else if ( nType == 2 ) {
-            if ( getSupportActionBar() != null )
-                getSupportActionBar().setDisplayHomeAsUpEnabled( true );
+            if ( actionBar != null ) {
+                actionBar.setDisplayHomeAsUpEnabled( true );
+            }
         }
     }
 
@@ -343,16 +361,15 @@ class BaseActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById( R.id.nav_view );
 
         Menu nav_Menu = navigationView.getMenu();
-        nav_Menu.findItem(R.id.nav_admin).setVisible(false);
+        nav_Menu.findItem( R.id.nav_admin ).setVisible( false );
 
-        if(DATABASE.getStudent().getType() == 2)
-            nav_Menu.findItem(R.id.nav_admin).setVisible(true);
+        if ( DATABASE.getStudent().getType() == 2 )
+            nav_Menu.findItem( R.id.nav_admin ).setVisible( true );
 
         final AppBarConfiguration mAppBarConfiguration =
                 new AppBarConfiguration.Builder( R.id.nav_home , R.id.nav_settings ,
-                        R.id.nav_history , R.id.nav_alert , R.id.nav_admin, R.id.nav_company ,
-                        R.id.nav_about ).setDrawerLayout(
-                        drawer ).build();
+                        R.id.nav_history , R.id.nav_alert , R.id.nav_admin , R.id.nav_company ,
+                        R.id.nav_about ).setDrawerLayout( drawer ).build();
         NavigationUI.setupActionBarWithNavController( this , navController , mAppBarConfiguration );
         NavigationUI.setupWithNavController( navigationView , navController );
 
@@ -362,6 +379,9 @@ class BaseActivity extends AppCompatActivity {
                     public
                     boolean onNavigationItemSelected ( @NonNull MenuItem menuItem ) {
                         int id = menuItem.getItemId();
+                        if ( actionBar != null ) {
+                            actionBar.setSubtitle( "" );
+                        }
                         if ( id == R.id.nav_home ) {
                             NavOptions options =
                                     new NavOptions.Builder().setPopUpTo( R.id.mobile_navigation ,

@@ -63,6 +63,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                     database = new DatabaseHelper( context );
                     database.getStudent();
                     if ( database.getSettings() == null ) {
+                        Log.e( TAG , "getInstance: Settings is null, Created new Settings " );
                         database.setSettings( new Settings( true , true , ENGLISH, false ) );
                         database.getSettings().addOnSettingsChangeListener( database );
                     }
@@ -223,7 +224,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
 
     //Add settings
     private
-    void setSettings ( Settings settings ) {
+    void setSettings ( Settings setting ) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -231,15 +232,15 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                 String.format( "SELECT COUNT(*) FROM %s" , TABLE_SETTINGS ) , null );
 
         if ( nCount > 0 ) {
-            updateSettings( settings );
+            updateSettings( setting );
             return;
         }
 
         ContentValues values = new ContentValues();
-        values.put( COLUMN_SETTINGS_LOGIN , settings.isLogin() );
-        values.put( COLUMN_SETTINGS_NOTIFICATIONS , settings.isNotification() );
-        values.put( COLUMN_SETTINGS_LANGUAGE , settings.getLanguage() );
-        values.put( COLUMN_SETTINGS_ANIMATION , settings.isFirstAnimation() );
+        values.put( COLUMN_SETTINGS_LOGIN , setting.isLogin() );
+        values.put( COLUMN_SETTINGS_NOTIFICATIONS , setting.isNotification() );
+        values.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
+        values.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
 
         //Insert Row
         db.insert( TABLE_SETTINGS , null , values );
@@ -251,6 +252,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     Settings getSettings () {
 
         if ( settings != null ) {
+            Log.e( TAG , "getSettings: " + settings.getLanguage()  );
             return settings;
         }
 
@@ -265,8 +267,10 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         if ( cursor.getCount() > 0 ) {
             cursor.moveToFirst();
 
-            Log.e( TAG , "getSettings: Creating new Settings  " +
+            Log.e( TAG , "getSettings: Reading new Settings language " +
                     cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
+            Log.e( TAG , "getSettings: Reading new Settings animation " +
+                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) ) );
 
             settings.setLogin( cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LOGIN ) )
                     .equals( "1" ) );
@@ -286,15 +290,15 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     }
 
     private
-    void updateSettings ( Settings settings ) {
+    void updateSettings ( Settings setting ) {
 
         SQLiteDatabase myDB = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put( COLUMN_SETTINGS_LOGIN , settings.isLogin() );
-        contentValues.put( COLUMN_SETTINGS_NOTIFICATIONS , settings.isNotification() );
-        contentValues.put( COLUMN_SETTINGS_LANGUAGE , settings.getLanguage() );
-        contentValues.put( COLUMN_SETTINGS_ANIMATION , settings.isFirstAnimation() );
+        contentValues.put( COLUMN_SETTINGS_LOGIN , setting.isLogin() );
+        contentValues.put( COLUMN_SETTINGS_NOTIFICATIONS , setting.isNotification() );
+        contentValues.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
+        contentValues.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
 
         myDB.update( TABLE_SETTINGS , contentValues , COLUMN_SETTINGS_ID + " = 1 " , null );
 

@@ -111,8 +111,8 @@ class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.ViewHolder> {
         void bind ( AdminItem item ) {
 
             this.item = item;
-            textName.setText( item.getName() );
-            textDescription.setText( item.getDescription() );
+            textName.setText( item.getName( lang ) );
+            textDescription.setText( item.getDescription( lang ) );
             if ( imageView != null ) {
                 imageView.setImageURI( item.getUrl() );
             }
