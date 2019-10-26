@@ -64,12 +64,12 @@
 	<string name = "select_person">Select person</string>
 	<string name = "notification">Notification</string>
 
-	<string-array name="notification_type">
+	<string-array name = "notification_type">
 		<item>Message</item>
 		<item>Alert</item>
 		<item>News</item>
 	</string-array>
-	<string-array name="notification_segment">
+	<string-array name = "notification_segment">
 		<item>All</item>
 		<item>Administrators</item>
 		<item>Lecturers</item>
@@ -77,12 +77,12 @@
 	</string-array>
 	<string name = "reception">We are waiting for you at the reception</string>
 	<string name = "new_student">New student</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="choose_status_for_visitor">Choose status for visitor</string>
-    <string name="student">Student</string>
-    <string name="admin_text">Admin</string>
-    <string name="please_choose_the_level">Please choose the level</string>
-    <string name="please_choose_the_course">Please choose the course</string>
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name = "choose_status_for_visitor">Choose status for visitor</string>
+	<string name = "student">Student</string>
+	<string name = "admin_text">Admin</string>
+	<string name = "please_choose_the_level">Please choose the level</string>
+	<string name = "please_choose_the_course">Please choose the course</string>
 	<string name = "first_anim">First animation</string>
 	<string name = "open_web_page">Open web page</string>
 	<string name = "alert">Alert</string>
@@ -90,6 +90,7 @@
 
 	<string name = "courses_levels">Courses levels</string>
 	<string name = "licenses">Licenses</string>
+	<string name = "title_activity_licenses">Licenses</string>
 
 
 </resources>
