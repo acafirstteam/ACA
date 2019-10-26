@@ -3,8 +3,10 @@
 	xmlns:tools = "http://schemas.android.com/tools"
 	tools:context = "am.newway.aca.MainActivity">
 	<item
-		android:id = "@+id/action_settings"
+		android:id = "@+id/action_lincenses"
 		android:orderInCategory = "100"
-		android:title = "@string/action_settings"
+		android:title = "@string/licenses"
+		android:visible = "false"
 		app:showAsAction = "never" />
+
 </menu>

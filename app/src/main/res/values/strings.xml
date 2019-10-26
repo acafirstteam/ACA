@@ -89,6 +89,7 @@
 	<string name = "administrator">Administrator</string>
 
 	<string name = "courses_levels">Courses levels</string>
+	<string name = "licenses">Licenses</string>
 
 
 </resources>
