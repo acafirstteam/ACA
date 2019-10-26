@@ -438,7 +438,7 @@ class Firestore {
         //this.listener_course = listener;
 
         final String COURSE_COLLECTION = "Courses";
-        db.collection( COURSE_COLLECTION )
+        db.collection( COURSE_COLLECTION ).orderBy( "group_name" )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
