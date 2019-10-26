@@ -793,7 +793,7 @@ class Firestore {
                             notification.setId( Integer.valueOf( doc.getId() ) );
                             if ( listener != null )
                                 listener.OnNotification( notification );
-                            Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
+                            //Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
 
                         }
                         else

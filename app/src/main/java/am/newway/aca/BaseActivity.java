@@ -39,6 +39,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.util.Locale;
+
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
@@ -98,6 +100,19 @@ class BaseActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
 
         DATABASE = DatabaseHelper.getInstance( getApplicationContext() );
+
+        String lang = Locale.getDefault().getLanguage();
+
+        if ( DATABASE.getSettings().getLanguage().isEmpty() ) {
+            DATABASE.getSettings()
+                    .setLanguage( lang.equals( "en" ) || lang.equals( "hy" ) ? lang : "en" , this );
+            Log.e( TAG , "onCreate: getLanguage is Empty" );
+        }
+        else {
+            DATABASE.getSettings()
+                    .setLanguage( DATABASE.getSettings().getLanguage() , this );
+            Log.e( TAG , "onCreate: " + DATABASE.getSettings().getLanguage() );
+        }
     }
 
     public

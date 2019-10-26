@@ -57,16 +57,14 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         final SwitchCompat animationSwitch = view.findViewById( R.id.animation_switch );
 
         Drawable background = view.getBackground();
-        if (background instanceof ColorDrawable ) {
-            RoundingParams roundingParams = RoundingParams.fromCornersRadius(7f);
-            armenia.setHierarchy(new GenericDraweeHierarchyBuilder(getResources())
-                    .setRoundingParams(roundingParams)
-                    .setOverlay( background )
-                    .build());
-            english.setHierarchy(new GenericDraweeHierarchyBuilder(getResources())
-                    .setRoundingParams(roundingParams)
-                    .setOverlay( background )
-                    .build());
+        if ( background instanceof ColorDrawable ) {
+            RoundingParams roundingParams = RoundingParams.fromCornersRadius( 7f );
+            armenia.setHierarchy(
+                    new GenericDraweeHierarchyBuilder( getResources() ).setRoundingParams(
+                            roundingParams ).setOverlay( background ).build() );
+            english.setHierarchy(
+                    new GenericDraweeHierarchyBuilder( getResources() ).setRoundingParams(
+                            roundingParams ).setOverlay( background ).build() );
         }
 
         notificationSwitch.setChecked( DATABASE.getSettings().isNotification() );
@@ -77,12 +75,17 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         english.setOnClickListener( this );
         armenia.setOnClickListener( this );
 
-        setSelectLanguage(
-                DATABASE.getSettings().getLanguage().equals( ARMENIAN ) ? armenia : english );
+        setSelectLanguage( DATABASE.getSettings().getLanguage().equals( ARMENIAN ) ? armenia
+                : DATABASE.getSettings().getLanguage().equals( ENGLISH ) ? english : null );
     }
 
     private
     void setSelectLanguage ( SimpleDraweeView drawer ) {
+        if ( drawer == null ) {
+            Log.e( TAG , "setSelectLanguage: SimpleDraweeView is null" );
+            Log.e( TAG , "setSelectLanguage: " + DATABASE.getSettings().getLanguage() );
+            return;
+        }
         int color = getResources().getColor( R.color.colorAccentDark );
         RoundingParams roundingParams = RoundingParams.fromCornersRadius( 5f );
         roundingParams.setRoundAsCircle( true );

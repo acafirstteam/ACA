@@ -3,6 +3,7 @@ package am.newway.aca;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,13 +14,16 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+
+import java.util.Locale;
 
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
-import am.newway.aca.ui.NotificationActivity;
 import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
@@ -103,33 +107,22 @@ class MainActivity extends BaseActivity {
     boolean onOptionsItemSelected ( MenuItem item ) {
         int id = item.getItemId();
         if ( id == R.id.action_lincenses ) {
-            //startActivity(new Intent(MainActivity.this, StudenActivity.class));
-            startActivity(new Intent(MainActivity.this, NotificationActivity.class));
-            //startActivity(new Intent(MainActivity.this, AdminActivity.class));
+            new LibsBuilder()
+                    .withActivityStyle( Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withAboutIconShown(true)
+                    .withAboutAppName(getString(R.string.app_name))
+                    .withAboutVersionShown(true)
+                    .withActivityTitle( getString( R.string.licenses ) )
+                    .withAutoDetect( true )
+                    //.withAboutDescription(getString(R.string.app_desc))
+                    .withLicenseDialog(true)
+                    .withLicenseShown(true)
+                    .start(this);
 
-//            Intent intent = new Intent();
-//            intent.setType("image/*");
-//            intent.setAction(Intent.ACTION_GET_CONTENT);
-//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-
-//            Course course = new Course(  );
-//            course.setName( "123" );
-//            course.setLecturer( "test 123 456 789" );
-//
-//            FIRESTORE.updateCourse( course , new Firestore.OnCourseUpdateListener() {
-//                @Override
-//                public
-//                void OnCourseUpdateed () {
-//                    Log.e( TAG , "OnCourseUpdateed: "   );
-//                }
-//
-//                @Override
-//                public
-//                void OnCourseUpdateFailed () {
-//                    Log.e( TAG , "OnCourseUpdateFailed: "   );
-//                }
-//            } );
-
+            //            Intent intent = new Intent();
+            //            intent.setType("image/*");
+            //            intent.setAction(Intent.ACTION_GET_CONTENT);
+            //            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             return true;
         }
         return super.onOptionsItemSelected( item );
@@ -139,25 +132,25 @@ class MainActivity extends BaseActivity {
     protected
     void onActivityResult ( int requestCode , int resultCode , Intent data ) {
 
-//        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-//                && data != null && data.getData() != null )
-//        {
-//            FIRESTORE.uploadImage( data.getData() , "testik" , new Firestore.OnImageUploadListener() {
-//                @Override
-//                public
-//                void OnImageUploaded ( final String uri ) {
-//
-//                }
-//
-//                @Override
-//                public
-//                void OnImageUploadFailed ( final String error ) {
-//
-//                }
-//            } );
-//
-//            return;
-//        }
+        //        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+        //                && data != null && data.getData() != null )
+        //        {
+        //            FIRESTORE.uploadImage( data.getData() , "testik" , new Firestore.OnImageUploadListener() {
+        //                @Override
+        //                public
+        //                void OnImageUploaded ( final String uri ) {
+        //
+        //                }
+        //
+        //                @Override
+        //                public
+        //                void OnImageUploadFailed ( final String error ) {
+        //
+        //                }
+        //            } );
+        //
+        //            return;
+        //        }
 
         if ( requestCode == 1 && resultCode == 1 ) {
 
@@ -251,6 +244,20 @@ class MainActivity extends BaseActivity {
                 Log.e( TAG , "OnVisitCompleted: " );
             }
         } );
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        String lang = DATABASE.getSettings().getLanguage();
+
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
     @Override
