@@ -727,6 +727,7 @@ class Firestore {
                 db.collection( COURSE_COLLECTION ).document( String.valueOf( course.getName() ) );
 
         ObjectMapper oMapper = new ObjectMapper();
+        @SuppressWarnings( "unchecked" )
         Map<String, Object> map = oMapper.convertValue( course , Map.class );
 
         docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {

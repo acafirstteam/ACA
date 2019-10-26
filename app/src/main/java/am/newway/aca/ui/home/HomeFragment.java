@@ -1,5 +1,6 @@
 package am.newway.aca.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +12,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.List;
 
-import am.newway.aca.AdminActivity;
+import am.newway.aca.MainActivity;
 import am.newway.aca.R;
 import am.newway.aca.adapter.ViewPagerAdapter;
 import am.newway.aca.template.Course;
@@ -19,6 +20,7 @@ import am.newway.aca.template.Visit;
 import am.newway.aca.ui.BaseFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,9 +32,7 @@ class HomeFragment extends BaseFragment {
     private CardView cardView;
     private TextView time;
     private TextView course;
-    private TextView group;
     private ViewPagerAdapter pagerAdapter;
-    private DotsIndicator dotsIndicator;
 
     public
     View onCreateView ( @NonNull LayoutInflater inflater , ViewGroup container ,
@@ -43,15 +43,15 @@ class HomeFragment extends BaseFragment {
         cardView = root.findViewById( R.id.user_card );
         time = root.findViewById( R.id.time );
         course = root.findViewById( R.id.course );
-        group = root.findViewById( R.id.group );
         final ViewPager viewPager = root.findViewById( R.id.view_pager );
 
-        pagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), DATABASE.getSettings().getLanguage());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        pagerAdapter = new ViewPagerAdapter( getChildFragmentManager() ,
+                DATABASE.getSettings().getLanguage() );
+        viewPager.setAdapter( pagerAdapter );
+        viewPager.setOffscreenPageLimit( 3 );
 
-        dotsIndicator = root.findViewById(R.id.dots_indicator);
-        dotsIndicator.setViewPager(viewPager);
+        final DotsIndicator dotsIndicator = root.findViewById( R.id.dots_indicator );
+        dotsIndicator.setViewPager( viewPager );
 
         viewPager.addOnPageChangeListener( new ViewPager.OnPageChangeListener() {
             @Override
@@ -64,7 +64,7 @@ class HomeFragment extends BaseFragment {
             @Override
             public
             void onPageSelected ( final int position ) {
-                group.setText( pagerAdapter.getGroup( position ) );
+                setSubTitle(pagerAdapter.getGroup( position ));
             }
 
             @Override
@@ -74,16 +74,16 @@ class HomeFragment extends BaseFragment {
             }
         } );
 
-        if(DATABASE.getVisit() != null)
+        if ( DATABASE.getVisit() != null )
             addNewVisit( DATABASE.getVisit() );
 
         homeViewModel.getData().observe( this , new Observer<List<Course>>() {
             @Override
             public
             void onChanged ( @Nullable List<Course> courses ) {
-                if(courses != null){
-                    pagerAdapter.setCourses( courses, getActivity() );
-                    group.setText( pagerAdapter.getGroup( 0 ) );
+                if ( courses != null ) {
+                    pagerAdapter.setCourses( courses , getActivity() );
+                    setSubTitle(pagerAdapter.getGroup( 0 ));
                 }
             }
         } );
@@ -96,6 +96,17 @@ class HomeFragment extends BaseFragment {
         super.onViewCreated( view , savedInstanceState );
 
         homeViewModel.getCourses();
+    }
+
+    private void setSubTitle(String text){
+
+        String strTitle = getResources().getString( R.string.menu_home );
+        Activity activity = getActivity();
+        if ( activity != null ) {
+            ActionBar mActionBar = ( ( MainActivity ) activity ).getSupportActionBar();
+            if ( mActionBar != null )
+                mActionBar.setSubtitle( text.replace( strTitle.toUpperCase(), "" ) );
+        }
     }
 
     @Override

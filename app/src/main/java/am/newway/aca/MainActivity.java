@@ -17,9 +17,9 @@ import com.google.zxing.integration.android.IntentResult;
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
-import am.newway.aca.template.Course;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
+import am.newway.aca.ui.NotificationActivity;
 import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
@@ -29,7 +29,7 @@ class MainActivity extends BaseActivity {
 
     private static long back_pressed;
     private String TAG = getClass().getSimpleName();
-    private final int PICK_IMAGE_REQUEST = 71;
+    //private final int PICK_IMAGE_REQUEST = 71;
 
     @Override
     protected
@@ -102,9 +102,9 @@ class MainActivity extends BaseActivity {
     public
     boolean onOptionsItemSelected ( MenuItem item ) {
         int id = item.getItemId();
-        if ( id == R.id.action_settings ) {
+        if ( id == R.id.action_lincenses ) {
             //startActivity(new Intent(MainActivity.this, StudenActivity.class));
-            //startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+            startActivity(new Intent(MainActivity.this, NotificationActivity.class));
             //startActivity(new Intent(MainActivity.this, AdminActivity.class));
 
 //            Intent intent = new Intent();
@@ -112,23 +112,23 @@ class MainActivity extends BaseActivity {
 //            intent.setAction(Intent.ACTION_GET_CONTENT);
 //            startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
 
-            Course course = new Course(  );
-            course.setName( "123" );
-            course.setLecturer( "test 123 456 789" );
-
-            FIRESTORE.updateCourse( course , new Firestore.OnCourseUpdateListener() {
-                @Override
-                public
-                void OnCourseUpdateed () {
-                    Log.e( TAG , "OnCourseUpdateed: "   );
-                }
-
-                @Override
-                public
-                void OnCourseUpdateFailed () {
-                    Log.e( TAG , "OnCourseUpdateFailed: "   );
-                }
-            } );
+//            Course course = new Course(  );
+//            course.setName( "123" );
+//            course.setLecturer( "test 123 456 789" );
+//
+//            FIRESTORE.updateCourse( course , new Firestore.OnCourseUpdateListener() {
+//                @Override
+//                public
+//                void OnCourseUpdateed () {
+//                    Log.e( TAG , "OnCourseUpdateed: "   );
+//                }
+//
+//                @Override
+//                public
+//                void OnCourseUpdateFailed () {
+//                    Log.e( TAG , "OnCourseUpdateFailed: "   );
+//                }
+//            } );
 
             return true;
         }
