@@ -3,6 +3,7 @@ package am.newway.aca.template;
 public class CustomItemSpinner {
     private String spinnerItemName;
     private int spinnerItemImage;
+
     public CustomItemSpinner(String spinnerItemName, int spinnerItemImage) {
         this.spinnerItemName = spinnerItemName;
         this.spinnerItemImage = spinnerItemImage;
