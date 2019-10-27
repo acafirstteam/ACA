@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -41,7 +42,6 @@ class MainActivity extends BaseActivity {
     void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-
         int nType = DATABASE.getStudent().getType();
         if ( nType == 2 ) {
             //addOnNewStudentListener();
@@ -93,6 +93,8 @@ class MainActivity extends BaseActivity {
                 }
             }
         } );
+
+        startActivity(new Intent(MainActivity.this, InfoActivity.class));
     }
 
     @Override
