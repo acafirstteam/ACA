@@ -3,6 +3,7 @@ package am.newway.aca.template;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -11,24 +12,40 @@ class Settings {
 
     private boolean login;
     private boolean notification;
+    private boolean firstAnimation;
     private String language;
     private OnSettingsChangeListener listener;
+    private final String TAG = getClass().getSimpleName();
 
     public
-    Settings ( boolean login , boolean notification , String language) {
+    Settings ( boolean login , boolean notification , String language , boolean anim ) {
 
         this.login = login;
         this.notification = notification;
         this.language = language;
+        this.firstAnimation = anim;
+    }
+
+    public
+    void addOnSettingsChangeListener ( OnSettingsChangeListener listener ) {
         this.listener = listener;
     }
 
-    public void addOnSettingsChangeListener(OnSettingsChangeListener listener){
-        this.listener = listener;
+    public
+    Settings () {
+
     }
 
-    public Settings(){
+    public
+    boolean isFirstAnimation () {
+        return firstAnimation;
+    }
 
+    public
+    void setFirstAnimation ( final boolean firstAnimation ) {
+        this.firstAnimation = firstAnimation;
+        if ( listener != null )
+            listener.OnSettingsChanged();
     }
 
     public
@@ -39,7 +56,7 @@ class Settings {
     public
     void setLogin ( boolean login ) {
         this.login = login;
-        if(listener != null)
+        if ( listener != null )
             listener.OnSettingsChanged();
     }
 
@@ -51,7 +68,7 @@ class Settings {
     public
     void setNotification ( boolean notification ) {
         this.notification = notification;
-        if(listener != null)
+        if ( listener != null )
             listener.OnSettingsChanged();
     }
 
@@ -64,6 +81,8 @@ class Settings {
     void setLanguage ( String language , Context context ) {
         this.language = language;
 
+        Log.e( TAG , "setLanguage: " + language );
+
         Resources res = context.getResources();
         // Change locale settings in the app.
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -71,11 +90,12 @@ class Settings {
         conf.setLocale( new Locale( language.toLowerCase() ) );
         res.updateConfiguration( conf , dm );
 
-        if(listener != null)
+        if ( listener != null )
             listener.OnSettingsChanged();
     }
 
-    public interface OnSettingsChangeListener{
+    public
+    interface OnSettingsChangeListener {
         void OnSettingsChanged ();
     }
 }

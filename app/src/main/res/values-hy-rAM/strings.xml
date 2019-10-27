@@ -48,5 +48,39 @@
 	<string name = "save">Պահպանել</string>
 	<string name = "language">Լեզու</string>
 	<string name = "notifications">Զգուշացումներ</string>
+	<string name = "welcome_to_aca">Բարի Գալուստ ACA</string>
+	<!--<string name="student">Ուսանող</string>
+	<string name="admin_text">Ադմինիստրատոր</string>-->
+
+	<string-array name="notification_type">
+		<item>Հաղորդագրություն</item>
+		<item>Զգուշացում</item>
+		<item>Նորություն</item>
+	</string-array>
+	<string-array name="notification_segment">
+		<item>Բոլորը</item>
+		<item>Ադմինիստրատորներ</item>
+		<item>Դասախոսներ</item>
+		<item>Ուսանոցներ</item>
+	</string-array>
+	<string name = "title_activity_notification">Հաղորդագրություններ</string>
+	<string name = "notification">Հաղորդագրություն</string>
+	<string name = "notification_segment">Օգտատերերի հատված</string>
+	<string name = "notification_type">Հաղորդագրության տեսակ</string>
+	<string name = "select_person">Ընտրել օգտատիրոջը</string>
+	<string name = "reception">Ընդունարանում Ձեզ սպասում են</string>
+	<string name = "new_student">Նոր ուսանող</string>
+	<string name = "admin_text">Ադմին</string>
+	<string name = "student">Ուսանող</string>
+	<string name = "please_choose_the_course">Խնդրում եմ ընտրել կուրսը</string>
+	<string name = "choose_status_for_visitor">Ընտրել այցելուի ստատուսը</string>
+	<string name = "please_choose_the_level">Ընտրել աստիճանը</string>
+	<string name = "first_anim">Սկզբնական անիմացիա</string>
+	<string name = "open_web_page">Բացել վեբ կայքը</string>
+	<string name = "licenses">Արտոնագրեր</string>
+	<string name = "administrator">Ադմինիստրատոր</string>
+	<string name = "alert">Զգուշացում</string>
+	<string name = "courses_levels">Դասընթացի մակարդակը</string>
+
 
 </resources>

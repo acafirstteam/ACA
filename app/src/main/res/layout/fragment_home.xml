@@ -1,32 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
-	xmlns:fresco = "http://schemas.android.com/apk/res-auto"
 	xmlns:tools = "http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
 	android:background = "@color/colorPrimaryLight">
 
-	<ProgressBar
-		android:id = "@+id/loading"
-		android:layout_width = "wrap_content"
-		android:layout_height = "wrap_content"
-		android:indeterminate = "true"
-		app:layout_constraintBottom_toBottomOf = "parent"
-		app:layout_constraintLeft_toLeftOf = "parent"
-		app:layout_constraintRight_toRightOf = "parent"
+	<com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+		android:id="@+id/dots_indicator"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:dotsColor="@color/white"
+		app:dotsCornerRadius="8dp"
+		app:dotsSize="8dp"
+		app:dotsSpacing="4dp"
+		app:dotsWidthFactor="2.5"
+		app:selectedDotColor="@color/colorAccentDark"
+		app:progressMode="true"
+		android:layout_marginBottom="10dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		/>
+
+	<androidx.viewpager.widget.ViewPager
+		android:id = "@+id/view_pager"
+		android:layout_width = "match_parent"
+		android:layout_height = "0dp"
+		android:layout_marginBottom = "8dp"
+		app:layout_constraintBottom_toTopOf = "@id/dots_indicator"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent" />
 
 	<androidx.cardview.widget.CardView xmlns:card_view = "http://schemas.android.com/apk/res-auto"
 		android:id = "@+id/user_card"
-		android:layout_width = "wrap_content"
+		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginBottom = "15dp"
+		android:layout_margin = "10dp"
 		android:focusable = "true"
 		android:foreground = "?android:attr/selectableItemBackground"
 		android:visibility = "gone"
-		app:layout_constraintTop_toTopOf= "parent"
 		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent"
 		card_view:cardBackgroundColor = "@color/colorPrimary"
 		card_view:cardCornerRadius = "4dp"
 		card_view:cardElevation = "2dp"
@@ -40,64 +56,37 @@
 
 			<TextView
 				android:id = "@+id/welcome_text"
-				android:layout_width = "wrap_content"
+				android:layout_width = "match_parent"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
-				android:text = "Welcome to ACA "
+				android:text = "Գրանցված դասաժամ"
+				android:textAlignment = "center"
 				android:textSize = "18sp"
 				android:textStyle = "bold"
-				card_view:layout_constraintLeft_toRightOf = "@+id/user_picture"
 				card_view:layout_constraintTop_toTopOf = "parent" />
 
-			<com.facebook.drawee.view.SimpleDraweeView
-				android:id = "@+id/user_picture"
-				android:layout_width = "48dp"
-				android:layout_height = "48dp"
-				android:layout_margin = "10dp"
-				app:layout_constraintBottom_toBottomOf = "parent"
-				app:layout_constraintLeft_toLeftOf = "parent"
-				app:layout_constraintTop_toTopOf = "parent"
-				fresco:actualImageScaleType = "focusCrop"
-				fresco:backgroundImage = "@color/recyclerview_item"
-				fresco:fadeDuration = "300"
-				fresco:placeholderImage = "@mipmap/ic_launcher"
-				fresco:placeholderImageScaleType = "centerCrop"
-				fresco:roundAsCircle = "true"
-				fresco:roundingBorderColor = "@color/colorPrimaryDark"
-				fresco:roundingBorderWidth = "1dp" />
-
 			<TextView
-				android:id = "@+id/name"
-				android:layout_width = "wrap_content"
+				android:id = "@+id/time"
+				android:layout_width = "match_parent"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
 				android:textSize = "16sp"
 				android:textStyle = "bold"
 				app:layout_constraintTop_toBottomOf = "@id/welcome_text"
-				card_view:layout_constraintLeft_toRightOf = "@id/user_picture"
-				tools:text = "FirstName" />
+				tools:text = "16.10.2019 17:25" />
 
 			<TextView
-				android:id = "@+id/surname"
-				android:layout_width = "wrap_content"
+				android:id = "@+id/course"
+				android:layout_width = "match_parent"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
 				android:textSize = "16sp"
 				android:textStyle = "bold"
-				card_view:layout_constraintBottom_toBottomOf = "parent"
-				card_view:layout_constraintLeft_toRightOf = "@id/name"
-				card_view:layout_constraintTop_toBottomOf = "@+id/welcome_text"
-				tools:text = "SecondName" />
+				card_view:layout_constraintTop_toBottomOf = "@+id/time"
+				tools:text = "Android" />
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 
 	</androidx.cardview.widget.CardView>
 
-	<androidx.recyclerview.widget.RecyclerView
-		android:id = "@+id/recycler_view"
-		android:layout_width = "match_parent"
-		android:layout_height = "0dp"
-		android:layoutAnimation = "@anim/layout_animation_fall_down"
-		app:layout_constraintBottom_toBottomOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/user_card" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,49 @@
 package am.newway.aca.template;
 
+import com.google.firebase.firestore.Exclude;
+
 public class Visit {
-    private boolean confirm;
+    @Exclude
+    private String id;
     private String dateTime;
+    private String completeTime;
     private String qrCode;
     private String userIdent;
+    private boolean open = true;
+    private boolean confirm;
 
-    public Visit (  ) {
+    public Visit () {
+
+    }
+
+    public
+    String getId () {
+        return id;
+    }
+
+    public
+    void setId ( final String id ) {
+        this.id = id;
+    }
+
+    public
+    String getCompleteTime () {
+        return completeTime;
+    }
+
+    public
+    void setCompleteTime ( final String completeTime ) {
+        this.completeTime = completeTime;
+    }
+
+    public
+    boolean isOpen () {
+        return open;
+    }
+
+    public
+    void setOpen ( final boolean open ) {
+        this.open = open;
     }
 
     public boolean isConfirm () {

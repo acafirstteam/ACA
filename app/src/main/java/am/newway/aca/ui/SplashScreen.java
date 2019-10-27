@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import java.util.Locale;
-
 import am.newway.aca.BaseActivity;
 import am.newway.aca.MainActivity;
 import am.newway.aca.R;
@@ -37,12 +35,9 @@ class SplashScreen extends BaseActivity {
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
 
-        String lang = Locale.getDefault().getLanguage();
-
-        if ( DATABASE.getSettings().getLanguage().isEmpty() )
-            DATABASE.getSettings().setLanguage( lang.equals( "en" ) || lang.equals( "hy" ) ?
-                            lang : "en" ,
-                    this );
+//        ObjectMapper map = new ObjectMapper();
+//        Map<String, Object> tt = map.convertValue( DATABASE.getSettings(), Map.class );
+//        Log.e( TAG , "onCreate: " + tt.toString() );
 
         // inflate your main layout here (use RelativeLayout or whatever your root ViewGroup type is
         final ConstraintLayout mainLayout = ( ConstraintLayout ) this.getLayoutInflater()
@@ -56,30 +51,36 @@ class SplashScreen extends BaseActivity {
                     void onGlobalLayout () {
                         mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener( this );
 
-                        startSpringAnimation( findViewById( R.id.text_View1 ) , 1 ,
-                                new OnAnimationListener() {
-                                    @Override
-                                    public
-                                    void OnAnimationEnded () {nAnimation++;
-                                        startActivity(  );
-                                    }
-                                } );
-                        startSpringAnimation( findViewById( R.id.text_View2 ) , 2 ,
-                                new OnAnimationListener() {
-                                    @Override
-                                    public
-                                    void OnAnimationEnded () {nAnimation++;
-                                        startActivity(  );
-                                    }
-                                } );
-                        startSpringAnimation( findViewById( R.id.text_View3 ) , 3 ,
-                                new OnAnimationListener() {
-                                    @Override
-                                    public
-                                    void OnAnimationEnded () {nAnimation++;
-                                        startActivity(  );
-                                    }
-                                } );
+                        if ( DATABASE.getSettings().isFirstAnimation() ) {
+
+                            startSpringAnimation( findViewById( R.id.text_View1 ) , 1 ,
+                                    new OnAnimationListener() {
+                                        @Override
+                                        public
+                                        void OnAnimationEnded () {
+                                            nAnimation++;
+                                            startActivity();
+                                        }
+                                    } );
+                            startSpringAnimation( findViewById( R.id.text_View2 ) , 2 ,
+                                    new OnAnimationListener() {
+                                        @Override
+                                        public
+                                        void OnAnimationEnded () {
+                                            nAnimation++;
+                                            startActivity();
+                                        }
+                                    } );
+                            startSpringAnimation( findViewById( R.id.text_View3 ) , 3 ,
+                                    new OnAnimationListener() {
+                                        @Override
+                                        public
+                                        void OnAnimationEnded () {
+                                            nAnimation++;
+                                            startActivity();
+                                        }
+                                    } );
+                        }
                     }
                 } );
 
@@ -134,9 +135,13 @@ class SplashScreen extends BaseActivity {
         if ( firebaseUser != null )
             uID = firebaseUser.getUid();
 
+        Log.e( TAG , "checkStudent: " + DATABASE.getStudent().getId() );
+        Log.e( TAG , "checkStudent: " + DATABASE.getStudent().getName() );
         Student student = DATABASE.getStudent();
-        if(student.getId() == null)
+        if ( student.getId() == null ) {
+            Log.e( TAG , "checkStudent: " + uID );
             student.setId( uID );
+        }
 
         FIRESTORE.checkStudent( student , false , new Firestore.OnStudentCheckListener() {
             @Override
@@ -148,7 +153,7 @@ class SplashScreen extends BaseActivity {
                     DATABASE.setStudent( student );
                     if ( student.getType() == 1 ) {
                         nActivityType = QR;
-                        startActivity(  );
+                        startActivity();
                         return;
                     }
                 }
@@ -156,7 +161,7 @@ class SplashScreen extends BaseActivity {
                     Log.e( TAG , "OnStudentCheckFailed null" );
 
                 nActivityType = MAIN;
-                startActivity(  );
+                startActivity();
             }
 
             @Override
@@ -164,7 +169,7 @@ class SplashScreen extends BaseActivity {
             void OnStudentCheckFailed ( final String exception ) {
                 Log.e( TAG , "OnStudentCheckFailed" );
                 nActivityType = MAIN;
-                startActivity(  );
+                startActivity();
             }
 
             @Override
@@ -175,9 +180,11 @@ class SplashScreen extends BaseActivity {
     }
 
     private
-    void startActivity (  ) {
-        if(nAnimation >= 2 && nActivityType != null && !isStarted) {
-            startActivity( new Intent( SplashScreen.this , nActivityType == MAIN ? MainActivity.class : QrActivity.class ) );
+    void startActivity () {
+        boolean isAnim = DATABASE.getSettings().isFirstAnimation();
+        if ( ( !isAnim || nAnimation >= 2 ) && nActivityType != null && !isStarted ) {
+            startActivity( new Intent( SplashScreen.this ,
+                    nActivityType == MAIN ? MainActivity.class : QrActivity.class ) );
             isStarted = true;
             finish();
         }

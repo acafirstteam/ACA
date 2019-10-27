@@ -1,7 +1,5 @@
 package am.newway.aca.template;
 
-import android.util.Log;
-
 import com.google.firebase.firestore.Exclude;
 
 public
@@ -21,11 +19,9 @@ class Student {
     @Exclude
     private int type = -1;
     private OnStudentChangeListener listener;
-    private final String TAG = getClass().getSimpleName();
 
     public
-    Student (
-            final String email , final String name , final String surname , final int age ,
+    Student ( final String email , final String name , final String surname , final int age ,
             final String phone , final String picture , final String token ,
             final boolean verified , final String course , final int type ) {
         this.age = age;
@@ -38,11 +34,6 @@ class Student {
         this.course = course == null ? "" : course;
         this.token = token == null ? "" : token;
         this.type = type;
-    }
-
-    public
-    Student ( final String id ) {
-        this.id = id;
     }
 
     public
@@ -61,7 +52,6 @@ class Student {
 
     public
     void setToken ( final String token ) {
-        Log.e( TAG , "setToken: "   );
         this.token = token;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -74,7 +64,6 @@ class Student {
 
     public
     void setType ( final int type ) {
-        Log.e( TAG , "setType: "   );
         this.type = type;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -88,7 +77,6 @@ class Student {
 
     public
     void setId ( final String id ) {
-        Log.e( TAG , "setId: "   );
         this.id = id;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -101,7 +89,6 @@ class Student {
 
     public
     void setVerified ( final boolean verified ) {
-        Log.e( TAG , "setVerified: "   );
         this.verified = verified;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -114,7 +101,6 @@ class Student {
 
     public
     void setAge ( final int age ) {
-        Log.e( TAG , "setAge: "   );
         this.age = age;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -127,7 +113,6 @@ class Student {
 
     public
     void setCourse ( final String course ) {
-        Log.e( TAG , "setCourse: "   );
         this.course = course;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -140,7 +125,6 @@ class Student {
 
     public
     void setEmail ( final String email ) {
-        Log.e( TAG , "setEmail: "   );
         this.email = email;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -153,7 +137,6 @@ class Student {
 
     public
     void setName ( final String name ) {
-        Log.e( TAG , "setName: "   );
         this.name = name;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -166,7 +149,6 @@ class Student {
 
     public
     void setPhone ( final String phone ) {
-        Log.e( TAG , "setPhone: "   );
         this.phone = phone;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -179,7 +161,6 @@ class Student {
 
     public
     void setPicture ( final String picture ) {
-        Log.e( TAG , "setPicture: "   );
         this.picture = picture;
         if ( listener != null )
             listener.OnStudentChanged();
@@ -192,7 +173,6 @@ class Student {
 
     public
     void setSurname ( final String surname ) {
-        Log.e( TAG , "setSurname: "   );
         this.surname = surname;
         if ( listener != null )
             listener.OnStudentChanged();

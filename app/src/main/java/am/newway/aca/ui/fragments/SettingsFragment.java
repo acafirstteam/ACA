@@ -1,5 +1,7 @@
 package am.newway.aca.ui.fragments;
 
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -51,24 +54,38 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
         armenia = view.findViewById( R.id.armenian_flag_settings_id );
         english = view.findViewById( R.id.english_flag_settings_id );
         final SwitchCompat notificationSwitch = view.findViewById( R.id.notification_switch );
+        final SwitchCompat animationSwitch = view.findViewById( R.id.animation_switch );
+
+        Drawable background = view.getBackground();
+        if ( background instanceof ColorDrawable ) {
+            RoundingParams roundingParams = RoundingParams.fromCornersRadius( 7f );
+            armenia.setHierarchy(
+                    new GenericDraweeHierarchyBuilder( getResources() ).setRoundingParams(
+                            roundingParams ).setOverlay( background ).build() );
+            english.setHierarchy(
+                    new GenericDraweeHierarchyBuilder( getResources() ).setRoundingParams(
+                            roundingParams ).setOverlay( background ).build() );
+        }
 
         notificationSwitch.setChecked( DATABASE.getSettings().isNotification() );
+        animationSwitch.setChecked( DATABASE.getSettings().isFirstAnimation() );
 
         notificationSwitch.setOnCheckedChangeListener( this );
+        animationSwitch.setOnCheckedChangeListener( this );
         english.setOnClickListener( this );
         armenia.setOnClickListener( this );
 
-                Log.e( TAG ,
-                        "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage().equals( ENGLISH )  );
-                Log.e( TAG ,
-                        "onViewCreated: $$$$$$$$$$$$$$$ " +DATABASE.getSettings().getLanguage() );
-
-        setSelectLanguage(
-                DATABASE.getSettings().getLanguage().equals( ARMENIAN ) ? armenia : english );
+        setSelectLanguage( DATABASE.getSettings().getLanguage().equals( ARMENIAN ) ? armenia
+                : DATABASE.getSettings().getLanguage().equals( ENGLISH ) ? english : null );
     }
 
     private
     void setSelectLanguage ( SimpleDraweeView drawer ) {
+        if ( drawer == null ) {
+            Log.e( TAG , "setSelectLanguage: SimpleDraweeView is null" );
+            Log.e( TAG , "setSelectLanguage: " + DATABASE.getSettings().getLanguage() );
+            return;
+        }
         int color = getResources().getColor( R.color.colorAccentDark );
         RoundingParams roundingParams = RoundingParams.fromCornersRadius( 5f );
         roundingParams.setRoundAsCircle( true );
@@ -88,8 +105,9 @@ class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedC
 
         if ( buttonView.getId() == R.id.notification_switch )
             DATABASE.getSettings().setNotification( isChecked );
+        else if ( buttonView.getId() == R.id.animation_switch )
+            DATABASE.getSettings().setFirstAnimation( isChecked );
     }
-
 
     @Override
     public

@@ -10,11 +10,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,18 +36,21 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.client.android.Intents;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.util.Locale;
 
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.ui.QrActivity;
+import am.newway.aca.ui.home.HomeFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -61,23 +64,28 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+@SuppressLint ( "Registered" )
 public
 class BaseActivity extends AppCompatActivity {
 
-    public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
     private final String TAG = getClass().getSimpleName();
-    protected final String ENGLISH = "en";
-    protected final String ARMENIAN = "hy";
+    public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
+    //protected final String ENGLISH = "en";
+    //protected final String ARMENIAN = "hy";
 
     protected Firestore FIRESTORE;
     protected DatabaseHelper DATABASE;
     @VisibleForTesting
+
     public ProgressDialog mProgressDialog;
     protected FloatingActionButton fab;
     private NavController navController;
     protected DrawerLayout drawer;
     protected FirebaseAuth mAuth;
     protected FirebaseUser firebaseUser;
+    private HomeFragment homeFragment;
+    private Toolbar toolbar;
+    private ActionBar actionBar;
 
     public
     BaseActivity () {
@@ -92,6 +100,19 @@ class BaseActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
 
         DATABASE = DatabaseHelper.getInstance( getApplicationContext() );
+
+        String lang = Locale.getDefault().getLanguage();
+
+        if ( DATABASE.getSettings().getLanguage().isEmpty() ) {
+            DATABASE.getSettings()
+                    .setLanguage( lang.equals( "en" ) || lang.equals( "hy" ) ? lang : "en" , this );
+            Log.e( TAG , "onCreate: getLanguage is Empty" );
+        }
+        else {
+            DATABASE.getSettings()
+                    .setLanguage( DATABASE.getSettings().getLanguage() , this );
+            Log.e( TAG , "onCreate: " + DATABASE.getSettings().getLanguage() );
+        }
     }
 
     public
@@ -99,42 +120,6 @@ class BaseActivity extends AppCompatActivity {
         //        Toast.makeText(this, new IntentIntegrator(this).getCaptureActivity().getCanonicalName(),
         //        Toast.LENGTH_LONG).show();
         new IntentIntegrator( this ).initiateScan();
-    }
-
-    public
-    void scanBarcodeWithCustomizedRequestCode ( View view ) {
-        new IntentIntegrator( this ).setRequestCode( CUSTOMIZED_REQUEST_CODE ).initiateScan();
-    }
-
-    public
-    void scanBarcodeInverted ( View view ) {
-        IntentIntegrator integrator = new IntentIntegrator( this );
-        integrator.addExtra( Intents.Scan.SCAN_TYPE , Intents.Scan.INVERTED_SCAN );
-        integrator.initiateScan();
-    }
-
-    public
-    void scanMixedBarcodes ( View view ) {
-        IntentIntegrator integrator = new IntentIntegrator( this );
-        integrator.addExtra( Intents.Scan.SCAN_TYPE , Intents.Scan.MIXED_SCAN );
-        integrator.initiateScan();
-    }
-
-    public
-    void scanPDF417 ( View view ) {
-        IntentIntegrator integrator = new IntentIntegrator( this );
-        integrator.setDesiredBarcodeFormats( IntentIntegrator.PDF_417 );
-        integrator.setPrompt( "Scan something" );
-        integrator.setOrientationLocked( false );
-        integrator.setBeepEnabled( false );
-        integrator.initiateScan();
-    }
-
-    public
-    void scanBarcodeFrontCamera ( View view ) {
-        IntentIntegrator integrator = new IntentIntegrator( this );
-        integrator.setCameraId( Camera.CameraInfo.CAMERA_FACING_FRONT );
-        integrator.initiateScan();
     }
 
     public
@@ -210,7 +195,15 @@ class BaseActivity extends AppCompatActivity {
             public
             void OnNewStudentAdded ( @Nullable final Student student ) {
                 if ( student != null ) {
-                    notificationDialog();
+                    am.newway.aca.template.Notification notification =
+                            new am.newway.aca.template.Notification();
+
+                    notification.setMessage( getString( R.string.reception ) );
+                    notification.setTitle( getString( R.string.new_student ) );
+                    notification.setUser( student.getId() );
+                    notification.setLargeBitmap( student.getPicture() );
+
+                    notificationDialog( "01" , notification );
                 }
             }
         } );
@@ -218,16 +211,17 @@ class BaseActivity extends AppCompatActivity {
 
     //@RequiresApi ( api = Build.VERSION_CODES.O)
     private
-    void notificationDialog () {
+    void notificationDialog ( String NOTIFICATION_CHANNEL_ID ,
+            am.newway.aca.template.Notification notification ) {
         final NotificationManager notificationManager =
                 ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
-        String NOTIFICATION_CHANNEL_ID = "tutorialspoint_01";
+
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
             @SuppressLint ( "WrongConstant" ) NotificationChannel notificationChannel =
                     new NotificationChannel( NOTIFICATION_CHANNEL_ID , "My Notifications" ,
                             NotificationManager.IMPORTANCE_MAX );
             // Configure the notification channel.
-            notificationChannel.setDescription( "Sample Channel description" );
+            notificationChannel.setDescription( "Empty description" );
             notificationChannel.enableLights( true );
             notificationChannel.setLightColor( Color.RED );
             notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
@@ -242,33 +236,47 @@ class BaseActivity extends AppCompatActivity {
 
         final NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
+
+        String[] notifSegment = getResources().getStringArray( R.array.notification_type );
+
         notificationBuilder.setAutoCancel( true )
                 .setDefaults( Notification.DEFAULT_ALL )
                 .setWhen( System.currentTimeMillis() )
                 .setSmallIcon( R.drawable.ic_book_black_24dp )
-                .setTicker( "TutorialsPoint" )
+                //.setTicker( "TutorialsPoint" )
                 //.setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle( "Նոր ուսանող" )
-                .setContentText( "Ընդունարանում Ձեզ սպասում են" )
+                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
+                        notifSegment ) : notification.getTitle() )
+                .setContentText( notification.getMessage() )
                 .setContentIntent( contentIntent )
-                .setContentInfo( "Ինֆորմացիա" );
+        //.setContentInfo( "Ինֆորմացիա" )
+        ;
 
-        Uri uri = Uri.parse(
-                "https://lh3.googleusercontent.com/a-/AAuE7mBCjmyxKyXqdMLU5NMgCsNsqS5Z7ceBGKSlRJvJ4A=s96-cc" );
-        getBitmapFromUrl( uri , new bitmapLoading() {
-            @Override
-            public
-            void OnLoaded ( final Bitmap bmp ) {
-                notificationBuilder.setLargeIcon( bmp );
-                if ( notificationManager != null )
+        if ( notificationManager != null ) {
+
+            Uri uri = Uri.parse(
+                    notification.getLargeBitmap() != null ? notification.getLargeBitmap() : "" );
+            getBitmapFromUrl( uri , new bitmapLoading() {
+                @Override
+                public
+                void OnLoaded ( final Bitmap bmp ) {
+                    notificationBuilder.setLargeIcon( bmp );
                     notificationManager.notify( 1 , notificationBuilder.build() );
+                }
 
-            }
-        } );
+                @Override
+                public
+                void OnFailureLoad () {
+                    notificationManager.notify( 1 , notificationBuilder.build() );
+                }
+            } );
+        }
     }
 
     interface bitmapLoading {
         void OnLoaded ( Bitmap bmp );
+
+        void OnFailureLoad ();
     }
 
     private
@@ -310,18 +318,58 @@ class BaseActivity extends AppCompatActivity {
         } , CallerThreadExecutor.getInstance() );
     }
 
+
+    protected
+    void initNotifications () {
+        if ( DATABASE.getSettings().isNotification() ) {
+            FIRESTORE.addListenerNotifications( DATABASE.getStudent().getType() ,
+                    new Firestore.OnNotificationListener() {
+                        @Override
+                        public
+                        void OnNotification (
+                                final am.newway.aca.template.Notification notification ) {
+                            notificationDialog( "02" , notification );
+                        }
+                    } );
+        }
+    }
+
     protected
     void initNavigationBar () {
-        Toolbar toolbar = findViewById( R.id.toolbar );
+        initNavigationBar( 1 );
+    }
+
+    protected
+    void initNavigationBar ( int nType ) {
+        toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
+        actionBar = getSupportActionBar();
+
+        if ( nType == 1 )
+            initNavigationView();
+        else if ( nType == 2 ) {
+            if ( actionBar != null ) {
+                actionBar.setDisplayHomeAsUpEnabled( true );
+            }
+        }
+    }
+
+    private
+    void initNavigationView () {
         drawer = findViewById( R.id.drawer_layout );
         navController = Navigation.findNavController( this , R.id.nav_host_fragment );
         NavigationView navigationView = findViewById( R.id.nav_view );
 
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem( R.id.nav_admin ).setVisible( false );
+
+        if ( DATABASE.getStudent().getType() == 2 )
+            nav_Menu.findItem( R.id.nav_admin ).setVisible( true );
+
         final AppBarConfiguration mAppBarConfiguration =
                 new AppBarConfiguration.Builder( R.id.nav_home , R.id.nav_settings ,
-                        R.id.nav_history , R.id.nav_company , R.id.nav_about ).setDrawerLayout(
-                        drawer ).build();
+                        R.id.nav_history , R.id.nav_alert , R.id.nav_admin , R.id.nav_company ,
+                        R.id.nav_about ).setDrawerLayout( drawer ).build();
         NavigationUI.setupActionBarWithNavController( this , navController , mAppBarConfiguration );
         NavigationUI.setupWithNavController( navigationView , navController );
 
@@ -331,6 +379,9 @@ class BaseActivity extends AppCompatActivity {
                     public
                     boolean onNavigationItemSelected ( @NonNull MenuItem menuItem ) {
                         int id = menuItem.getItemId();
+                        if ( actionBar != null ) {
+                            actionBar.setSubtitle( "" );
+                        }
                         if ( id == R.id.nav_home ) {
                             NavOptions options =
                                     new NavOptions.Builder().setPopUpTo( R.id.mobile_navigation ,
@@ -370,10 +421,9 @@ class BaseActivity extends AppCompatActivity {
 
     protected
     void updateNavigationBar () {
+
         NavigationView navigationView = findViewById( R.id.nav_view );
-
         View headerLayout = navigationView.getHeaderView( 0 );
-
         TextView textName = headerLayout.findViewById( R.id.title );
         TextView textDescription = headerLayout.findViewById( R.id.desc );
         SimpleDraweeView imageView = headerLayout.findViewById( R.id.imageView );
@@ -467,7 +517,8 @@ class BaseActivity extends AppCompatActivity {
     @Override
     public
     boolean onSupportNavigateUp () {
-        return NavigationUI.navigateUp( navController , drawer );
+        return ( navController != null && drawer != null ) &&
+                NavigationUI.navigateUp( navController , drawer );
     }
 
     private
@@ -477,5 +528,19 @@ class BaseActivity extends AppCompatActivity {
         if ( view != null )
             return destination != view.getId();
         return true;
+    }
+
+    public
+    HomeFragment getHomeFragment () {
+        if ( homeFragment != null )
+            return homeFragment;
+
+        homeFragment = ( HomeFragment ) getSupportFragmentManager().getFragments()
+                .get( 0 )
+                .getChildFragmentManager()
+                .getFragments()
+                .get( 0 );
+
+        return homeFragment;
     }
 }

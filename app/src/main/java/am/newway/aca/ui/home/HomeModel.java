@@ -28,7 +28,7 @@ class HomeModel
 
     void getProducts( final CourseLoadCallback callback)
     {
-        db.collection("Courses").whereEqualTo( "isdel", false )
+        db.collection("Courses").whereEqualTo( "isdel", false ).orderBy( "group" )
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override public void onComplete( @NonNull Task<QuerySnapshot> task )

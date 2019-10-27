@@ -1,18 +1,24 @@
 package am.newway.aca.firebase;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +30,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import am.newway.aca.template.Course;
+import am.newway.aca.template.Notification;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
 import am.newway.aca.util.Crypto;
@@ -34,15 +41,18 @@ public
 class Firestore {
     private static final String TAG = "Firestore";
     private static volatile Firestore firestore;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private static String NOTIFICATION_COLLECTION = "Notification";
     private static String VISIT_COLLECTION = "Visits";
     private static String STUDENT_COLLECTION = "Students";
     private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
     private FirebaseFirestore db;
-    private OnVisitChangeListener listener;
+    private OnVisitCompleteListener listener_complete_visit;
     private OnStudentCheckListener listener_student;
-    private OnCourseReadListener listener_course;
     private OnQRGenerator listener_qr;
+    private OnVisitAddListener listener_add_visit;
     private String qrText;
 
     private
@@ -57,6 +67,7 @@ class Firestore {
                     firestore = new Firestore();
                 }
             }
+
         return firestore;
     }
 
@@ -66,10 +77,19 @@ class Firestore {
     }
 
     public
-    void addNewVisit ( Student student , String qrCode , OnVisitChangeListener listener ) {
+    void initFirebaseStorage () {
+        if ( storage == null ) {
+            storage = FirebaseStorage.getInstance();
+            if ( storageReference == null )
+                storageReference = storage.getReference();
+        }
+    }
+
+    public
+    void addNewVisit ( Student student , String qrCode , OnVisitAddListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
-        this.listener = listener;
+        this.listener_add_visit = listener;
 
         SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
         Date date = new Date();
@@ -89,6 +109,78 @@ class Firestore {
                         addListener( Objects.requireNonNull( task.getResult() ).getId() );
                     }
                 } );
+    }
+
+    public
+    void checkVisit ( Student student , final OnVisitCheckListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        //this.listener_check_visit = listener;
+
+        CollectionReference doc = db.collection( VISIT_COLLECTION );
+
+        doc.whereEqualTo( "open" , true )
+                .whereEqualTo( "userIdent" , student.getId() )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        if ( task.isSuccessful() ) {
+                            QuerySnapshot query = task.getResult();
+                            if ( query != null ) {
+                                List<DocumentSnapshot> list = query.getDocuments();
+                                if ( list.size() > 0 ) {
+                                    DocumentSnapshot document = list.get( 0 );
+                                    if ( document != null && document.exists() ) {
+                                        Visit visit = document.toObject( Visit.class );
+                                        if ( visit != null ) {
+                                            visit.setId( document.getId() );
+                                            listener.OnVisitExisted( visit );
+                                        }
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        listener.OnVisitNotExist();
+                    }
+
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: check visit" );
+                    }
+                } );
+    }
+
+    public
+    void completeVisit ( String Id , final OnVisitCompleteListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        this.listener_complete_visit = listener;
+
+        SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
+        Date date = new Date();
+
+        DocumentReference doc = db.collection( VISIT_COLLECTION ).document( Id );
+
+        doc.update( "completeTime" , formatter.format( date ) );
+        doc.update( "open" , false ).addOnCompleteListener( new OnCompleteListener<Void>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<Void> task ) {
+                listener_complete_visit.OnVisitCompleted();
+            }
+        } ).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull final Exception e ) {
+                Log.e( TAG , "onFailure: complete visit" );
+            }
+        } );
     }
 
     /**
@@ -124,8 +216,13 @@ class Firestore {
                         if ( bltCreateNew ) {
                             updateStudent( docRef , student , listener );
                         }
-                        else if ( listener_student != null )
-                            listener_student.OnStudentChecked( document.toObject( Student.class ) );
+                        else if ( listener_student != null ) {
+                            Student student = document.toObject( Student.class );
+                            if ( student != null ) {
+                                student.setId( document.getId() );
+                                listener_student.OnStudentChecked( student );
+                            }
+                        }
                     }
                     else {
                         Log.w( TAG , "No such document" );
@@ -221,7 +318,7 @@ class Firestore {
     void addListenerNewStudent ( final OnNewStudentListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
-
+        //listener_new_student = listener;
         db.collection( STUDENT_COLLECTION )
                 .whereEqualTo( "type" , -1 )
                 .addSnapshotListener( new EventListener<QuerySnapshot>() {
@@ -229,6 +326,7 @@ class Firestore {
                     public
                     void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
                             @Nullable final FirebaseFirestoreException e ) {
+
                         if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() ) {
                             List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                             for ( DocumentSnapshot doc : docs ) {
@@ -352,12 +450,13 @@ class Firestore {
     }
 
     public
-    void getCuorces ( OnCourseReadListener listener ) {
+    void getCuorces ( final OnCourseReadListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
-        this.listener_course = listener;
+        //this.listener_course = listener;
 
-        db.collection( COURSE_COLLECTION )
+        final String COURSE_COLLECTION = "Courses";
+        db.collection( COURSE_COLLECTION ).orderBy( "group_name" )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -371,8 +470,8 @@ class Firestore {
                                     Course course = doc.toObject( Course.class );
                                     courses.add( course );
                                 }
-                                if ( listener_course != null )
-                                    listener_course.OnCourseRead( courses );
+                                if ( listener != null )
+                                    listener.OnCourseRead( courses );
                             }
                             else
                                 Log.e( TAG , "getResult is null" );
@@ -383,14 +482,25 @@ class Firestore {
                 } );
     }
 
+    public
+    void addCourses ( List<Course> courses ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+
+        final String COURSE_COLLECTION = "Courses";
+
+        for ( Course co : courses ) {
+            db.collection( COURSE_COLLECTION ).document( co.getNameFormated() ).set( co );
+        }
+    }
+
     /**
      * Վերադարձնում է նոր ուսանողների ցանկը
      *
      * @return List<Students>
      */
     public
-    List<Student> getNewStudents () {
-        final List<Student> students = new ArrayList<>();
+    void getNewStudents () {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         db.collection( STUDENT_COLLECTION )
@@ -400,9 +510,12 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                        for ( DocumentSnapshot doc : docs ) {
-                            students.add( doc.toObject( Student.class ) );
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<Student> students = new ArrayList<>();
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                students.add( doc.toObject( Student.class ) );
+                            }
                         }
                     }
                 } )
@@ -413,12 +526,63 @@ class Firestore {
                         Log.e( TAG , "onFailure: loading students" );
                     }
                 } );
-        return students;
+    }
+
+    /**
+     * Վերադարձնում է նոր ուսանողների ցանկը
+     */
+    public
+    void getActiveStudents ( final OnStudentsLoadistener listener_student_loading ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( STUDENT_COLLECTION )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        List<Student> students = new ArrayList<>();
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                Student student = doc.toObject( Student.class );
+                                if ( student != null ) {
+                                    student.setId( doc.getId() );
+                                    students.add( student );
+                                }
+                            }
+                        }
+                        if ( listener_student_loading != null )
+                            listener_student_loading.OnStudentLoaded( students );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading students" );
+                    }
+                } );
     }
 
     public
-    List<Visit> getVisits ( final OnVisitListener listener ) {
-        final List<Visit> visits = new ArrayList<>();
+    void sendMessage ( Notification notification ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( NOTIFICATION_COLLECTION )
+                .document( String.valueOf( notification.getId() ) )
+                .set( notification )
+                .addOnCompleteListener( new OnCompleteListener<Void>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<Void> task ) {
+
+                    }
+                } );
+    }
+
+    public
+    void getVisits ( final OnVisitListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         db.collection( VISIT_COLLECTION )
@@ -427,9 +591,12 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                        for ( DocumentSnapshot doc : docs ) {
-                            visits.add( doc.toObject( Visit.class ) );
+                        final List<Visit> visits = new ArrayList<>();
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                visits.add( doc.toObject( Visit.class ) );
+                            }
                         }
                         if ( listener != null )
                             listener.OnLoaded( visits );
@@ -442,7 +609,6 @@ class Firestore {
                         Log.e( TAG , "onFailure: loading visits" );
                     }
                 } );
-        return visits;
     }
 
     /**
@@ -461,9 +627,11 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                        for ( DocumentSnapshot doc : docs ) {
-                            students.add( doc.toObject( Student.class ) );
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                students.add( doc.toObject( Student.class ) );
+                            }
                         }
                     }
                 } )
@@ -546,31 +714,162 @@ class Firestore {
     }
 
     private
+    void initFirestore () {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+    }
+
+    public
+    void updateCourse ( final Course course , final OnCourseUpdateListener listener ) {
+
+        initFirestore();
+        final DocumentReference docRef =
+                db.collection( COURSE_COLLECTION ).document( String.valueOf( course.getName() ) );
+
+        ObjectMapper oMapper = new ObjectMapper();
+        @SuppressWarnings( "unchecked" )
+        Map<String, Object> map = oMapper.convertValue( course , Map.class );
+
+        docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<Void> task ) {
+                listener.OnCourseUpdateed();
+            }
+        } ).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull final Exception e ) {
+                listener.OnCourseUpdateFailed();
+            }
+        } );
+    }
+
+    private
     void addListener ( String docID ) {
         Log.e( TAG , "document id = " + docID );
         final DocumentReference docRef = db.collection( VISIT_COLLECTION ).document( docID );
-        ListenerRegistration reg =
-                docRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
+        docRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
+            @Override
+            public
+            void onEvent ( @Nullable DocumentSnapshot snapshot ,
+                    @Nullable FirebaseFirestoreException e ) {
+                if ( e != null ) {
+                    Log.e( TAG , "Listen failed." , e );
+                    return;
+                }
+
+                if ( snapshot != null && snapshot.exists() ) {
+                    Log.e( TAG , "Current data: " + snapshot.getData() );
+                    Visit visit = snapshot.toObject( Visit.class );
+                    if ( listener_add_visit != null )
+                        listener_add_visit.OnChangeConfirmed( visit );
+                }
+                else {
+                    Log.e( TAG , "Current data: null" );
+                }
+            }
+        } );
+    }
+
+    public
+    void addListenerNotifications ( int nUserType , final OnNotificationListener listener ) {
+        Log.e( TAG , "user type = " + nUserType );
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        final CollectionReference collRef = db.collection( NOTIFICATION_COLLECTION );
+        collRef.whereEqualTo( "messageSegment" , nUserType );
+        collRef.whereEqualTo( "messageSegment" , 0 );
+        collRef.addSnapshotListener( new EventListener<QuerySnapshot>() {
+            @Override
+            public
+            void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
+                    @Nullable final FirebaseFirestoreException e ) {
+                if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() ) {
+                    List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                    for ( DocumentSnapshot doc : docs ) {
+                        Notification notification = doc.toObject( Notification.class );
+                        if ( notification != null ) {
+                            notification.setId( Integer.valueOf( doc.getId() ) );
+                            if ( listener != null )
+                                listener.OnNotification( notification );
+                            //Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
+
+                        }
+                        else
+                            Log.e( TAG , "onEvent: " + "Unknown student" );
+                    }
+                }
+            }
+        } );
+    }
+
+    public
+    void getLastNotificationID ( final OnNotificationIdListener listener ) {
+        db.collection( NOTIFICATION_COLLECTION )
+                .orderBy( "date" , Query.Direction.DESCENDING )
+                .limit( 1 )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public
-                    void onEvent ( @Nullable DocumentSnapshot snapshot ,
-                            @Nullable FirebaseFirestoreException e ) {
-                        if ( e != null ) {
-                            Log.e( TAG , "Listen failed." , e );
-                            return;
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        int nID;
+                        if ( task.isSuccessful() && task.getResult() != null &&
+                                task.getResult().getDocuments().size() > 0 ) {
+                            nID = Integer.valueOf(
+                                    task.getResult().getDocuments().get( 0 ).getId() );
                         }
-
-                        if ( snapshot != null && snapshot.exists() ) {
-                            Log.e( TAG , "Current data: " + snapshot.getData() );
-                            Visit visit = snapshot.toObject( Visit.class );
-                            if ( listener != null )
-                                listener.OnChangeConfirmed( visit );
-                        }
-                        else {
-                            Log.e( TAG , "Current data: null" );
-                        }
+                        else
+                            nID = 0;
+                        if ( listener != null )
+                            listener.OnLastId( nID );
                     }
                 } );
+    }
+
+    public
+    void uploadImage ( Uri path , String imageName , final OnImageUploadListener listener ) {
+        initFirebaseStorage();
+
+        final StorageReference riversRef = storageReference.child( "courses/" + imageName );
+        UploadTask uploadTask = riversRef.putFile( path );
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull Exception exception ) {
+                listener.OnImageUploadFailed( exception.getMessage() );
+            }
+        } ).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public
+            void onSuccess ( UploadTask.TaskSnapshot taskSnapshot ) {
+                riversRef.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                    @Override
+                    public
+                    void onSuccess ( Uri uri ) {
+                        //Log.d( TAG , "onSuccess: uri= " + uri.toString() );
+                        listener.OnImageUploaded( uri.toString() );
+                    }
+                } );
+            }
+        } );
+    }
+
+    public
+    interface OnCourseUpdateListener {
+        void OnCourseUpdateed ();
+
+        void OnCourseUpdateFailed ();
+    }
+
+    public
+    interface OnImageUploadListener {
+        void OnImageUploaded ( String uri );
+
+        void OnImageUploadFailed ( String error );
     }
 
     public
@@ -586,8 +885,20 @@ class Firestore {
     }
 
     public
-    interface OnVisitChangeListener {
+    interface OnVisitAddListener {
         void OnChangeConfirmed ( Visit visit );
+    }
+
+    public
+    interface OnVisitCheckListener {
+        void OnVisitExisted ( Visit visit );
+
+        void OnVisitNotExist ();
+    }
+
+    public
+    interface OnVisitCompleteListener {
+        void OnVisitCompleted ();
     }
 
     public
@@ -600,6 +911,11 @@ class Firestore {
     }
 
     public
+    interface OnStudentsLoadistener {
+        void OnStudentLoaded ( @Nullable List<Student> students );
+    }
+
+    public
     interface OnNewStudentListener {
         void OnNewStudentAdded ( @Nullable Student student );
     }
@@ -607,5 +923,15 @@ class Firestore {
     public
     interface OnVisitListener {
         void OnLoaded ( @Nullable List<Visit> visits );
+    }
+
+    public
+    interface OnNotificationIdListener {
+        void OnLastId ( int id );
+    }
+
+    public
+    interface OnNotificationListener {
+        void OnNotification ( Notification notification );
     }
 }

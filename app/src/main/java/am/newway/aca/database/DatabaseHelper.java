@@ -10,6 +10,7 @@ import android.util.Log;
 
 import am.newway.aca.template.Settings;
 import am.newway.aca.template.Student;
+import am.newway.aca.template.Visit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -21,6 +22,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     private final static String ENGLISH = "en";
     private Student student;
     private Settings settings;
+    private Visit visit;
     private static volatile DatabaseHelper database = null;
     public Context context;
 
@@ -51,6 +53,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     private static final String COLUMN_SETTINGS_LOGIN = "login";
     private static final String COLUMN_SETTINGS_NOTIFICATIONS = "notifications";
     private static final String COLUMN_SETTINGS_LANGUAGE = "language";
+    private static final String COLUMN_SETTINGS_ANIMATION= "first_animation";
 
     public static
     DatabaseHelper getInstance ( Context context ) {
@@ -60,7 +63,8 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                     database = new DatabaseHelper( context );
                     database.getStudent();
                     if ( database.getSettings() == null ) {
-                        database.setSettings( new Settings( true , true , ENGLISH ) );
+                        Log.e( TAG , "getInstance: Settings is null, Created new Settings " );
+                        database.setSettings( new Settings( true , true , ENGLISH, false ) );
                         database.getSettings().addOnSettingsChangeListener( database );
                     }
                 }
@@ -79,9 +83,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
 
     //Create table SQL query
     private String CREATE_SETTINGS_TABLE = String.format(
-            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT)" ,
+            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT, %s TEXT)" ,
             TABLE_SETTINGS , COLUMN_SETTINGS_ID , COLUMN_SETTINGS_LOGIN ,
-            COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE );
+            COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE, COLUMN_SETTINGS_ANIMATION );
 
     private
     DatabaseHelper ( Context context ) {
@@ -101,6 +105,16 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     public
     void onUpgrade ( SQLiteDatabase db , int oldVersion , int newVersion ) {
 
+    }
+
+    public
+    Visit getVisit () {
+        return visit;
+    }
+
+    public
+    void setVisit ( final Visit visit ) {
+        this.visit = visit;
     }
 
     //Add student
@@ -210,7 +224,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
 
     //Add settings
     private
-    void setSettings ( Settings settings ) {
+    void setSettings ( Settings setting ) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -218,14 +232,15 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                 String.format( "SELECT COUNT(*) FROM %s" , TABLE_SETTINGS ) , null );
 
         if ( nCount > 0 ) {
-            updateSettings( settings );
+            updateSettings( setting );
             return;
         }
 
         ContentValues values = new ContentValues();
-        values.put( COLUMN_SETTINGS_LOGIN , settings.isLogin() );
-        values.put( COLUMN_SETTINGS_NOTIFICATIONS , settings.isNotification() );
-        values.put( COLUMN_SETTINGS_LANGUAGE , settings.getLanguage() );
+        values.put( COLUMN_SETTINGS_LOGIN , setting.isLogin() );
+        values.put( COLUMN_SETTINGS_NOTIFICATIONS , setting.isNotification() );
+        values.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
+        values.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
 
         //Insert Row
         db.insert( TABLE_SETTINGS , null , values );
@@ -237,6 +252,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     Settings getSettings () {
 
         if ( settings != null ) {
+            Log.e( TAG , "getSettings: " + settings.getLanguage()  );
             return settings;
         }
 
@@ -251,8 +267,10 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         if ( cursor.getCount() > 0 ) {
             cursor.moveToFirst();
 
-            Log.e( TAG , "getSettings: Creating new Settings  " +
+            Log.e( TAG , "getSettings: Reading new Settings language " +
                     cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
+            Log.e( TAG , "getSettings: Reading new Settings animation " +
+                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) ) );
 
             settings.setLogin( cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LOGIN ) )
                     .equals( "1" ) );
@@ -262,6 +280,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
             settings.setNotification(
                     cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_NOTIFICATIONS ) )
                             .equals( "1" ) );
+            settings.setFirstAnimation(
+                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) )
+                            .equals( "1" ) );
         }
         cursor.close();
 
@@ -269,14 +290,15 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     }
 
     private
-    void updateSettings ( Settings settings ) {
+    void updateSettings ( Settings setting ) {
 
         SQLiteDatabase myDB = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put( COLUMN_SETTINGS_LOGIN , settings.isLogin() );
-        contentValues.put( COLUMN_SETTINGS_NOTIFICATIONS , settings.isNotification() );
-        contentValues.put( COLUMN_SETTINGS_LANGUAGE , settings.getLanguage() );
+        contentValues.put( COLUMN_SETTINGS_LOGIN , setting.isLogin() );
+        contentValues.put( COLUMN_SETTINGS_NOTIFICATIONS , setting.isNotification() );
+        contentValues.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
+        contentValues.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
 
         myDB.update( TABLE_SETTINGS , contentValues , COLUMN_SETTINGS_ID + " = 1 " , null );
 

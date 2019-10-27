@@ -16,6 +16,14 @@
 			android:id = "@+id/nav_history"
 			android:icon = "@drawable/ic_history_black_24dp"
 			android:title = "@string/history" />
+		<item
+			android:id = "@+id/nav_alert"
+			android:icon = "@drawable/ic_message_black_24dp"
+			android:title = "@string/alert" />
+		<item
+			android:id = "@+id/nav_admin"
+			android:icon = "@drawable/ic_people_black_24dp"
+			android:title = "@string/administrator" />
 	</group>
 
 	<item
