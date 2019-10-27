@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import am.newway.aca.R;
+import am.newway.aca.adapter.NotificationAdapter;
+import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.firebase.Firestore;
-import am.newway.aca.template.Visit;
+import am.newway.aca.template.Notification;
 import am.newway.aca.ui.BaseFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +27,7 @@ public
 class AlertFragment extends BaseFragment {
     private final String TAG = "Alert";
     private RecyclerView recyclerView;
+    private NotificationAdapter adapter;
 
     public
     AlertFragment () {
@@ -63,11 +66,27 @@ class AlertFragment extends BaseFragment {
                 new LinearLayoutManager( view.getContext() , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
 
-        FIRESTORE.getVisits( new Firestore.OnVisitListener() {
+        adapter =
+                new NotificationAdapter( getActivity() , new RecyclerViewAnimator( recyclerView ) );
+        adapter.setLanguage( DATABASE.getSettings().getLanguage() );
+
+        FIRESTORE.getNotifications( new Firestore.OnNotificationListener() {
             @Override
             public
-            void OnLoaded ( @Nullable List<Visit> visits ) {
-                //recyclerView.setAdapter(adapter);
+            void OnNotificationRead ( final List<Notification> notifications ) {
+                adapter.setNotifications( notifications );
+                recyclerView.setAdapter( adapter );
+            }
+
+            @Override
+            public
+            void OnNotificationFaild () {
+
+            }
+
+            @Override
+            public
+            void OnNewNotification ( final Notification notification ) {
 
             }
         } );

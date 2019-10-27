@@ -76,7 +76,7 @@ class Firestore {
         this.listener_student = listener;
     }
 
-    public
+    private
     void initFirebaseStorage () {
         if ( storage == null ) {
             storage = FirebaseStorage.getInstance();
@@ -450,6 +450,43 @@ class Firestore {
     }
 
     public
+    void getNotifications ( final OnNotificationListener listener ) {
+        initFirestore();
+
+        db.collection( NOTIFICATION_COLLECTION )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        if ( task.isSuccessful() ) {
+                            List<Notification> notifications = new ArrayList<>();
+                            if ( task.getResult() != null ) {
+                                List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                                for ( DocumentSnapshot doc : docs ) {
+                                    Notification notification = doc.toObject( Notification.class );
+                                    notifications.add( notification );
+                                }
+                                if ( listener != null )
+                                    listener.OnNotificationRead( notifications );
+                            }
+                            else {
+                                Log.e( TAG , "getResult is null" );
+                                if ( listener != null )
+                                    listener.OnNotificationFaild();
+                            }
+                        }
+                        else {
+                            Log.e( TAG , "task is not Successful" );
+                            if ( listener != null )
+                                listener.OnNotificationFaild();
+                        }
+                    }
+                } );
+    }
+
+
+    public
     void getCuorces ( final OnCourseReadListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
@@ -727,8 +764,8 @@ class Firestore {
                 db.collection( COURSE_COLLECTION ).document( String.valueOf( course.getName() ) );
 
         ObjectMapper oMapper = new ObjectMapper();
-        @SuppressWarnings( "unchecked" )
-        Map<String, Object> map = oMapper.convertValue( course , Map.class );
+        @SuppressWarnings ( "unchecked" ) Map<String, Object> map =
+                oMapper.convertValue( course , Map.class );
 
         docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
             @Override
@@ -792,7 +829,7 @@ class Firestore {
                         if ( notification != null ) {
                             notification.setId( Integer.valueOf( doc.getId() ) );
                             if ( listener != null )
-                                listener.OnNotification( notification );
+                                listener.OnNewNotification( notification );
                             //Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
 
                         }
@@ -809,23 +846,21 @@ class Firestore {
         db.collection( NOTIFICATION_COLLECTION )
                 .orderBy( "date" , Query.Direction.DESCENDING )
                 .limit( 1 )
-                .get()
-                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public
-                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        int nID;
-                        if ( task.isSuccessful() && task.getResult() != null &&
-                                task.getResult().getDocuments().size() > 0 ) {
-                            nID = Integer.valueOf(
-                                    task.getResult().getDocuments().get( 0 ).getId() );
-                        }
-                        else
-                            nID = 0;
-                        if ( listener != null )
-                            listener.OnLastId( nID );
-                    }
-                } );
+                .get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                int nID;
+                if ( task.isSuccessful() && task.getResult() != null &&
+                        task.getResult().getDocuments().size() > 0 ) {
+                    nID = Integer.valueOf( task.getResult().getDocuments().get( 0 ).getId() );
+                }
+                else
+                    nID = 0;
+                if ( listener != null )
+                    listener.OnLastId( nID );
+            }
+        } );
     }
 
     public
@@ -856,6 +891,15 @@ class Firestore {
                 } );
             }
         } );
+    }
+
+    public
+    interface OnNotificationListener {
+        void OnNotificationRead ( List<Notification> notifications );
+
+        void OnNotificationFaild ();
+
+        void OnNewNotification ( Notification notification );
     }
 
     public
@@ -928,10 +972,5 @@ class Firestore {
     public
     interface OnNotificationIdListener {
         void OnLastId ( int id );
-    }
-
-    public
-    interface OnNotificationListener {
-        void OnNotification ( Notification notification );
     }
 }
