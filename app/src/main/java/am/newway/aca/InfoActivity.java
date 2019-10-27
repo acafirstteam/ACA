@@ -1,22 +1,14 @@
 package am.newway.aca;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import am.newway.aca.adapter.MyViewPagerAdapter;
@@ -30,8 +22,6 @@ public class InfoActivity extends AppCompatActivity {
     private MyViewPagerAdapter sliderAdapter;
     private  int mCurrentPage;
     private Button mNextBtn,mBackBtn;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +54,12 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     public void addDotsIndicator(int position) {
+        if(position >= 4)
+            return;
         mdots = new TextView[4];
-        for (int i = 0; i <= mdots.length; i++) {
+        for (int i = 0; i  != 4; i++) {
 
+            Log.e("##########", "addDotsIndicator: "+i );
             mdots[i] = new TextView(this);
             mdots[i].setText(Html.fromHtml("&#8226"));
             mdots[i].setTextSize(35);
