@@ -38,6 +38,7 @@
     <string name="menu_home">Courses</string>
     <string name="menu_company">Company</string>
     <string name="menu_about">Application</string>
+    <string name="devs" translatable="false">Developers</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -57,5 +58,6 @@
     <string name="save">Save</string>
     <string name="notifications">Notifications</string>
     <string name="language">Language</string>
+
 
 </resources>

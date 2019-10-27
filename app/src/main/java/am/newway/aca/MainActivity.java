@@ -35,13 +35,6 @@ class MainActivity extends BaseActivity {
     void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
-        PrefManager prefManager = new PrefManager(getApplicationContext());
-        if(prefManager.isFirstTimeLaunch()){
-            prefManager.setFirstTimeLaunch(false);
-            startActivity(new Intent(MainActivity.this, InfoActivity.class));
-            finish();
-        }
-
         int nType = DATABASE.getStudent().getType();
         if ( nType == 2 )
             addOnNewStudentListener();

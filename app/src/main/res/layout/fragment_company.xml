@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
+	android:background="@drawable/back"
 	>
 
-	<ImageView
+
+
+	<TextView
 		android:id = "@+id/logo"
-		android:layout_width = "64dp"
-		android:layout_height = "64dp"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
 		android:layout_marginTop="30dp"
+		android:text="{code}"
+		android:textSize="60sp"
+		android:textColor="@color/white"
+		android:textAlignment="center"
 		android:contentDescription = "@string/todo"
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
@@ -76,17 +84,48 @@
 
 
 	<TextView
-		android:id = "@+id/text"
-		android:layout_width = "match_parent"
-		android:layout_height = "wrap_content"
-		android:padding = "10dp"
+		android:id="@+id/text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
 		android:layout_marginTop="30dp"
-		android:textAlignment = "center"
-		android:textSize = "18sp"
-		android:textStyle = "italic"
-		android:typeface = "serif"
-		app:layout_constraintEnd_toEndOf = "parent"
-		app:layout_constraintStart_toStartOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@id/logo" />
+		android:padding="10dp"
+		android:text="Armenian Code Academy"
+		android:textAlignment="center"
+		android:textSize="30sp"
+		android:textStyle="bold"
+		android:typeface="serif"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/logo"
+		android:textColor="@color/white"/>
+
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="285dp"
+		android:layout_height="110dp"
+		android:layout_marginTop="56dp"
+		android:text="Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։"
+		android:textAlignment="center"
+		android:textStyle="italic"
+		android:textSize="20sp"
+		android:typeface="serif"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/text"
+		android:textColor="@color/white"/>
+
+	<TextView
+		android:id="@+id/textView2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="20dp"
+		android:text="Հ. 0.1.2.4.8.16.32\nԷ. info@aca.am"
+		android:textAlignment="center"
+		android:textColor="@color/white"
+		android:textSize="20sp"
+		android:textStyle="italic"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

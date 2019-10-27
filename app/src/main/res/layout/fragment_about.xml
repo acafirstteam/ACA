@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <TextView
         android:id="@+id/codeimage"
-        android:layout_width="218dp"
-        android:layout_height="72dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="90dp"
         android:layout_marginTop="52dp"
-        android:background="@drawable/code1"
+        android:text="{code}"
+        android:textSize="70sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +26,7 @@
         android:layout_below="@id/codeimage"
         android:layout_marginTop="37dp"
         android:gravity="center_vertical|center_horizontal|top"
-        android:text="Developers"
+        android:text="@string/devs"
         android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView

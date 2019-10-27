@@ -26,7 +26,6 @@
     <item name="contentPaddingTop">24dp</item>
     <item name="contentPaddingLeft">16dp</item>
     <item name="contentPaddingRight">16dp</item>
-    <item name="cardBackgroundColor">@color/dot_dark_screen4</item>
     </style>
 
 	<style name = "AppTheme.AppBarOverlay" parent = "ThemeOverlay.AppCompat.Dark.ActionBar" />
