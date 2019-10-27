@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_shape"
+    android:layout_marginRight="6dp"
     android:padding="12dp">
 
 
