@@ -8,9 +8,9 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="@color/cardview_shadow_end_color"
-    card_view:cardBackgroundColor="@color/colorPrimary"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="4dp"
+    card_view:cardBackgroundColor="@color/colorPrimaryLight"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -24,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/cover"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/cover"
             android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="bold"
             tools:text="Username" />
@@ -35,7 +35,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             fresco:actualImageScaleType="focusCrop"
-            fresco:backgroundImage="@color/recyclerview_item"
+            fresco:backgroundImage="@color/recycler_view_item"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/load"
             fresco:placeholderImageScaleType="centerCrop"

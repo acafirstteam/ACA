@@ -7,7 +7,7 @@ public
 class AdminItem {
     private Map<String, String> name;
     private Map<String, String> description;
-    private String url;
+    private int res;
     private Class cl;
 
     public
@@ -47,12 +47,12 @@ class AdminItem {
     }
 
     public
-    String getUrl () {
-        return url;
+    int getRes () {
+        return res;
     }
 
     public
-    void setUrl ( final String url ) {
-        this.url = url;
+    void setRes ( final int res ) {
+        this.res = res;
     }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,22 +8,18 @@
         android:id="@+id/codeimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="52dp"
-        android:text="{code}"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="@string/code"
         android:textSize="70sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/no_connection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/codeimage"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_vertical|center_horizontal|top"
         android:text="@string/devs"
         android:textSize="20sp" />
@@ -33,7 +28,17 @@
         android:id="@+id/recycler_view_members"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/no_connection"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_below="@id/no_connection" />
+
+    <ProgressBar
+        android:id = "@+id/loading"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:indeterminate = "true"
+        android:layout_centerInParent="true"
          />
 
 </RelativeLayout>

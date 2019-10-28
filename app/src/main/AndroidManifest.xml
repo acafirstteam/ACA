@@ -1,72 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="am.newway.aca">
+<manifest xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:tools = "http://schemas.android.com/tools"
+	package = "am.newway.aca">
 
-    <application
-        android:name=".App"
-        android:allowBackup="true"
-        android:fullBackupContent="true"
-        android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.student.StudenActivity">
+	<uses-permission android:name = "android.permission.INTERNET" />
+	<uses-permission android:name = "android.permission.CALL_PHONE" />
+	<uses-permission android:name = "android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name = "android.permission.WRITE_EXTERNAL_STORAGE" />
 
-        </activity>
+	<application
+		android:name = ".App"
+		android:allowBackup = "true"
+		android:fullBackupContent = "true"
+		android:hardwareAccelerated = "true"
+		android:icon = "@mipmap/ic_launcher"
+		android:label = "@string/app_name"
+		android:roundIcon = "@mipmap/ic_launcher_round"
+		android:supportsRtl = "true"
+		android:theme = "@style/AppTheme">
 
-        <activity
-            android:name=".ui.QrActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+		<activity android:name = ".ui.student.StudenActivity" />
 
-        <activity
-            android:name=".firebase.FirebaseLogin"
-            android:label="@string/signup"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:banner="@string/action_settings"
-            android:description="@string/todo"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
-        <activity
-            android:name=".ui.SplashScreen"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppFullScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+		<activity
+			android:name = ".ui.QrActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar">
+			<intent-filter>
+				<action android:name = "android.intent.action.MAIN" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name = ".firebase.FirebaseLogin"
+			android:label = "@string/signup"
+			android:screenOrientation = "portrait" />
+
+		<activity
+			android:name = ".MainActivity"
+			android:label = "@string/app_name"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar">
+			<intent-filter>
+				<action android:name = "android.intent.action.MAIN" />
+				<action android:name = "android.intent.action.VIEW" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name = "com.journeyapps.barcodescanner.CaptureActivity"
+			android:banner = "@string/action_settings"
+			android:description = "@string/todo"
+			android:hardwareAccelerated = "true"
+			android:screenOrientation = "fullSensor"
+			tools:replace = "screenOrientation" />
+
+		<activity
+			android:name = ".ui.SplashScreen"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppFullScreenTheme">
+			<intent-filter>
+				<action android:name = "android.intent.action.MAIN" />
+				<action android:name = "android.intent.action.VIEW" />
 
 				<category android:name = "android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".InfoActivity">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-        <activity android:name=".AdminEditCourseActivity" />
+		<activity
+			android:name = ".ui.InfoActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppFullScreenTheme" />
 
-    </application>
+		<activity
+			android:name = ".ui.admin.AdminMessageActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar" />
+
+		<activity
+			android:name = ".ui.admin.AdminStudentActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar" />
+
+		<activity
+			android:name = ".ui.admin.AdminCourseActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar" />
+
+		<service
+			android:name = ".service.AlertService"
+			android:exported = "true"
+			android:permission = "android.permission.BIND_JOB_SERVICE" />
+
+	</application>
 
 </manifest>

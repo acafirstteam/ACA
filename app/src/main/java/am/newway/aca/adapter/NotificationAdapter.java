@@ -16,44 +16,30 @@ import java.util.List;
 
 import am.newway.aca.R;
 import am.newway.aca.anim.RecyclerViewAnimator;
-import am.newway.aca.template.Course;
-import am.newway.aca.ui.fragments.DialogFragments;
+import am.newway.aca.template.Notification;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public
-class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
-    private List<Course> courses;
+class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
+    private List<Notification> notifications;
     private int animPosition = -1;
     private Context context;
     private String lang;
     private RecyclerViewAnimator mAnimator;
 
     public
-    CourseAdapter ( Context context , RecyclerViewAnimator mAnimator ) {
+    NotificationAdapter ( Context context , RecyclerViewAnimator mAnimator ) {
         this.mAnimator = mAnimator;
         this.context = context;
-        courses = new ArrayList<>();
+        notifications = new ArrayList<>();
     }
 
     public
-    int getPosition ( String name ) {
-        for ( int i = 0; i != courses.size(); i++ ) {
-            if ( courses.get( i ).getUrl().equals( name.trim() ) ) {
-                animPosition = i;
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public
-    void setCourses ( List<Course> courses ) {
-        if(courses != null) {
-            this.courses.clear();
-            this.courses.addAll( courses );
+    void setNotifications ( List<Notification> notifications ) {
+        if(notifications != null) {
+            this.notifications.clear();
+            this.notifications.addAll( notifications );
             notifyDataSetChanged();
         }
     }
@@ -69,7 +55,7 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
     ViewHolder onCreateViewHolder ( @NonNull final ViewGroup parent , int viewType ) {
         View view;
         view = LayoutInflater.from( parent.getContext() )
-                .inflate( R.layout.course_item , parent , false );
+                .inflate( R.layout.notification_item , parent , false );
 
         mAnimator.onCreateViewHolder( view );
 
@@ -86,7 +72,7 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
         }
         else
             mAnimator.onBindViewHolder( holder.itemView , position );
-        holder.bind( courses.get( position ) );
+        holder.bind( notifications.get( position ) );
     }
 
     @Override
@@ -98,12 +84,12 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
     @Override
     public
     int getItemCount () {
-        return courses.size();
+        return notifications.size();
     }
 
     public
-    Course getCourse ( final int i ) {
-        return courses.get( i );
+    Notification getNotification ( final int i ) {
+        return notifications.get( i );
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,7 +97,7 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
         TextView textViewCourseName;
         TextView textViewCourseDescription;
         SimpleDraweeView imageView;
-        Course course;
+        Notification notification;
 
         ViewHolder ( @NonNull final View itemView ) {
             super( itemView );
@@ -121,42 +107,19 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
             item_courses = itemView.findViewById( R.id.course_activity_layout_itm );
             imageView = itemView.findViewById( R.id.imageView );
 
-            if ( imageView != null ) {
-                imageView.setOnClickListener( new View.OnClickListener() {
-                    DialogFragments dialogFragments = new DialogFragments();
 
-                    @Override
-                    public
-                    void onClick ( View view ) {
-                        final FragmentManager fragmentManager =
-                                ( ( AppCompatActivity ) context ).getSupportFragmentManager()
-                                        .getFragments()
-                                        .get( 0 )
-                                        .getChildFragmentManager()
-                                        .getFragments()
-                                        .get( 0 )
-                                        .getChildFragmentManager();
-
-                        dialogFragments.setContext( context );
-                        dialogFragments.setCourse( course );
-                        dialogFragments.setLanguage( lang );
-                        dialogFragments.show( fragmentManager , course.getName() );
-                    }
-                } );
-            }
         }
 
         //@SuppressLint ( "DefaultLocale" )
-        void bind ( Course course ) {
+        void bind ( Notification notification ) {
 
             synchronized ( this ) {
 
                 //Uri uri = Uri.parse( "https://aca.am/assets/img/intro-level/cpp.png" );
-                this.course = course;
+                this.notification = notification;
                 if ( imageView != null ) {
-                    imageView.setImageURI( course.getUrl() );
+                    imageView.setImageURI( notification.getDate() );
                 }
-                //Log.e( "########" , "bind: " + course.getRes() );
             }
         }
     }
