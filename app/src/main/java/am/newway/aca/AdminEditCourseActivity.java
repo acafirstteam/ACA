@@ -46,7 +46,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     private Map<String, Object> groupName;
     private Map<String, Object> description;
     private String action = null;
-    private Uri imageURI;
+    private String imageURI;
 
 
     @Override
@@ -82,7 +82,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
 
 
     }
-
+//Action Update Course
     public void gotActionUpdateCourse() {
         position = bundle.getInt("pos", 0);
 
@@ -107,15 +107,24 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
 
 
     }
-
+//Action Add Course
     public void gotActionAddCourse() {
-
+        FIRESTORE.getCuorces(new Firestore.OnCourseReadListener() {
+            @Override
+            public void OnCourseRead(List<Course> courses) {
+                courseItems = new ArrayList<>(courses);
+            }
+        });
     }
+
+//On Cklick
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+//Save Button clicked
 
             case R.id.admin_edit_Save_btn_id:
 
@@ -129,20 +138,21 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                         !editLink.getText().toString().trim().isEmpty()
                 ) {
                     Toast.makeText(getApplicationContext(), "string is empty", Toast.LENGTH_SHORT).show();
-//                    createCourse();
-//
-//                    switch (action) {
-//                        case ADD:
-//                            break;
-//                        case UPDATE:
-//                            int a = 1;
-//                            break;
-//                    }
+                    createCourse();
+                    switch (action) {
+                        case ADD:
+                            FIRESTORE.addCourses(courseItems);
+                            break;
+                        case UPDATE:
+
+                            break;
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
+//ImageView Clicked
             case R.id.admin_edit_imageView_id:
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
@@ -151,7 +161,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
 
         }
     }
-
+//Activity Result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -159,15 +169,13 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         if (resultCode == RESULT_OK) {
             try {
                 final Uri imageUri = data.getData();
-                imageURI = imageUri;
                 final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 setImage.setImageBitmap(selectedImage);
-
                 FIRESTORE.uploadImage(imageUri, editCourseName.getText().toString(), new Firestore.OnImageUploadListener() {
                     @Override
                     public void OnImageUploaded(String uri) {
-
+                         imageURI = uri;
                     }
 
                     @Override
@@ -185,6 +193,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         }
     }
 
+//Create Course
     public void createCourse() {
 
         groupName.put(editGroupNameEng.getText().toString(), "en");
@@ -192,13 +201,12 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         description.put(editDescriptionEng.getText().toString(), "en");
         description.put(editDescriptionArm.getText().toString(), "hy");
 
-        String url = "url";
         Course course = new Course(
                 editCourseName.getText().toString(),
                 editLink.getText().toString(),
                 false,
                 Integer.parseInt(editGroupType.getText().toString()),
-                url
+                imageURI
         );
 
         course.setGroup(Integer.parseInt(editGroupType.getText().toString()));
