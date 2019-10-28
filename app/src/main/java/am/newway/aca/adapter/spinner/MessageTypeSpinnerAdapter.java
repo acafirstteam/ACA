@@ -1,8 +1,7 @@
-package am.newway.aca.adapter;
+package am.newway.aca.adapter.spinner;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +13,22 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.template.Course;
 
 public
-class CourseSpinnerAdapter extends ArrayAdapter<Course> {
+class MessageTypeSpinnerAdapter extends ArrayAdapter<String> {
+
+    private List<Integer> images;
 
     public
-    CourseSpinnerAdapter ( Activity context , int resourceId , int textViewId , List<Course> list ) {
+    MessageTypeSpinnerAdapter ( Activity context , int resourceId , int textViewId ,
+            List<String> list ) {
 
         super( context , resourceId , textViewId , list );
-        //        flater = context.getLayoutInflater();
+    }
+
+    public
+    void setImages ( List<Integer> images ) {
+        this.images = images;
     }
 
     @Override
@@ -41,15 +46,15 @@ class CourseSpinnerAdapter extends ArrayAdapter<Course> {
     private
     View rowView ( View convertView , int position ) {
 
-        Course course = getItem( position );
+        String name = getItem( position );
 
         ViewHolder holder;
         View rowview = convertView;
         if ( rowview == null ) {
             holder = new ViewHolder();
-            final LayoutInflater flater = ( LayoutInflater ) getContext().getSystemService(
+            final LayoutInflater flatter = ( LayoutInflater ) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE );
-            rowview = flater.inflate( R.layout.custom_spinner_layout , null , false );
+            rowview = flatter.inflate( R.layout.custom_spinner_layout , null , false );
 
             holder.txtTitle = rowview.findViewById( R.id.icon_spinner_levl_text );
             holder.imageView = rowview.findViewById( R.id.icon_spinner_levl );
@@ -58,8 +63,8 @@ class CourseSpinnerAdapter extends ArrayAdapter<Course> {
         else {
             holder = ( ViewHolder ) rowview.getTag();
         }
-        holder.imageView.setImageURI( course.getUrl() );
-        holder.txtTitle.setText( course.getName() );
+        holder.imageView.setImageResource( images.get( position ) );
+        holder.txtTitle.setText( name );
 
         return rowview;
     }

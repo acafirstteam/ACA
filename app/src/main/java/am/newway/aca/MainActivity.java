@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -25,7 +24,7 @@ import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
-import am.newway.aca.ui.NotificationActivity;
+import am.newway.aca.ui.InfoActivity;
 import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
@@ -54,6 +53,11 @@ class MainActivity extends BaseActivity {
 
         initNotifications();
 
+        if(!DATABASE.getSettings().isFirstStart()) {
+            DATABASE.getSettings().setFirstStart( true );
+            startActivity( new Intent( MainActivity.this , InfoActivity.class ) );
+        }
+
         //FIRESTORE.addCourses( CoursesInit.addCourse() );
 
         FIRESTORE.checkVisit( DATABASE.getStudent() , new Firestore.OnVisitCheckListener() {
@@ -72,7 +76,6 @@ class MainActivity extends BaseActivity {
 
             }
         } );
-
 
         fab = findViewById( R.id.fab );
         fab.setOnClickListener( new View.OnClickListener() {
@@ -93,8 +96,6 @@ class MainActivity extends BaseActivity {
                 }
             }
         } );
-
-        startActivity(new Intent(MainActivity.this, InfoActivity.class));
     }
 
     @Override

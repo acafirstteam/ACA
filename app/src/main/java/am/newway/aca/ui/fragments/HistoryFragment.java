@@ -13,7 +13,6 @@ import am.newway.aca.R;
 import am.newway.aca.adapter.HistoryAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Visit;
-import am.newway.aca.ui.BaseFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

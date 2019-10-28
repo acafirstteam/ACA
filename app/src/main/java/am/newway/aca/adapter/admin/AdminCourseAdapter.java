@@ -1,4 +1,4 @@
-package am.newway.aca.adapter;
+package am.newway.aca.adapter.admin;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 public
-class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyViewHolder> {
+class AdminCourseAdapter extends RecyclerView.Adapter<AdminCourseAdapter.MyViewHolder> {
 
-    private final String TAG = "AdminAdapter";
+    private final String TAG = "AdminMenuAdapter";
     private ArrayList<Course> courses;
 
     public
-    AdminPageAdapter ( ArrayList<Course> courses ) {
+    AdminCourseAdapter ( ArrayList<Course> courses ) {
         this.courses = courses;
     }
 
@@ -57,30 +57,24 @@ class AdminPageAdapter extends RecyclerView.Adapter<AdminPageAdapter.MyViewHolde
         return courses.size();
     }
 
-    public
     class MyViewHolder extends ViewHolder {
 
         private SimpleDraweeView logo;
         private TextView name;
         private View editBtn;
 
-        public
         MyViewHolder ( @NonNull View itemView ) {
             super( itemView );
 
-            logo = ( SimpleDraweeView ) itemView.findViewById( R.id.admin_course_item_logo_id );
-            name = ( TextView ) itemView.findViewById( R.id.admin_course_item_name_id );
-            editBtn = ( View ) itemView.findViewById( R.id.admin_course_item_edit_btn_id );
-
+            logo = itemView.findViewById( R.id.admin_course_item_logo_id );
+            name = itemView.findViewById( R.id.admin_course_item_name_id );
+            editBtn = itemView.findViewById( R.id.admin_course_item_edit_btn_id );
         }
 
-        public
         void bind ( Course course ) {
 
             logo.setImageURI( Uri.parse( course.getUrl() ) );
             name.setText( course.getName() );
-
         }
-
     }
 }

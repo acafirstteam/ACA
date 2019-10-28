@@ -39,6 +39,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.util.List;
 import java.util.Locale;
 
 import am.newway.aca.database.DatabaseHelper;
@@ -326,7 +327,18 @@ class BaseActivity extends AppCompatActivity {
                     new Firestore.OnNotificationListener() {
                         @Override
                         public
-                        void OnNotification (
+                        void OnNotificationRead (
+                                final List<am.newway.aca.template.Notification> notifications ) {
+                        }
+
+                        @Override
+                        public
+                        void OnNotificationFaild () {
+                        }
+
+                        @Override
+                        public
+                        void OnNewNotification (
                                 final am.newway.aca.template.Notification notification ) {
                             notificationDialog( "02" , notification );
                         }

@@ -1,70 +1,60 @@
 package am.newway.aca.ui.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.ui.BaseFragment;
+import am.newway.aca.firebase.Firestore;
+import am.newway.aca.template.Student;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class CompanyFragment extends BaseFragment {
+public
+class CompanyFragment extends BaseFragment {
 
-    public View onCreateView (
-            @NonNull LayoutInflater inflater , ViewGroup container , Bundle savedInstanceState
-    ) {
+    private TextView textCode;
+
+    public
+    View onCreateView ( @NonNull LayoutInflater inflater , ViewGroup container ,
+            Bundle savedInstanceState ) {
         View root = inflater.inflate( R.layout.fragment_company , container , false );
         setHasOptionsMenu( true );
         return root;
     }
 
     @Override
-    public void onViewCreated (
-            @NonNull final View view , @Nullable final Bundle savedInstanceState
-    ) {
+    public
+    void onViewCreated ( @NonNull final View view , @Nullable final Bundle savedInstanceState ) {
         super.onViewCreated( view , savedInstanceState );
 
-        view.findViewById( R.id.partner1 ).setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick ( final View view ) {
-                openPartnePage( Uri.parse( view.getTag().toString() ) );
-            }
-        } );
-        view.findViewById( R.id.partner2 ).setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick ( final View view ) {
-                openPartnePage( Uri.parse( view.getTag().toString() ) );
-            }
-        } );
-        view.findViewById( R.id.partner3 ).setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick ( final View view ) {
-                openPartnePage( Uri.parse( view.getTag().toString() ) );
-            }
-        } );
-        view.findViewById( R.id.partner4 ).setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick ( final View view ) {
-                openPartnePage( Uri.parse( view.getTag().toString() ) );
-            }
-        } );
+        textCode = view.findViewById( R.id.textCode );
+
+        Student student = DATABASE.getStudent();
+        if ( student.getId() != null && !student.getId().equals( "-1" ) ) {
+
+            FIRESTORE.getDoorCode( new Firestore.OnDoorCodeListener() {
+                @Override
+                public
+                void OnLoaded ( @Nullable final List<String> developers ) {
+                    if ( developers != null )
+                        textCode.setText( developers.get( 0 ) );
+                }
+            } );
+        }else{
+            textCode.setVisibility( View.GONE );
+            view.findViewById( R.id.textDoorCode ).setVisibility( View.GONE );
+        }
     }
 
     @Override
-    public void onPrepareOptionsMenu ( Menu menu ) {
-        //menu.findItem( R.id.app_bar_search ).setVisible( false );
-        //menu.findItem( R.id.action_filter ).setVisible( false );
+    public
+    void onPrepareOptionsMenu ( @NonNull Menu menu ) {
         super.onPrepareOptionsMenu( menu );
-    }
-
-    private void openPartnePage ( Uri uri ) {
-        Intent intent = new Intent( Intent.ACTION_VIEW );
-        intent.setData( uri );
-        startActivity( intent );
     }
 }

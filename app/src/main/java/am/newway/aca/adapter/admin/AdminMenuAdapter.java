@@ -1,4 +1,4 @@
-package am.newway.aca.adapter;
+package am.newway.aca.adapter.admin;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,14 +21,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public
-class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.ViewHolder> {
+class AdminMenuAdapter extends RecyclerView.Adapter<AdminMenuAdapter.ViewHolder> {
     private Context context;
     private String lang;
     private RecyclerViewAnimator mAnimator;
     private List<AdminItem> items;
 
     public
-    AdminAdapter ( Context context , RecyclerViewAnimator mAnimator ) {
+    AdminMenuAdapter ( Context context , RecyclerViewAnimator mAnimator ) {
         this.mAnimator = mAnimator;
         this.context = context;
         items = new ArrayList<>();
@@ -114,7 +114,7 @@ class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.ViewHolder> {
             textName.setText( item.getName( lang ) );
             textDescription.setText( item.getDescription( lang ) );
             if ( imageView != null ) {
-                imageView.setImageURI( item.getUrl() );
+                imageView.setImageResource( item.getRes() );
             }
         }
     }

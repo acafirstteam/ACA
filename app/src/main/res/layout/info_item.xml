@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	android:background = "@drawable/info_shape"
+	android:gravity = "center"
+	android:orientation = "vertical">
+
+	<com.airbnb.lottie.LottieAnimationView
+		android:id = "@+id/animation_view"
+		android:layout_width = "wrap_content"
+		android:layout_height = "128dp"
+		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintHorizontal_bias = "0.49"
+		app:layout_constraintStart_toStartOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent"
+		android:layout_marginTop="15dp"
+		app:lottie_autoPlay = "true"
+		app:lottie_fileName = "457-moving-bus.json"
+		app:lottie_scale="0.3"
+		app:lottie_loop = "true"
+		tools:ignore = "MissingConstraints" />
+
+	<ImageView
+		android:id = "@+id/image_slide"
+		android:layout_width = "@dimen/img_width_height"
+		android:layout_height = "@dimen/img_width_height"
+		android:visibility="gone"
+		android:contentDescription = "@string/todo" />
+
+	<TextView
+		android:id = "@+id/slide_heading"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:textColor = "@android:color/white"
+		android:textSize = "@dimen/slide_title"
+		android:textStyle = "bold"
+		tools:text = "HEADING" />
+
+	<TextView
+		android:id = "@+id/slide_desc"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginTop = "20dp"
+		android:paddingLeft = "@dimen/desc_padding"
+		android:paddingRight = "@dimen/desc_padding"
+		android:textAlignment = "center"
+		android:textColor = "@android:color/white"
+		android:textSize = "@dimen/slide_desc"
+		tools:text = "Desc" />
+
+</LinearLayout>

@@ -4,30 +4,15 @@
 	<string name = "action_settings">Կարգավորումներ</string>
 	<string name = "cancelled">Չեղարկում</string>
 	<string name = "wellcome_text">Armenian Code Academy</string>
-	<string name = "description_text">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։\nՀ. 0.1.2.4.8.16.32\nԷ. info@aca.am</string>
+	<string name = "description_text">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</string>
 
+	<string name = "next" translatable = "false">Հաջորդը</string>
+	<string name = "skip" translatable = "false">Բաց թողնել</string>
 
-	<string name="next" translatable="false">NEXT</string>
-	<string name="skip" translatable="false">SKIP</string>
-	<string name="start" translatable="false">GOT IT</string>
+	<string name = "play_again_desc" translatable = "false">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+	<string name = "play_again" translatable = "false">Play Again</string>
 
-	<string name="slide_1_title" translatable="false">{Armenian Code Academy}</string>
-	<string name="slide_1_desc" translatable="false">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</string>
-
-	<string name="slide_2_title" translatable="false">Դասընթացներ</string>
-	<string name="slide_2_desc" translatable="false">Մենք առաջարկում ենք դասընթացներ ամենանորարար և պահանջված IT մասնագիտություններում։</string>
-
-	<string name="slide_3_title" translatable="false">Վկայական</string>
-	<string name="slide_3_desc" translatable="false">Մեր վկայականները ճանաչվում և բարձր են գնահատվում հայաստանյան IT ընկերությունների կողմից։</string>
-
-	<string name="slide_4_title" translatable="false">Աշխատանք</string>
-	<string name="slide_4_desc" translatable="false">Մեր շրջանավարտները ստանում են բարձր վարձատրվող
-		աշխատանքի հրավերներ լավագույն IT ընկերություններից:</string>
-
-	<string name="play_again_desc" translatable="false">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
-	<string name="play_again" translatable="false">Play Again</string>
-
-	<string name="todo">TODO</string>
+	<string name = "todo">TODO</string>
 
 	<string name = "menu_home">Դասընթացներ</string>
 	<string name = "menu_company">Կազմակերպություն</string>
@@ -52,17 +37,34 @@
 	<!--<string name="student">Ուսանող</string>
 	<string name="admin_text">Ադմինիստրատոր</string>-->
 
-	<string-array name="notification_type">
+	<string-array name = "info_title">
+		<item>{Armenian Code Academy}</item>
+		<item>Դասընթացներ</item>
+		<item>Վկայական</item>
+		<item>Աշխատանք</item>
+	</string-array>
+
+	<string-array name = "info_description">
+		<item>Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</item>
+		<item>Մենք առաջարկում ենք դասընթացներ ամենանորարար և պահանջված IT մասնագիտություններում։</item>
+		<item>Մեր վկայականները ճանաչվում և բարձր են գնահատվում հայաստանյան IT ընկերությունների կողմից։</item>
+		<item>Մեր շրջանավարտները ստանում են բարձր վարձատրվող աշխատանքի հրավերներ լավագույն IT ընկերություններից:</item>
+	</string-array>
+
+	<string-array name = "notification_type">
 		<item>Հաղորդագրություն</item>
 		<item>Զգուշացում</item>
 		<item>Նորություն</item>
 	</string-array>
-	<string-array name="notification_segment">
+
+	<string-array name = "notification_segment">
 		<item>Բոլորը</item>
 		<item>Ադմինիստրատորներ</item>
 		<item>Դասախոսներ</item>
-		<item>Ուսանոցներ</item>
+		<item>Ուսանողներ</item>
+		<item>Դասեր</item>
 	</string-array>
+
 	<string name = "title_activity_notification">Հաղորդագրություններ</string>
 	<string name = "notification">Հաղորդագրություն</string>
 	<string name = "notification_segment">Օգտատերերի հատված</string>
@@ -81,6 +83,14 @@
 	<string name = "administrator">Ադմինիստրատոր</string>
 	<string name = "alert">Զգուշացում</string>
 	<string name = "courses_levels">Դասընթացի մակարդակը</string>
+	<string name = "log_out">Դուրս գալ</string>
+	<string name = "title_activity_licenses">Արտոնագրեր</string>
+	<string name = "devs">Ծրագրավորողներ</string>
+	<string name = "finish">Ավարտ</string>
+	<string name = "back">Վերադառնալ</string>
+	<string name = "code">{code}</string>
+	<string name = "company_text">Հ. 0.1.2.4.8.16.32 \nԷ. info@aca.am</string>
+	<string name = "doors_codes">Դռների կոդեր</string>
 
 
 </resources>

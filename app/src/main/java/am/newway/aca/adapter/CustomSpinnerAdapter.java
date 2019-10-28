@@ -43,7 +43,7 @@ class CustomSpinnerAdapter extends ArrayAdapter<Course> {
 //        TextView spinnerTV = convertView.findViewById( R.id.icon_spinner_levl_text );
 //
 //        if ( itemSpinner != null ) {
-//            //spinnerIV.setImageURI( itemSpinner.getUrl() );
+//            //spinnerIV.setImageURI( itemSpinner.getRes() );
 //            //spinnerTV.setText( itemSpinner.getGroup_name().get( "en" ).toString() );
 //            spinnerTV.setText( itemSpinner.getName() );
 //        }

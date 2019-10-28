@@ -1,4 +1,4 @@
-package am.newway.aca.ui;
+package am.newway.aca.ui.admin;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -16,24 +15,28 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
-import am.newway.aca.adapter.AutocompleteAdapter;
+import am.newway.aca.adapter.spinner.AutocompleteCourseAdapter;
+import am.newway.aca.adapter.spinner.AutocompleteStudentAdapter;
+import am.newway.aca.adapter.spinner.MessageTypeSpinnerAdapter;
 import am.newway.aca.firebase.Firestore;
+import am.newway.aca.template.Course;
 import am.newway.aca.template.Notification;
 import am.newway.aca.template.Student;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public
-class NotificationActivity extends BaseActivity {
+class AdminMessageActivity extends BaseActivity {
 
     private final String TAG = getClass().getSimpleName();
-    private Student student;
+    private String ident;
     private Spinner spinnerType;
     private Spinner spinnerSegment;
     private EditText editText;
@@ -72,19 +75,38 @@ class NotificationActivity extends BaseActivity {
             }
         } );
 
-        ArrayAdapter<?> adapterType =
-                ArrayAdapter.createFromResource( this , R.array.notification_type ,
-                        android.R.layout.simple_spinner_item );
-        adapterType.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+        List<String> strings =
+                Arrays.asList( getResources().getStringArray( R.array.notification_type ) );
+        List<Integer> images =
+                Arrays.asList( R.drawable.message , R.drawable.alert , R.drawable.news );
+        MessageTypeSpinnerAdapter messageTypeSpinnerAdapter =
+                new MessageTypeSpinnerAdapter( this , R.layout.custom_spinner_layout ,
+                        android.R.layout.simple_spinner_item , strings );
+        messageTypeSpinnerAdapter.setImages( images );
 
-        spinnerType.setAdapter( adapterType );
+        //        ArrayAdapter<?> adapterType =
+        //                ArrayAdapter.createFromResource( this , R.array.notification_type ,
+        //                        android.R.layout.simple_spinner_item );
+        //        adapterType.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 
-        ArrayAdapter<?> adapterSegment =
-                ArrayAdapter.createFromResource( this , R.array.notification_segment ,
-                        android.R.layout.simple_spinner_item );
-        adapterSegment.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+        spinnerType.setAdapter( messageTypeSpinnerAdapter );
 
-        spinnerSegment.setAdapter( adapterSegment );
+        List<String> stringsSegment =
+                Arrays.asList( getResources().getStringArray( R.array.notification_segment ) );
+        List<Integer> imagesSegment =
+                Arrays.asList( R.drawable.all , R.drawable.administrator , R.drawable.lecturer ,
+                        R.drawable.student , R.drawable.course );
+        messageTypeSpinnerAdapter =
+                new MessageTypeSpinnerAdapter( this , R.layout.custom_spinner_layout ,
+                        android.R.layout.simple_spinner_item , stringsSegment );
+        messageTypeSpinnerAdapter.setImages( imagesSegment );
+
+        //        ArrayAdapter<?> adapterSegment =
+        //                ArrayAdapter.createFromResource( this , R.array.notification_segment ,
+        //                        android.R.layout.simple_spinner_item );
+        //        adapterSegment.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+
+        spinnerSegment.setAdapter( messageTypeSpinnerAdapter );
 
         spinnerType.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,7 +128,34 @@ class NotificationActivity extends BaseActivity {
             public
             void onItemSelected ( final AdapterView<?> adapterView , final View view , final int i ,
                     final long l ) {
-                autoCompleteTextView.setEnabled( i == 3 );
+                autoCompleteTextView.setEnabled( i != 0 );
+
+                if ( i != 0 && i != 4 ) {
+                    FIRESTORE.getActiveStudents( new Firestore.OnStudentsLoadistener() {
+                        @Override
+                        public
+                        void OnStudentLoaded ( @Nullable final List<Student> students ) {
+                            AutocompleteStudentAdapter adapter =
+                                    new AutocompleteStudentAdapter( AdminMessageActivity.this ,
+                                            R.layout.student_autocomplete_item ,
+                                            ( ArrayList<Student> ) students );
+                            autoCompleteTextView.setAdapter( adapter );
+                        }
+                    } );
+                }
+                else if ( i == 4 ) {
+                    FIRESTORE.getCuorces( new Firestore.OnCourseReadListener() {
+                        @Override
+                        public
+                        void OnCourseRead ( final List<Course> courses ) {
+                            AutocompleteCourseAdapter adapter =
+                                    new AutocompleteCourseAdapter( AdminMessageActivity.this ,
+                                            R.layout.student_autocomplete_item ,
+                                            ( ArrayList<Course> ) courses );
+                            autoCompleteTextView.setAdapter( adapter );
+                        }
+                    } );
+                }
             }
 
             @Override
@@ -116,23 +165,20 @@ class NotificationActivity extends BaseActivity {
             }
         } );
 
-        FIRESTORE.getActiveStudents( new Firestore.OnStudentsLoadistener() {
-            @Override
-            public
-            void OnStudentLoaded ( @Nullable final List<Student> students ) {
-                AutocompleteAdapter adapter = new AutocompleteAdapter( NotificationActivity.this ,
-                        R.layout.student_autocomplete_item , ( ArrayList<Student> ) students );
-                autoCompleteTextView.setAdapter( adapter );
-            }
-        } );
-
         autoCompleteTextView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
             public
             void onItemClick ( final AdapterView<?> adapterView , final View view , final int i ,
                     final long l ) {
-                student = ( Student ) adapterView.getItemAtPosition( i );
-                autoCompleteTextView.setText( student.getName() );
+                String name = "";
+                if(adapterView.getItemAtPosition( i ) instanceof Student) {
+                    name = ( ( Student ) adapterView.getItemAtPosition( i ) ).getName();
+                    ident = ( ( Student ) adapterView.getItemAtPosition( i ) ).getId();
+                }
+                else if(adapterView.getItemAtPosition( i ) instanceof Course) {
+                    ident = name = (( Course ) adapterView.getItemAtPosition( i )).getName();
+                }
+                autoCompleteTextView.setText( name );
             }
         } );
     }
@@ -146,9 +192,7 @@ class NotificationActivity extends BaseActivity {
             void OnLastId ( @Nullable final int id ) {
                 int nType = spinnerType.getSelectedItemPosition();
                 int nSegment = spinnerSegment.getSelectedItemPosition();
-                String strIdent = "";
-                if ( student != null && student.getId() != null )
-                    strIdent = student.getId();
+
                 String messageText = editText.getText().toString();
 
                 SimpleDateFormat formatter =
@@ -156,7 +200,7 @@ class NotificationActivity extends BaseActivity {
                 Date date = new Date();
 
                 Notification notification =
-                        new Notification( messageText , strIdent , nType , nSegment ,
+                        new Notification( messageText , ident , nType , nSegment ,
                                 formatter.format( date ) );
                 notification.setId( id + 1 );
 
