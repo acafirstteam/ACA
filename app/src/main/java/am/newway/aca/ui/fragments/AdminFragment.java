@@ -13,6 +13,7 @@ import am.newway.aca.adapter.AdminAdapter;
 import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.AdminItem;
 import am.newway.aca.ui.BaseFragment;
+import am.newway.aca.ui.NotificationActivity;
 import am.newway.aca.ui.student.StudenActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,22 +68,40 @@ public class AdminFragment extends BaseFragment {
         recyclerView.setLayoutManager( layoutManager );
 
         AdminItem item = new AdminItem();
-        item.setName( "1" );
-        item.setDescription( "2" );
+        item.setName( "hy", "Դասընթացներ" );
+        item.setDescription( "hy","Դասընթցների խմբագրման ավելացման և հեռացման աշխատանքային " +
+                "գործիք" );
+        item.setName( "en", "Courses" );
+        item.setDescription( "en","Working tool for editing adding and removing courses " );
         item.setUrl( "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/47536.png?alt=media&token=494df820-fcd1-42bc-b7ac-dcc640a6c3fd" );
         item.setCl( AdminActivity.class );
 
         items.add( item );
 
         item = new AdminItem();
-        item.setName( "3" );
-        item.setDescription( "4" );
+        item.setName( "hy", "Այցելուներ" );
+        item.setDescription( "hy","Այցելուների ավելացման հեռացման կարգավիճակի փոփոխման " +
+                "դասընթացների նշանակման գործիք" );
+        item.setName( "en", "Visitors" );
+        item.setDescription( "en","Assignment tool to change the removal status of the add visitors" );
         item.setUrl( "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/33308.png?alt=media&token=8adbf375-9d17-4557-86ac-9c437ce8484e" );
         item.setCl( StudenActivity.class );
 
         items.add( item );
 
+        item = new AdminItem();
+        item.setName( "hy", "Հաղորդագրություններ" );
+        item.setDescription( "hy","Հաղորդագրություններ ուղարկելու գործիք ըստ խմբերի, անհատների և " +
+                "այցելուների կարգավիճակի" );
+        item.setName( "en", "Messages" );
+        item.setDescription( "en","Messaging tool by groups, individuals, and visitor status" );
+        item.setUrl( "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/60977.png?alt=media&token=eb264c98-eb28-4281-a0a2-3792eddcff12" );
+        item.setCl( NotificationActivity.class );
+
+        items.add( item );
+
         adapter = new AdminAdapter( getActivity(), new RecyclerViewAnimator( recyclerView ) );
+        adapter.setLanguage( DATABASE.getSettings().getLanguage() );
         adapter.setItems( items );
         recyclerView.setAdapter( adapter );
     }

@@ -75,7 +75,6 @@
 				android:id = "@+id/edit_fullname"
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
-				android:imeOptions="actionDone"
 				android:hint = "@string/full_name"
 				android:inputType = "textPersonName" />
 
@@ -94,7 +93,6 @@
 				android:id = "@+id/edit_email"
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
-				android:enabled="false"
 				android:hint = "@string/email"
 				android:inputType = "textEmailAddress|textEmailSubject" />
 
@@ -114,7 +112,6 @@
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
 				android:hint = "@string/phone_number"
-				android:imeOptions="actionDone"
 				android:inputType = "phone" />
 
 		</com.google.android.material.textfield.TextInputLayout>

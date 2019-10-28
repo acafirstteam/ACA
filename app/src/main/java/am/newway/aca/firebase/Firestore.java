@@ -456,7 +456,7 @@ class Firestore {
         //this.listener_course = listener;
 
         final String COURSE_COLLECTION = "Courses";
-        db.collection( COURSE_COLLECTION )
+        db.collection( COURSE_COLLECTION ).orderBy( "group_name" )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -727,6 +727,7 @@ class Firestore {
                 db.collection( COURSE_COLLECTION ).document( String.valueOf( course.getName() ) );
 
         ObjectMapper oMapper = new ObjectMapper();
+        @SuppressWarnings( "unchecked" )
         Map<String, Object> map = oMapper.convertValue( course , Map.class );
 
         docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
@@ -792,7 +793,7 @@ class Firestore {
                             notification.setId( Integer.valueOf( doc.getId() ) );
                             if ( listener != null )
                                 listener.OnNotification( notification );
-                            Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
+                            //Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
 
                         }
                         else
