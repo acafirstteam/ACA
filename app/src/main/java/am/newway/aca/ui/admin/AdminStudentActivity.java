@@ -1,13 +1,8 @@
-package am.newway.aca;
-
-import am.newway.aca.adapter.CourseSpinnerAdapter;
-import am.newway.aca.firebase.Firestore;
-import am.newway.aca.template.Course;
-import am.newway.aca.template.Student;
+package am.newway.aca.ui.admin;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,8 +14,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import am.newway.aca.BaseActivity;
+import am.newway.aca.R;
+import am.newway.aca.adapter.spinner.CourseSpinnerAdapter;
+import am.newway.aca.firebase.Firestore;
+import am.newway.aca.template.Course;
+import am.newway.aca.template.Student;
+import androidx.annotation.NonNull;
+
 public
-class AdminStudentStatus extends BaseActivity {
+class AdminStudentActivity extends BaseActivity {
     //private ArrayList<CustomItemSpinner> customList, customListTwo;
     private List<Course> courses;
     private List<String> groups;
@@ -60,7 +63,9 @@ class AdminStudentStatus extends BaseActivity {
     protected
     void onCreate ( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_admin_student_status );
+        setContentView( R.layout.activity_admin_student );
+
+        initNavigationBar( 2 );
 
         //Views
         final TextView textNameStudentItm = findViewById( R.id.textNameStudentItmA );
@@ -107,7 +112,7 @@ class AdminStudentStatus extends BaseActivity {
                 String group = adapterView.getItemAtPosition( i ).toString();
                 List<Course> course = getFilteredCourse( group );
                 adapter2 =
-                        new CourseSpinnerAdapter( AdminStudentStatus.this , R.layout.custom_spinner_layout ,
+                        new CourseSpinnerAdapter( AdminStudentActivity.this , R.layout.custom_spinner_layout ,
                                 android.R.layout.simple_spinner_item , course );
                 customSpinner2.setAdapter( adapter2 );
             }
@@ -148,5 +153,15 @@ class AdminStudentStatus extends BaseActivity {
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 
         customSpinner.setAdapter( adapter );
+    }
+
+    @Override
+    public
+    boolean onOptionsItemSelected ( @NonNull final MenuItem item ) {
+        if ( item.getItemId() == android.R.id.home ) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 }

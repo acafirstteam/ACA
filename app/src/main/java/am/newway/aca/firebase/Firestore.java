@@ -45,6 +45,8 @@ class Firestore {
     private StorageReference storageReference;
     private static String NOTIFICATION_COLLECTION = "Notification";
     private static String VISIT_COLLECTION = "Visits";
+    private static String DEVELOPER_COLLECTION = "Developers";
+    private static String DOORCODE_COLLECTION = "DoorCode";
     private static String STUDENT_COLLECTION = "Students";
     private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
@@ -648,6 +650,65 @@ class Firestore {
                 } );
     }
 
+    public
+    void getDevelopers ( final OnDeveloperListener listener ) {
+        if ( db == null )
+            db = FirebaseFirestore.getInstance();
+        db.collection( DEVELOPER_COLLECTION )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        final List<String> developers = new ArrayList<>();
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                developers.add( doc.get( "github" ).toString() );
+                            }
+                        }
+                        if ( listener != null )
+                            listener.OnLoaded( developers );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading developers" );
+                    }
+                } );
+    }
+
+    public
+    void getDoorCode ( final OnDoorCodeListener listener ) {
+        initFirestore();
+        db.collection( DOORCODE_COLLECTION )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        final List<String> codes = new ArrayList<>();
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                codes.add( doc.get( "code" ).toString() );
+                            }
+                        }
+                        if ( listener != null )
+                            listener.OnLoaded( codes );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading developers" );
+                    }
+                } );
+    }
+
     /**
      * Վերադարձնում է ուսանողների ամբողջական ցանկը
      *
@@ -967,6 +1028,16 @@ class Firestore {
     public
     interface OnVisitListener {
         void OnLoaded ( @Nullable List<Visit> visits );
+    }
+
+    public
+    interface OnDeveloperListener {
+        void OnLoaded ( @Nullable List<String> developers );
+    }
+
+    public
+    interface OnDoorCodeListener {
+        void OnLoaded ( @Nullable List<String> developers );
     }
 
     public

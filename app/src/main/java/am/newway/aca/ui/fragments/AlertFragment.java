@@ -12,7 +12,6 @@ import am.newway.aca.adapter.NotificationAdapter;
 import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Notification;
-import am.newway.aca.ui.BaseFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

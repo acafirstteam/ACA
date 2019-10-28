@@ -1,4 +1,4 @@
-package am.newway.aca.adapter;
+package am.newway.aca.adapter.spinner;
 
 import android.content.Context;
 import android.net.Uri;
@@ -15,24 +15,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.template.Student;
+import am.newway.aca.template.Course;
 import androidx.annotation.NonNull;
 
 public
-class AutocompleteAdapter extends ArrayAdapter<Student> {
-    private List<Student> students;
-    private List<Student> studentsAll;
-    private List<Student> suggestions;
+class AutocompleteCourseAdapter extends ArrayAdapter<Course> {
+    private List<Course> courses;
+    private List<Course> coursesAll;
+    private List<Course> suggestions;
     private Context context;
 
     @SuppressWarnings( "unchecked" )
     public
-    AutocompleteAdapter ( Context context , int layout , ArrayList<Student> list ) {
+    AutocompleteCourseAdapter ( Context context , int layout , ArrayList<Course> list ) {
 
         super( context , layout , list );
         this.context = context;
-        this.students = list;
-        this.studentsAll = (ArrayList<Student>)list.clone();
+        this.courses = list;
+        this.coursesAll = (ArrayList<Course>)list.clone();
         this.suggestions = new ArrayList<>();
     }
 
@@ -48,7 +48,7 @@ class AutocompleteAdapter extends ArrayAdapter<Student> {
         @Override
         public
         String convertResultToString ( Object resultValue ) {
-            return ( ( Student ) ( resultValue ) ).getName();
+            return ( ( Course ) ( resultValue ) ).getName();
         }
 
         @Override
@@ -56,11 +56,11 @@ class AutocompleteAdapter extends ArrayAdapter<Student> {
         FilterResults performFiltering ( CharSequence constraint ) {
             if ( constraint != null ) {
                 suggestions.clear();
-                for ( Student student : studentsAll ) {
-                    if ( student.getName()
+                for ( Course course : coursesAll ) {
+                    if ( course.getName()
                             .toLowerCase()
                             .startsWith( constraint.toString().toLowerCase() ) ) {
-                        suggestions.add( student );
+                        suggestions.add( course );
                     }
                 }
                 FilterResults filterResults = new FilterResults();
@@ -77,39 +77,16 @@ class AutocompleteAdapter extends ArrayAdapter<Student> {
         @SuppressWarnings ( "unchecked" )
         protected
         void publishResults ( CharSequence constraint , FilterResults results ) {
-            List<Student> filteredList = ( List<Student> ) results.values;
+            List<Course> filteredList = ( List<Course> ) results.values;
             if ( results.count > 0 ) {
                 clear();
-                for ( Student c : filteredList ) {
+                for ( Course c : filteredList ) {
                     add( c );
                 }
             }
-//            else {
-//                addAll( studentsAll );
-//            }
             notifyDataSetChanged();
         }
     };
-
-//    @Override
-//    public
-//    int getCount () {
-//        return students.size();
-//    }
-//
-//    @Override
-//    public
-//    Student getItem ( int position ) {
-//        return students.get( position );
-//    }
-//
-//    @Override
-//    public
-//    long getItemId ( int position ) {
-//        return position;
-//    }
-
-
 
     @NonNull
     @Override
@@ -123,16 +100,14 @@ class AutocompleteAdapter extends ArrayAdapter<Student> {
         else
             row = convertView;
 
-        Student student = students.get( position );
+        Course course = courses.get( position );
         assert row != null;
         SimpleDraweeView image = row.findViewById( R.id.imageViewStudent );
         TextView name = row.findViewById( R.id.textNameStudent );
-        TextView course = row.findViewById( R.id.textCourseStudent );
 
-        name.setText( student.getName() );
-        course.setText( student.getCourse() );
-        if ( student.getPicture() != null )
-            image.setImageURI( Uri.parse( student.getPicture() ) );
+        name.setText( course.getName() );
+        if ( course.getUrl() != null )
+            image.setImageURI( Uri.parse( course.getUrl() ) );
 
         return row;
     }

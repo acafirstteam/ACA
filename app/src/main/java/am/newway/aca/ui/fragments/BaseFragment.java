@@ -1,4 +1,4 @@
-package am.newway.aca.ui;
+package am.newway.aca.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ class BaseFragment extends Fragment {
 
     protected DatabaseHelper DATABASE;
     protected Firestore FIRESTORE;
-    protected final String ENGLISH = "en";
-    protected final String ARMENIAN = "hy";
+    final String ENGLISH = "en";
+    final String ARMENIAN = "hy";
 
     @Override
     public

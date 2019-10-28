@@ -10,24 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.adapter.StudentAdapter;
-import am.newway.aca.template.Course;
+import am.newway.aca.adapter.admin.AdminStudentAdapter;
 import am.newway.aca.template.Student;
-import am.newway.aca.ui.home.HomeViewModel;
 import am.newway.aca.util.RecyclerViewMargin;
 
 public class StudenActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
 
-    private StudentAdapter studentAdapter;
+    private AdminStudentAdapter adminStudentAdapter;
     private CardView cardView;
     private StudentViewModel studentViewModel;
 
@@ -49,17 +46,17 @@ public class StudenActivity extends AppCompatActivity {
         //setHasOptionsMenu( true );
         RecyclerView.LayoutManager mManager = new LinearLayoutManager(StudenActivity.this, LinearLayoutManager.VERTICAL, false);
 
-        studentAdapter = new StudentAdapter(new ArrayList<Student>(), this);
+        adminStudentAdapter = new AdminStudentAdapter(new ArrayList<Student>(), this);
 
         recyclerView.setLayoutManager( mManager );
         studentViewModel.getStudents();
 
-        recyclerView.setAdapter(studentAdapter);
+        recyclerView.setAdapter( adminStudentAdapter );
 
         studentViewModel.getData().observe(this, new Observer<List<Student>>() {
             @Override
             public void onChanged(@Nullable List<Student> students) {
-                studentAdapter.setStudents( students );
+                adminStudentAdapter.setStudents( students );
                 progressBar.setVisibility(View.GONE);
             }
         });

@@ -156,7 +156,7 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
                 if ( imageView != null ) {
                     imageView.setImageURI( course.getUrl() );
                 }
-                //Log.e( "########" , "bind: " + course.getUrl() );
+                //Log.e( "########" , "bind: " + course.getRes() );
             }
         }
     }

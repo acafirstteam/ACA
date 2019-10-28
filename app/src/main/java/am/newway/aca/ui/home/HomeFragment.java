@@ -17,7 +17,7 @@ import am.newway.aca.R;
 import am.newway.aca.adapter.ViewPagerAdapter;
 import am.newway.aca.template.Course;
 import am.newway.aca.template.Visit;
-import am.newway.aca.ui.BaseFragment;
+import am.newway.aca.ui.fragments.BaseFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;

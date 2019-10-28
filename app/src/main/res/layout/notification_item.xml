@@ -52,10 +52,11 @@
 				app:layout_constraintLeft_toLeftOf = "parent"
 				app:layout_constraintTop_toTopOf = "parent"
 				app:layout_constraintBottom_toBottomOf="parent"
-				fresco:backgroundImage = "@color/recyclerview_item"
+				fresco:backgroundImage = "@color/recycler_view_item"
+				fresco:actualImageScaleType="centerCrop"
 				fresco:fadeDuration = "300"
 				fresco:placeholderImage = "@mipmap/ic_launcher"
-				fresco:placeholderImageScaleType = "centerCrop"
+				fresco:placeholderImageScaleType = "fitCenter"
 				fresco:roundAsCircle = "true"
 				fresco:roundingBorderColor = "@color/colorPrimaryDark" />
 

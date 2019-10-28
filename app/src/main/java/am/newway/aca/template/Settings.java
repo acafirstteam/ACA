@@ -13,6 +13,7 @@ class Settings {
     private boolean login;
     private boolean notification;
     private boolean firstAnimation;
+    private boolean firstStart = false;
     private String language;
     private OnSettingsChangeListener listener;
     private final String TAG = getClass().getSimpleName();
@@ -34,6 +35,18 @@ class Settings {
     public
     Settings () {
 
+    }
+
+    public
+    boolean isFirstStart () {
+        return firstStart;
+    }
+
+    public
+    void setFirstStart ( final boolean firstStart ) {
+        this.firstStart = firstStart;
+        if ( listener != null )
+            listener.OnSettingsChanged();
     }
 
     public
