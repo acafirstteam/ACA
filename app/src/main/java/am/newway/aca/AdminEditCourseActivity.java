@@ -56,6 +56,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     private String imageURI;
     private Uri imagePath;
     private String url;
+    private boolean imagePicked = false;
 
 
 
@@ -151,42 +152,77 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                     switch (action) {
     //CASE ADD
                         case ADD:
-                            Log.d(TAG, "---------------------- Case ADD");
-                            FIRESTORE.uploadImage(imagePath, editCourseName.getText().toString(), new Firestore.OnImageUploadListener() {
-                                @Override
-                                public void OnImageUploaded(String uri) {
-                                    imageURI = uri;
-                                    ArrayList<Course> courses = new ArrayList<>();
-                                    courses.add(createCourse());
-                                    FIRESTORE.addCourses(courses);
-                                    Log.d(TAG, "----------------------URI: " + imageURI);
-                                    Toast.makeText(getApplicationContext(),"New Course Added",Toast.LENGTH_SHORT).show();
-                                }
+                            if (imagePicked == false){   //IMAGE NOT PICKED
+                                Toast.makeText(getApplicationContext(), "Please Pick Course Image",Toast.LENGTH_SHORT).show();
+                            }else {                      //IMAGE PICKED
+                                Log.d(TAG, "---------------------- Case ADD");
+                                FIRESTORE.uploadImage(imagePath, editCourseName.getText().toString(), new Firestore.OnImageUploadListener() {
+                                    @Override
+                                    public void OnImageUploaded(String uri) {
+                                        imageURI = uri;
+                                        ArrayList<Course> courses = new ArrayList<>();
+                                        courses.add(createCourse());
+                                        FIRESTORE.addCourses(courses);
+                                        Log.d(TAG, "----------------------URI: " + imageURI);
+                                        Toast.makeText(getApplicationContext(), "New Course Added", Toast.LENGTH_SHORT).show();
+                                    }
 
-                                @Override
-                                public void OnImageUploadFailed(String error) {
-                                    Toast.makeText(getApplicationContext(),"Image upload failed",Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    @Override
+                                    public void OnImageUploadFailed(String error) {
+                                        Toast.makeText(getApplicationContext(), "Image upload failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                Intent intent = new Intent(this, AdminCourseActivity.class );
+                                startActivity(intent);
+                            }
     //CASE UPDATE
                             break;
                         case UPDATE:
                             Log.d(TAG, "---------------------- Case UPDATE");
-                            FIRESTORE.updateCourse(createCourse(), new Firestore.OnCourseUpdateListener() {
-                                @Override
-                                public void OnCourseUpdateed() {
-                                    Toast.makeText(getApplicationContext(),"Course Updated",Toast.LENGTH_SHORT).show();
-                                }
+                    //IMAGE PICKED
+                            if (imagePicked == true){
+                                FIRESTORE.uploadImage(imagePath, editCourseName.getText().toString(), new Firestore.OnImageUploadListener() {
+                                    @Override
+                                    public void OnImageUploaded(String uri) {
+                                        imageURI = uri;
+                                        FIRESTORE.updateCourse(createCourse(), new Firestore.OnCourseUpdateListener() {
+                                            @Override
+                                            public void OnCourseUpdateed() {
+                                                Toast.makeText(getApplicationContext(),"Course Updated",Toast.LENGTH_SHORT).show();
+                                            }
 
-                                @Override
-                                public void OnCourseUpdateFailed() {
-                                    Toast.makeText(getApplicationContext(),"Course update failed",Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                            @Override
+                                            public void OnCourseUpdateFailed() {
+                                                Toast.makeText(getApplicationContext(),"Course update failed",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void OnImageUploadFailed(String error) {
+
+                                    }
+                                });
+                            }else{
+                    //IMAGE NOT PICKED
+                                FIRESTORE.updateCourse(createCourse(), new Firestore.OnCourseUpdateListener() {
+                                    @Override
+                                    public void OnCourseUpdateed() {
+                                        Toast.makeText(getApplicationContext(),"Course Updated",Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void OnCourseUpdateFailed() {
+                                        Toast.makeText(getApplicationContext(),"Course update failed",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+                            Intent intent = new Intent(this, AdminCourseActivity.class );
+                            startActivity(intent);
                             break;
                     }
-                    Intent intent = new Intent(this, AdminCourseActivity.class );
-                    startActivity(intent);
+
                 }
                 break;
 
@@ -219,6 +255,8 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                 setImage.setImageBitmap(selectedImage);
                 imagePath = imageUri;
+                imagePicked = true;
+                Log.d(TAG, "------------------------------Image picked");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -238,14 +276,13 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         groupName.put("hy", editGroupNameArm.getText().toString());
         description.put("en", editDescriptionEng.getText().toString());
         description.put( "hy", editDescriptionArm.getText().toString());
-        switch (action){
-            case ADD:
-                url = imageURI;
-                break;
-            case UPDATE:
-                url = courseItems.get(position).getUrl();
-                break;
+
+        if (imagePicked == true){
+            url = imageURI;
+        }else{
+            url = courseItems.get(position).getUrl();
         }
+
         Course newCourse = new Course(
                 editCourseName.getText().toString(),
                 editLink.getText().toString(),
@@ -258,8 +295,6 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         newCourse.setGroup_name(groupName);
         newCourse.setDescription(description);
         newCourse.setLecturer(editLecturer.getText().toString());
-
-
 
         return newCourse;
 
