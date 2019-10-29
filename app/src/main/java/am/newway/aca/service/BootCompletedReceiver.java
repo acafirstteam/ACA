@@ -7,7 +7,7 @@ import android.content.Intent;
 import am.newway.aca.util.Util;
 
 public
-class MyStartServiceReceiver extends BroadcastReceiver {
+class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive( Context context, Intent intent) {
         Util.scheduleJob(context);

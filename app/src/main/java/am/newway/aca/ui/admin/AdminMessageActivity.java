@@ -40,6 +40,7 @@ class AdminMessageActivity extends BaseActivity {
     private Spinner spinnerType;
     private Spinner spinnerSegment;
     private EditText editText;
+    private TextView titlePerson;
 
     @Override
     protected
@@ -62,6 +63,7 @@ class AdminMessageActivity extends BaseActivity {
         spinnerType = findViewById( R.id.spinner_type );
         spinnerSegment = findViewById( R.id.spinner_segment );
         editText = findViewById( R.id.edit_text );
+        titlePerson = findViewById( R.id.titlePerson );
 
         editText.setOnEditorActionListener( new TextView.OnEditorActionListener() {
             @Override
@@ -128,6 +130,7 @@ class AdminMessageActivity extends BaseActivity {
             public
             void onItemSelected ( final AdapterView<?> adapterView , final View view , final int i ,
                     final long l ) {
+                autoCompleteTextView.setText( "" );
                 autoCompleteTextView.setEnabled( i != 0 );
 
                 if ( i != 0 && i != 4 ) {
@@ -140,11 +143,12 @@ class AdminMessageActivity extends BaseActivity {
                                             R.layout.student_autocomplete_item ,
                                             ( ArrayList<Student> ) students );
                             autoCompleteTextView.setAdapter( adapter );
+                            titlePerson.setText( R.string.select_person );
                         }
                     } );
                 }
                 else if ( i == 4 ) {
-                    FIRESTORE.getCuorces( new Firestore.OnCourseReadListener() {
+                    FIRESTORE.getCourses( new Firestore.OnCourseReadListener() {
                         @Override
                         public
                         void OnCourseRead ( final List<Course> courses ) {
@@ -153,6 +157,7 @@ class AdminMessageActivity extends BaseActivity {
                                             R.layout.student_autocomplete_item ,
                                             ( ArrayList<Course> ) courses );
                             autoCompleteTextView.setAdapter( adapter );
+                            titlePerson.setText( R.string.select_course );
                         }
                     } );
                 }
@@ -171,12 +176,12 @@ class AdminMessageActivity extends BaseActivity {
             void onItemClick ( final AdapterView<?> adapterView , final View view , final int i ,
                     final long l ) {
                 String name = "";
-                if(adapterView.getItemAtPosition( i ) instanceof Student) {
+                if ( adapterView.getItemAtPosition( i ) instanceof Student ) {
                     name = ( ( Student ) adapterView.getItemAtPosition( i ) ).getName();
                     ident = ( ( Student ) adapterView.getItemAtPosition( i ) ).getId();
                 }
-                else if(adapterView.getItemAtPosition( i ) instanceof Course) {
-                    ident = name = (( Course ) adapterView.getItemAtPosition( i )).getName();
+                else if ( adapterView.getItemAtPosition( i ) instanceof Course ) {
+                    ident = name = ( ( Course ) adapterView.getItemAtPosition( i ) ).getName();
                 }
                 autoCompleteTextView.setText( name );
             }

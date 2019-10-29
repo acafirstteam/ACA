@@ -212,7 +212,7 @@ class BaseActivity extends AppCompatActivity {
 
     //@RequiresApi ( api = Build.VERSION_CODES.O)
     private
-    void notificationDialog ( String NOTIFICATION_CHANNEL_ID ,
+    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
             am.newway.aca.template.Notification notification ) {
         final NotificationManager notificationManager =
                 ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
@@ -262,13 +262,13 @@ class BaseActivity extends AppCompatActivity {
                 public
                 void OnLoaded ( final Bitmap bmp ) {
                     notificationBuilder.setLargeIcon( bmp );
-                    notificationManager.notify( 1 , notificationBuilder.build() );
+                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) , notificationBuilder.build() );
                 }
 
                 @Override
                 public
                 void OnFailureLoad () {
-                    notificationManager.notify( 1 , notificationBuilder.build() );
+                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) , notificationBuilder.build() );
                 }
             } );
         }

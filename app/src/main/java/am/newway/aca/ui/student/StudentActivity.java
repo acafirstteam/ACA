@@ -20,7 +20,7 @@ import am.newway.aca.adapter.admin.AdminStudentAdapter;
 import am.newway.aca.template.Student;
 import am.newway.aca.util.RecyclerViewMargin;
 
-public class StudenActivity extends AppCompatActivity {
+public class StudentActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
 
@@ -44,7 +44,7 @@ public class StudenActivity extends AppCompatActivity {
         RecyclerViewMargin decoration = new RecyclerViewMargin((int) getResources().getDimension(R.dimen.recycler_item_margin));
         recyclerView.addItemDecoration(decoration);
         //setHasOptionsMenu( true );
-        RecyclerView.LayoutManager mManager = new LinearLayoutManager(StudenActivity.this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.LayoutManager mManager = new LinearLayoutManager( StudentActivity.this, LinearLayoutManager.VERTICAL, false);
 
         adminStudentAdapter = new AdminStudentAdapter(new ArrayList<Student>(), this);
 
