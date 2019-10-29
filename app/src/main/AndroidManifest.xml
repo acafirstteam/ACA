@@ -85,8 +85,9 @@
 			android:name = ".ui.admin.AdminCourseActivity"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar" />
+        <activity android:name=".AdminEditCourseActivity" />
 
-		<service
+        <service
 			android:name = ".service.AlertService"
 			android:exported = "true"
 			android:permission = "android.permission.BIND_JOB_SERVICE" />

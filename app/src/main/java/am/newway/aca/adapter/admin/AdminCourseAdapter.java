@@ -1,6 +1,10 @@
 package am.newway.aca.adapter.admin;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
+import am.newway.aca.AdminEditCourseActivity;
 import am.newway.aca.R;
 import am.newway.aca.template.Course;
 import androidx.annotation.NonNull;
@@ -20,16 +25,16 @@ public
 class AdminCourseAdapter extends RecyclerView.Adapter<AdminCourseAdapter.MyViewHolder> {
 
     private final String TAG = "AdminMenuAdapter";
+    private Context context;
     private ArrayList<Course> courses;
 
     public
-    AdminCourseAdapter ( ArrayList<Course> courses ) {
+    AdminCourseAdapter ( Context context, ArrayList<Course> courses ) {
+        this.context = context;
         this.courses = courses;
     }
 
-    //    public void setBottomReachedListener(BottomReachedListener bottomReachedListener){
-    //        this.bottomReachedListener = bottomReachedListener;
-    //    }
+
 
     @NonNull
     @Override
@@ -44,9 +49,6 @@ class AdminCourseAdapter extends RecyclerView.Adapter<AdminCourseAdapter.MyViewH
     public
     void onBindViewHolder ( @NonNull MyViewHolder holder , int position ) {
 
-        //        if (position == courses.size() - 1){
-        //            bottomReachedListener.onBottomReached(position);
-        //        }
         holder.bind( courses.get( position ) );
 
     }
@@ -69,6 +71,21 @@ class AdminCourseAdapter extends RecyclerView.Adapter<AdminCourseAdapter.MyViewH
             logo = itemView.findViewById( R.id.admin_course_item_logo_id );
             name = itemView.findViewById( R.id.admin_course_item_name_id );
             editBtn = itemView.findViewById( R.id.admin_course_item_edit_btn_id );
+            editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "--------------------------------Cklicked");
+
+                    int pos = getAdapterPosition();
+                    Intent intent = new Intent(context, AdminEditCourseActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("pos", pos);
+                    bundle.putString("action", "update");
+                    intent.putExtras(bundle);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         void bind ( Course course ) {
