@@ -63,6 +63,9 @@
 	<string name = "select_person">Select person</string>
 	<string name = "select_course">Select course</string>
 	<string name = "notification">Notification</string>
+	<string name = "history_start">START</string>
+	<string name = "history_end">END</string>
+
 
 	<string-array name = "notification_type">
 		<item>Message</item>

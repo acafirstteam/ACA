@@ -94,6 +94,9 @@
 	<string name = "select_course">Ընտրել դասը</string>
 	<string name = "new_visitor">Նոր ուսանող</string>
 	<string name = "waiting">Ընդունարանում Ձեզ սպասում են</string>
+	<string name = "history_start">ՍԿԻԶԲ</string>
+	<string name = "history_end">ԱՎԱՐՏ</string>
+
 
 
 </resources>
