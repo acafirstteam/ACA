@@ -96,7 +96,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     public void gotActionUpdateCourse() {
         position = bundle.getInt("pos", 0);
 
-        FIRESTORE.getCuorces(new Firestore.OnCourseReadListener() {
+        FIRESTORE.getCourses(new Firestore.OnCourseReadListener() {
             @Override
             public void OnCourseRead(List<Course> courses) {
                 courseItems = new ArrayList<Course>(courses);
@@ -120,7 +120,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     }
 //Action Add Course
     public void gotActionAddCourse() {
-        FIRESTORE.getCuorces(new Firestore.OnCourseReadListener() {
+        FIRESTORE.getCourses(new Firestore.OnCourseReadListener() {
             @Override
             public void OnCourseRead(List<Course> courses) {
                 courseItems = new ArrayList<>(courses);
@@ -160,6 +160,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                                     courses.add(createCourse());
                                     FIRESTORE.addCourses(courses);
                                     Log.d(TAG, "----------------------URI: " + imageURI);
+                                    Toast.makeText(getApplicationContext(),"New Course Added",Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
@@ -174,7 +175,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                             FIRESTORE.updateCourse(createCourse(), new Firestore.OnCourseUpdateListener() {
                                 @Override
                                 public void OnCourseUpdateed() {
-                                    Toast.makeText(getApplicationContext(),"Course updated",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(),"Course Updated",Toast.LENGTH_SHORT).show();
                                 }
 
                                 @Override
@@ -228,7 +229,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         }
     }
 
-//Create Course
+//Create Course object
     public Course createCourse() {
 
         groupName = new HashMap<>();
