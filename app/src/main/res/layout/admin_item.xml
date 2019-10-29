@@ -14,7 +14,7 @@
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		card_view:cardBackgroundColor = "@color/colorPrimary"
-		card_view:cardCornerRadius = "8dp"
+		card_view:cardCornerRadius = "4dp"
 		card_view:cardElevation = "4dp"
 		card_view:cardUseCompatPadding = "true">
 

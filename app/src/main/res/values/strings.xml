@@ -61,6 +61,7 @@
 	<string name = "notification_type">Notification type</string>
 	<string name = "notification_segment">Notification segment</string>
 	<string name = "select_person">Select person</string>
+	<string name = "select_course">Select course</string>
 	<string name = "notification">Notification</string>
 
 	<string-array name = "notification_type">
@@ -112,6 +113,8 @@
 	<string name = "code">{code}</string>
 	<string name = "company_text">P. 0.1.2.4.8.16.32 \nE. info@aca.am</string>
 	<string name = "doors_codes">Doors codes</string>
+	<string name = "new_visitor">New visitor</string>
+	<string name = "waiting">We are waiting for you at the reception</string>
 
 
 </resources>

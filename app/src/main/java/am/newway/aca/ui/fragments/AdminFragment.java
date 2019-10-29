@@ -13,7 +13,7 @@ import am.newway.aca.R;
 import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.AdminItem;
 import am.newway.aca.ui.admin.AdminMessageActivity;
-import am.newway.aca.ui.student.StudenActivity;
+import am.newway.aca.ui.student.StudentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -84,7 +84,7 @@ public class AdminFragment extends BaseFragment {
         item.setName( "en", "Visitors" );
         item.setDescription( "en","Assignment tool to change the removal status of the add visitors" );
         item.setRes( R.drawable.student );
-        item.setCl( StudenActivity.class );
+        item.setCl( StudentActivity.class );
 
         items.add( item );
 

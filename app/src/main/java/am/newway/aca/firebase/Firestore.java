@@ -45,10 +45,7 @@ class Firestore {
     private StorageReference storageReference;
     private static String NOTIFICATION_COLLECTION = "Notification";
     private static String VISIT_COLLECTION = "Visits";
-    private static String DEVELOPER_COLLECTION = "Developers";
-    private static String DOORCODE_COLLECTION = "DoorCode";
     private static String STUDENT_COLLECTION = "Students";
-    private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
     private FirebaseFirestore db;
     private OnVisitCompleteListener listener_complete_visit;
@@ -489,7 +486,7 @@ class Firestore {
 
 
     public
-    void getCuorces ( final OnCourseReadListener listener ) {
+    void getCourses ( final OnCourseReadListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
         //this.listener_course = listener;
@@ -654,6 +651,7 @@ class Firestore {
     void getDevelopers ( final OnDeveloperListener listener ) {
         if ( db == null )
             db = FirebaseFirestore.getInstance();
+        final String DEVELOPER_COLLECTION = "Developers";
         db.collection( DEVELOPER_COLLECTION )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
@@ -683,6 +681,7 @@ class Firestore {
     public
     void getDoorCode ( final OnDoorCodeListener listener ) {
         initFirestore();
+        final String DOORCODE_COLLECTION = "DoorCode";
         db.collection( DOORCODE_COLLECTION )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
@@ -821,8 +820,9 @@ class Firestore {
     void updateCourse ( final Course course , final OnCourseUpdateListener listener ) {
 
         initFirestore();
+        final String COURSE_COLLECTION = "Courses";
         final DocumentReference docRef =
-                db.collection( COURSE_COLLECTION ).document( String.valueOf( course.getName() ) );
+                db.collection( COURSE_COLLECTION ).document( course.getNameFormated() );
 
         ObjectMapper oMapper = new ObjectMapper();
         @SuppressWarnings ( "unchecked" ) Map<String, Object> map =
@@ -891,8 +891,6 @@ class Firestore {
                             notification.setId( Integer.valueOf( doc.getId() ) );
                             if ( listener != null )
                                 listener.OnNewNotification( notification );
-                            //Log.e( TAG , "onEvent: @@@@@@@@@@@" + notification.getId() );
-
                         }
                         else
                             Log.e( TAG , "onEvent: " + "Unknown student" );
