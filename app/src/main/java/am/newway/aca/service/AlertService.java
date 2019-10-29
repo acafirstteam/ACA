@@ -55,7 +55,7 @@ class AlertService extends JobService {
 
         Student student = DATABASE.getStudent();
         if ( student.getId() == null ) {
-            student = new Student(  );
+            student = new Student();
             student.setId( uID );
         }
 
@@ -63,7 +63,7 @@ class AlertService extends JobService {
             @Override
             public
             void OnStudentChecked ( Student student ) {
-                Log.d( "Service", "OnStudentChecked" );
+                Log.d( "Service" , "OnStudentChecked" );
 
                 if ( student != null ) {
 
@@ -73,10 +73,10 @@ class AlertService extends JobService {
                             @Override
                             public
                             void OnNewStudentAdded ( @Nullable final Student student ) {
-                                Log.d( "Service", "OnNewStudentAdded" );
+                                Log.d( "Service" , "OnNewStudentAdded" );
 
                                 if ( student != null ) {
-                                    notificationDialog();
+                                    notificationDialog("01");
                                 }
                             }
                         } );
@@ -100,21 +100,24 @@ class AlertService extends JobService {
     @Override
     public
     boolean onStopJob ( final JobParameters jobParameters ) {
-        Log.d( "Servce", "on job finish" );
+        Log.d( "Service" , "on job finish" );
         return false;
     }
 
     private
-    void notificationDialog () {
-        final NotificationManager notificationManager =
+    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ) {
+        if ( !DATABASE.getSettings().isNotification() )
+            return;
+
+            final NotificationManager notificationManager =
                 ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
-        String NOTIFICATION_CHANNEL_ID = "tutorialspoint_01";
+
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
             @SuppressLint ( "WrongConstant" ) NotificationChannel notificationChannel =
                     new NotificationChannel( NOTIFICATION_CHANNEL_ID , "My Notifications" ,
                             NotificationManager.IMPORTANCE_MAX );
             // Configure the notification channel.
-            notificationChannel.setDescription( "Sample Channel description" );
+            notificationChannel.setDescription( "" );
             notificationChannel.enableLights( true );
             notificationChannel.setLightColor( Color.RED );
             notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
@@ -133,22 +136,22 @@ class AlertService extends JobService {
                 .setDefaults( Notification.DEFAULT_ALL )
                 .setWhen( System.currentTimeMillis() )
                 .setSmallIcon( R.drawable.ic_book_black_24dp )
-                .setTicker( "TutorialsPoint" )
+                .setTicker( getString( R.string.new_visitor ) )
                 //.setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle( "Նոր ուսանող" )
-                .setContentText( "Ընդունարանում Ձեզ սպասում են" )
+                .setContentTitle( getString( R.string.new_visitor ) )
+                .setContentText( getString( R.string.waiting ) )
                 .setContentIntent( contentIntent )
-                .setContentInfo( "Ինֆորմացիա" );
+                .setContentInfo( getString( R.string.new_visitor ) );
 
         Uri uri = Uri.parse(
-                "https://lh3.googleusercontent.com/a-/AAuE7mBCjmyxKyXqdMLU5NMgCsNsqS5Z7ceBGKSlRJvJ4A=s96-cc" );
+                "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/33308.png?alt=media&token=8adbf375-9d17-4557-86ac-9c437ce8484e" );
         getBitmapFromUrl( uri , new bitmapLoading() {
             @Override
             public
             void OnLoaded ( final Bitmap bmp ) {
                 notificationBuilder.setLargeIcon( bmp );
                 if ( notificationManager != null )
-                    notificationManager.notify( 1 , notificationBuilder.build() );
+                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) , notificationBuilder.build() );
 
             }
         } );

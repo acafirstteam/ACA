@@ -91,6 +91,9 @@
 	<string name = "code">{code}</string>
 	<string name = "company_text">Հ. 0.1.2.4.8.16.32 \nԷ. info@aca.am</string>
 	<string name = "doors_codes">Դռների կոդեր</string>
+	<string name = "select_course">Ընտրել դասը</string>
+	<string name = "new_visitor">Նոր ուսանող</string>
+	<string name = "waiting">Ընդունարանում Ձեզ սպասում են</string>
 
 
 </resources>

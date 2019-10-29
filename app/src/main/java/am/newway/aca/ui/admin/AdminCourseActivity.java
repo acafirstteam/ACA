@@ -42,7 +42,7 @@ class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
                 new LinearLayoutManager( getApplicationContext() , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
 
-        FIRESTORE.getCuorces( new Firestore.OnCourseReadListener() {
+        FIRESTORE.getCourses( new Firestore.OnCourseReadListener() {
             @Override
             public
             void OnCourseRead ( List<Course> courses ) {

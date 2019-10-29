@@ -83,7 +83,7 @@ class AdminStudentActivity extends BaseActivity {
 
         final Student student = DATABASE.getStudent();
 
-        FIRESTORE.getCuorces( new Firestore.OnCourseReadListener() {
+        FIRESTORE.getCourses( new Firestore.OnCourseReadListener() {
             @Override
             public
             void OnCourseRead ( final List<Course> courses ) {
