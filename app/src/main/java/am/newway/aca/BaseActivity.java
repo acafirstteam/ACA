@@ -72,8 +72,8 @@ class BaseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
     public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
-    //protected final String ENGLISH = "en";
-    //protected final String ARMENIAN = "hy";
+    protected final String ENGLISH = "en";
+    protected final String ARMENIAN = "hy";
 
     protected Firestore FIRESTORE;
     protected DatabaseHelper DATABASE;
