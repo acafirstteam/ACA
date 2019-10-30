@@ -97,6 +97,7 @@
 	<string name = "visit">Գրանցված այցելություն</string>
 	<string name = "course">Դասընթաց</string>
 	<string name = "lecturer">Դասախոս</string>
+	<string name = "number_of_student">Ուսանողի հեռախոսահամար</string>
 
 
 </resources>

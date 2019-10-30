@@ -15,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import am.newway.aca.R;
@@ -131,7 +133,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                 @Override
                 public
                 void onClick ( View view ) {
-                    startActivityAdapter();
+                    startActivityAdapter(getAdapterPosition());
 
                 }
             } );
@@ -217,9 +219,14 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
     }
 
     private
-    void startActivityAdapter () {
+    void startActivityAdapter (int position) {
         // startActivity(new Intent(this, AdminStudentActivity.class));
         Intent intent = new Intent( context , AdminStudentActivity.class );
+        Student student = students.get( position );
+        ObjectMapper maper = new ObjectMapper(  );
+        HashMap<String, String> map = maper.convertValue( student, HashMap.class );
+
+        intent.putExtra( "map", map );
         context.startActivity( intent );
     }
 }
