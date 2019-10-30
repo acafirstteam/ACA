@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 import java.util.List;
@@ -15,7 +16,9 @@ import java.util.List;
 import am.newway.aca.MainActivity;
 import am.newway.aca.R;
 import am.newway.aca.adapter.ViewPagerAdapter;
+import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Course;
+import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
 import am.newway.aca.ui.fragments.BaseFragment;
 import androidx.annotation.NonNull;
@@ -32,6 +35,8 @@ class HomeFragment extends BaseFragment {
     private CardView cardView;
     private TextView time;
     private TextView course;
+    private TextView lecturer;
+    private SimpleDraweeView imageView;
     private ViewPagerAdapter pagerAdapter;
 
     public
@@ -43,6 +48,8 @@ class HomeFragment extends BaseFragment {
         cardView = root.findViewById( R.id.user_card );
         time = root.findViewById( R.id.time );
         course = root.findViewById( R.id.course );
+        lecturer = root.findViewById( R.id.lecturer );
+        imageView = root.findViewById( R.id.imageView );
         final ViewPager viewPager = root.findViewById( R.id.view_pager );
 
         pagerAdapter = new ViewPagerAdapter( getChildFragmentManager() ,
@@ -64,7 +71,7 @@ class HomeFragment extends BaseFragment {
             @Override
             public
             void onPageSelected ( final int position ) {
-                setSubTitle(pagerAdapter.getGroup( position ));
+                setSubTitle( pagerAdapter.getGroup( position ) );
             }
 
             @Override
@@ -83,7 +90,7 @@ class HomeFragment extends BaseFragment {
             void onChanged ( @Nullable List<Course> courses ) {
                 if ( courses != null ) {
                     pagerAdapter.setCourses( courses , getActivity() );
-                    setSubTitle(pagerAdapter.getGroup( 0 ));
+                    setSubTitle( pagerAdapter.getGroup( 0 ) );
                 }
             }
         } );
@@ -98,14 +105,15 @@ class HomeFragment extends BaseFragment {
         homeViewModel.getCourses();
     }
 
-    private void setSubTitle(String text){
+    private
+    void setSubTitle ( String text ) {
 
         String strTitle = getResources().getString( R.string.menu_home );
         Activity activity = getActivity();
         if ( activity != null ) {
             ActionBar mActionBar = ( ( MainActivity ) activity ).getSupportActionBar();
             if ( mActionBar != null )
-                mActionBar.setSubtitle( text.replace( strTitle.toUpperCase(), "" ) );
+                mActionBar.setSubtitle( text.replace( strTitle.toUpperCase() , "" ) );
         }
     }
 
@@ -121,7 +129,34 @@ class HomeFragment extends BaseFragment {
     void addNewVisit ( Visit visit ) {
         if ( visit != null ) {
             time.setText( visit.getDateTime() );
-            course.setText( DATABASE.getStudent().getCourse() );
+            String textCourse = DATABASE.getStudent().getCourse();
+
+            if ( !textCourse.isEmpty() ) {
+                course.setText( textCourse );
+
+                FIRESTORE.getStudent( DATABASE.getStudent() , new Firestore.OnStudentCheckListener() {
+                    @Override
+                    public
+                    void OnStudentChecked ( @Nullable final Student student ) {
+
+                    }
+
+                    @Override
+                    public
+                    void OnStudentCheckFailed ( final String exception ) {
+
+                    }
+
+                    @Override
+                    public
+                    void OnStudentIdentifier ( final Student student ) {
+                        if ( student != null ) {
+                            lecturer.setText( student.getName() );
+                            imageView.setImageURI( student.getPicture() );
+                        }
+                    }
+                } );
+            }
             cardView.setVisibility( View.VISIBLE );
         }
     }

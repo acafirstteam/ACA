@@ -58,6 +58,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
@@ -71,8 +72,8 @@ class BaseActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
     public final int CUSTOMIZED_REQUEST_CODE = 0x0000ffff;
-    //protected final String ENGLISH = "en";
-    //protected final String ARMENIAN = "hy";
+    protected final String ENGLISH = "en";
+    protected final String ARMENIAN = "hy";
 
     protected Firestore FIRESTORE;
     protected DatabaseHelper DATABASE;
@@ -110,8 +111,7 @@ class BaseActivity extends AppCompatActivity {
             Log.e( TAG , "onCreate: getLanguage is Empty" );
         }
         else {
-            DATABASE.getSettings()
-                    .setLanguage( DATABASE.getSettings().getLanguage() , this );
+            DATABASE.getSettings().setLanguage( DATABASE.getSettings().getLanguage() , this );
             Log.e( TAG , "onCreate: " + DATABASE.getSettings().getLanguage() );
         }
     }
@@ -262,13 +262,15 @@ class BaseActivity extends AppCompatActivity {
                 public
                 void OnLoaded ( final Bitmap bmp ) {
                     notificationBuilder.setLargeIcon( bmp );
-                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) , notificationBuilder.build() );
+                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+                            notificationBuilder.build() );
                 }
 
                 @Override
                 public
                 void OnFailureLoad () {
-                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) , notificationBuilder.build() );
+                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+                            notificationBuilder.build() );
                 }
             } );
         }
@@ -547,11 +549,16 @@ class BaseActivity extends AppCompatActivity {
         if ( homeFragment != null )
             return homeFragment;
 
-        homeFragment = ( HomeFragment ) getSupportFragmentManager().getFragments()
+        Fragment fragment = getSupportFragmentManager().getFragments()
                 .get( 0 )
                 .getChildFragmentManager()
                 .getFragments()
                 .get( 0 );
+
+        if ( fragment instanceof HomeFragment )
+            homeFragment = ( HomeFragment )fragment;
+        else
+            Log.e( TAG , "getHomeFragment: " + fragment.getClass().getName() );
 
         return homeFragment;
     }

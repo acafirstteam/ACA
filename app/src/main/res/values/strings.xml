@@ -115,6 +115,9 @@
 	<string name = "doors_codes">Doors codes</string>
 	<string name = "new_visitor">New visitor</string>
 	<string name = "waiting">We are waiting for you at the reception</string>
+	<string name = "visit">Registered visit</string>
+	<string name = "course">Course</string>
+	<string name = "lecturer">Lecturer</string>
 
 
 </resources>
