@@ -13,9 +13,9 @@
 		<item>@color/dot_dark_screen4</item>
 	</array>
 
-	<color name = "colorPrimary">#90d0a9</color>
-	<color name = "colorPrimaryLight">#c2ffdb</color>
-	<color name = "colorPrimaryDark">#609f7a</color>
+	<color name = "colorPrimary">#455a64</color>
+	<color name = "colorPrimaryLight">#CFD8DC</color>
+	<color name = "colorPrimaryDark">#455a64</color>
 	<color name = "colorAccent">#ff6e40</color>
 	<color name = "colorAccentLight">#ffa06d</color>
 	<color name = "colorAccentDark">#c53d13</color>
@@ -25,7 +25,7 @@
 
 	<color name = "bg_screen1">#f64c73</color>
 	<color name = "bg_screen2">#20d2bb</color>
-	<color name = "recyclerview_item">#7CB090</color>
+	<color name = "recyclerview_item">#CFD8DC</color>
 
 	<!-- dots inactive colors -->
 	<color name = "bg_screen3">#3395ff</color>

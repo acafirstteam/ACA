@@ -33,7 +33,7 @@
 		app:layout_constraintTop_toTopOf = "parent"
 
 		android:text = "@string/courses_levels"
-		android:textSize = "20sp" />
+		android:textSize = "18sp" />
 
 	<!--<ImageView
 		android:id = "@+id/customSpinnerIcon"

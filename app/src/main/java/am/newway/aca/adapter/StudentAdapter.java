@@ -26,9 +26,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import am.newway.aca.AdminStudentStatus;
 import am.newway.aca.InfoActivity;
@@ -104,7 +107,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             textPhoneStudentItm = itemView.findViewById(R.id.textPhoneStudentItm);
             imageView = itemView.findViewById(R.id.imageViewStudentItem);
 
-
             textPhoneStudentItm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -142,8 +144,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
                 @Override
                 public void onClick(View view) {
-                    startActivityAdapter();
 
+                    startActivityAdapter(getAdapterPosition());
                 }
             });
         }
@@ -153,7 +155,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             this.student = student;
             textNameStudentItm.setText(student.getName());
             textEmailStudentItm.setText(student.getEmail());
-             textPhoneStudentItm.setText(student.getPhone());
+            textPhoneStudentItm.setText(student.getPhone());
             imageView.setImageURI(student.getPicture());
             //imageView.setImageURI(Uri.parse(course.getUrl()));
         }
@@ -217,9 +219,15 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         }*/
     }
 
-    private void startActivityAdapter() {
+    private void startActivityAdapter(int position) {
         // startActivity(new Intent(this, AdminStudentStatus.class));
+
+        Student student = students.get( position );
         Intent intent = new Intent(context, AdminStudentStatus.class);
+        ObjectMapper maper = new ObjectMapper( );
+        HashMap<String, String> map = maper.convertValue( student, HashMap.class );
+        intent.putExtra( "map", map );
+
         context.startActivity(intent);
     }
 }

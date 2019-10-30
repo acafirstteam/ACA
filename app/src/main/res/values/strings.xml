@@ -39,6 +39,15 @@
 	<string name = "menu_company">Company</string>
 	<string name = "menu_about">Application</string>
 
+
+	<string-array name = "statusVsisitours">
+		<item>Student</item>
+		<item>Admin</item>
+		<item>Lecturers</item>
+		<item>QR View</item>
+
+	</string-array>
+
 	<!-- TODO: Remove or change this placeholder text -->
 	<string name = "hello_blank_fragment" translatable = "false">Hello blank fragment</string>
 	<string name = "menu_settings">Settings</string>
@@ -91,6 +100,10 @@
 	<string name = "courses_levels">Courses levels</string>
 	<string name = "licenses">Licenses</string>
 	<string name = "title_activity_licenses">Licenses</string>
+	<string name = "course">Course</string>
+	<string name = "tel_number">+374 00 00 00</string>
+	<string name = "number_of_student">Number of Student</string>
+	<string name = "number">Number of student</string>
 
 
 </resources>

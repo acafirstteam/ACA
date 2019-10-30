@@ -745,6 +745,32 @@ class Firestore {
         } );
     }
 
+    public
+    void updateStudent ( final Student student , final OnStudentUpdateListener listener ) {
+
+        initFirestore();
+        final DocumentReference docRef =
+                db.collection( STUDENT_COLLECTION ).document( student.getId() );
+
+        ObjectMapper oMapper = new ObjectMapper();
+        @SuppressWarnings( "unchecked" )
+        Map<String, Object> map = oMapper.convertValue( student , Map.class );
+
+        docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<Void> task ) {
+                listener.OnStudentUpdated();
+            }
+        } ).addOnFailureListener( new OnFailureListener() {
+            @Override
+            public
+            void onFailure ( @NonNull final Exception e ) {
+                listener.OnStudentUpdateFailed();
+            }
+        } );
+    }
+
     private
     void addListener ( String docID ) {
         Log.e( TAG , "document id = " + docID );
@@ -856,6 +882,13 @@ class Firestore {
                 } );
             }
         } );
+    }
+
+    public
+    interface OnStudentUpdateListener {
+        void OnStudentUpdated ();
+
+        void OnStudentUpdateFailed ();
     }
 
     public
