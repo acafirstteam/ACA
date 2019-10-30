@@ -336,5 +336,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     void deleteStudent () {
         SQLiteDatabase myDB = this.getWritableDatabase();
         myDB.delete( TABLE_STUDENT , "" , null );
+        Log.e( TAG , "@@@@@@@@@@@@@@@@@@@@@@@@@ deleteStudent: "   );
+        student.setId( "-1" );
     }
 }

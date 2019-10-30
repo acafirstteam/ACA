@@ -106,7 +106,7 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<DocumentReference> task ) {
-                        addListener( Objects.requireNonNull( task.getResult() ).getId() );
+                        addVisitConfirmListener( Objects.requireNonNull( task.getResult() ).getId() );
                     }
                 } );
     }
@@ -844,7 +844,7 @@ class Firestore {
     }
 
     private
-    void addListener ( String docID ) {
+    void addVisitConfirmListener ( String docID ) {
         Log.e( TAG , "document id = " + docID );
         final DocumentReference docRef = db.collection( VISIT_COLLECTION ).document( docID );
         docRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
@@ -1026,6 +1026,7 @@ class Firestore {
         }
         initFirestore();
 
+        Log.e( TAG , "getStudent: id= " +id  );
         db.collection( STUDENT_COLLECTION )
                 .whereEqualTo( "id" , id )
                 .get()
@@ -1033,7 +1034,7 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        if ( task.getResult() != null ) {
+                        if ( task.getResult() != null && task.getResult().getDocuments().size() > 0) {
                             DocumentSnapshot doc = task.getResult().getDocuments().get( 0 );
                             if ( task.isSuccessful() && task.getResult() != null && doc.exists() ) {
                                 Student student = doc.toObject( Student.class );

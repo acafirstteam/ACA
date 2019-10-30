@@ -368,7 +368,18 @@ class BaseActivity extends AppCompatActivity {
         }
     }
 
-    private
+    protected
+    void showNavigationItem (boolean blt) {
+        NavigationView navigationView = findViewById( R.id.nav_view );
+
+        if(navigationView != null) {
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem( R.id.nav_admin ).setVisible( blt );
+        }else
+            Log.e( TAG , "showNavigationItem: navigationView is null"   );
+    }
+
+        private
     void initNavigationView () {
         drawer = findViewById( R.id.drawer_layout );
         navController = Navigation.findNavController( this , R.id.nav_host_fragment );

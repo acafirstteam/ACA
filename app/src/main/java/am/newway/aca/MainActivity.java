@@ -137,29 +137,12 @@ class MainActivity extends BaseActivity {
     protected
     void onActivityResult ( int requestCode , int resultCode , Intent data ) {
 
-        //        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-        //                && data != null && data.getData() != null )
-        //        {
-        //            FIRESTORE.uploadImage( data.getData() , "testik" , new Firestore.OnImageUploadListener() {
-        //                @Override
-        //                public
-        //                void OnImageUploaded ( final String uri ) {
-        //
-        //                }
-        //
-        //                @Override
-        //                public
-        //                void OnImageUploadFailed ( final String error ) {
-        //
-        //                }
-        //            } );
-        //
-        //            return;
-        //        }
-
         if ( requestCode == 1 && resultCode == 1 ) {
 
             updateNavigationBar();
+
+            showNavigationItem( DATABASE.getStudent().getId().equals( "-1" ) &&
+                    DATABASE.getStudent().getType() == 2 );
 
             Student student = DATABASE.getStudent();
 

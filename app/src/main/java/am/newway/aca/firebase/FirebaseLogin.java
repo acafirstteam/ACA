@@ -103,6 +103,7 @@ class FirebaseLogin extends BaseActivity {
             void onClick ( final View view ) {
                 mGoogleSignInClient.signOut();
                 mAuth.signOut();
+                mAuth.removeAuthStateListener( mAuthListener );
                 firebaseUser = mAuth.getCurrentUser();
                 DATABASE.deleteStudent();
                 setResult( 1 );
@@ -114,6 +115,8 @@ class FirebaseLogin extends BaseActivity {
             @Override
             public
             void onAuthStateChanged ( @NonNull FirebaseAuth firebaseAuth ) {
+
+                //firebaseUser= firebaseAuth.getCurrentUser();
                 firebaseUser = mAuth.getCurrentUser();
                 if ( firebaseUser != null ) {
                     animation.setVisibility( View.GONE );
@@ -137,7 +140,8 @@ class FirebaseLogin extends BaseActivity {
                     student.setId( firebaseUser.getUid() );
                     student.setEmail( firebaseUser.getEmail() );
                     student.setName( firebaseUser.getDisplayName() );
-                    student.setPhone( firebaseUser.getPhoneNumber() );
+                    student.setPhone( student.getPhone().isEmpty() ?
+                            firebaseUser.getPhoneNumber() : student.getPhone());
                     student.setPicture( Objects.requireNonNull( firebaseUser.getPhotoUrl() ).toString() );
 
                     DATABASE.setStudent( student );
@@ -197,29 +201,34 @@ class FirebaseLogin extends BaseActivity {
                             GoogleAuthProvider.getCredential( account.getIdToken() , null );
                     mAuth.signInWithCredential( credential );
 
-                    FIRESTORE.getStudent( DATABASE.getStudent().getId() ,
-                            new Firestore.OnStudentCheckListener() {
-                        @Override
-                        public
-                        void OnStudentChecked ( @Nullable final Student student ) {
+                    firebaseUser = mAuth.getCurrentUser();
 
-                        }
+                    if(firebaseUser != null) {
+                        DATABASE.getStudent().setId( firebaseUser.getUid() );
 
-                        @Override
-                        public
-                        void OnStudentCheckFailed ( final String exception ) {
+                        FIRESTORE.getStudent( DATABASE.getStudent().getId() , new Firestore.OnStudentCheckListener() {
+                            @Override
+                            public
+                            void OnStudentChecked ( @Nullable final Student student ) {
 
-                        }
+                            }
 
-                        @Override
-                        public
-                        void OnStudentIdentifier ( final Student student ) {
-                            DATABASE.getStudent().setPhone( student.getPhone() );
-                            DATABASE.getStudent().setType( student.getType() );
-                            DATABASE.getStudent().setCourse( student.getCourse() );
-                            DATABASE.getStudent().setVerified( student.isVerified() );
-                        }
-                    } );
+                            @Override
+                            public
+                            void OnStudentCheckFailed ( final String exception ) {
+
+                            }
+
+                            @Override
+                            public
+                            void OnStudentIdentifier ( final Student student ) {
+                                DATABASE.getStudent().setPhone( student.getPhone() );
+                                DATABASE.getStudent().setType( student.getType() );
+                                DATABASE.getStudent().setCourse( student.getCourse() );
+                                DATABASE.getStudent().setVerified( student.isVerified() );
+                            }
+                        } );
+                    }
                 }
             } catch ( ApiException e ) {
                 // Google Sign In failed, update UI appropriately
