@@ -118,6 +118,12 @@
 	<string name = "doors_codes">Doors codes</string>
 	<string name = "new_visitor">New visitor</string>
 	<string name = "waiting">We are waiting for you at the reception</string>
+	<string name = "courses">Courses</string>
+	<string name = "add_course">Add Course</string>
+	<string name = "edit_course">Edit Course</string>
+
+
+
 
 
 </resources>

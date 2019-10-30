@@ -34,6 +34,7 @@ class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_admin_course );
+        setTitle(R.string.courses);
 
         initNavigationBar( 2 );
 

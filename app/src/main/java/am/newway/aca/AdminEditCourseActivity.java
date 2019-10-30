@@ -64,6 +64,9 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_course_layout);
+        initNavigationBar(2);
+//        actionBar.setDisplayHomeAsUpEnabled();
+
 
         editCourseName = (EditText) findViewById(R.id.admin_edit_courseName_id);
         editLecturer = (EditText) findViewById(R.id.admin_edit_lecturerEng_id);
@@ -84,9 +87,11 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
 
         switch (action) {
             case ADD:
+                setTitle(R.string.add_course);
                 gotActionAddCourse();
                 break;
             case UPDATE:
+                setTitle(R.string.edit_course);
                 gotActionUpdateCourse();
                 break;
         }

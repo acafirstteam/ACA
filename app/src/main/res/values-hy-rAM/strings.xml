@@ -96,6 +96,9 @@
 	<string name = "waiting">Ընդունարանում Ձեզ սպասում են</string>
 	<string name = "history_start">ՍԿԻԶԲ</string>
 	<string name = "history_end">ԱՎԱՐՏ</string>
+	<string name = "courses">Դասընթացներ</string>
+	<string name = "add_course">Ավելացնել Դասընթաց</string>
+	<string name = "edit_course">Փոփոխել</string>
 
 
 

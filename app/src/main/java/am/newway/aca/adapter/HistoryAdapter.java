@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -54,17 +56,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         public void bind(Visit item){
             String dateString = item.getDateTime();
-//            Log.d("history", "DateTime: " + dateString);
-//            String dateString2 = item.getCompleteTime();
-//            Log.d("history", "CompleteTime: " + dateString2);
-
-
             String[] split = dateString.split(" ");
-            dateTime.setText(split[0]);
             String str1 = split[1].substring(0,5);
-            commingTime.setText(str1);
+            String dateString2 = "";
 
-            String dateString2 = item.getCompleteTime().substring(11,16);
+            try {
+                dateString2 = item.getCompleteTime().substring(11,16);
+            }catch (NullPointerException e){
+                dateString2 = "--:--";
+            }
+
+            dateTime.setText(split[0]);
+            commingTime.setText(str1);
             completeTime.setText(dateString2);
     }
 }
