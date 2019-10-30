@@ -53,7 +53,7 @@ class MainActivity extends BaseActivity {
 
         initNotifications();
 
-        if(!DATABASE.getSettings().isFirstStart()) {
+        if ( !DATABASE.getSettings().isFirstStart() ) {
             DATABASE.getSettings().setFirstStart( true );
             startActivity( new Intent( MainActivity.this , InfoActivity.class ) );
         }
@@ -85,6 +85,8 @@ class MainActivity extends BaseActivity {
             void onClick ( View view ) {
 
                 firebaseUser = mAuth.getCurrentUser();
+                if ( firebaseUser != null )
+                    Log.e( TAG , "onClick: " + firebaseUser.getDisplayName() );
                 if ( firebaseUser == null ) {
                     Log.d( TAG , "Starting SignUp Activity" );
                     startActivityForResult( new Intent( MainActivity.this , FirebaseLogin.class ) ,
@@ -111,17 +113,16 @@ class MainActivity extends BaseActivity {
     boolean onOptionsItemSelected ( MenuItem item ) {
         int id = item.getItemId();
         if ( id == R.id.action_lincenses ) {
-            new LibsBuilder()
-                    .withActivityStyle( Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                    .withAboutIconShown(true)
-                    .withAboutAppName(getString(R.string.app_name))
-                    .withAboutVersionShown(true)
+            new LibsBuilder().withActivityStyle( Libs.ActivityStyle.LIGHT_DARK_TOOLBAR )
+                    .withAboutIconShown( true )
+                    .withAboutAppName( getString( R.string.app_name ) )
+                    .withAboutVersionShown( true )
                     .withActivityTitle( getString( R.string.licenses ) )
                     .withAutoDetect( true )
                     //.withAboutDescription(getString(R.string.app_desc))
-                    .withLicenseDialog(true)
-                    .withLicenseShown(true)
-                    .start(this);
+                    .withLicenseDialog( true )
+                    .withLicenseShown( true )
+                    .start( this );
 
             //            Intent intent = new Intent();
             //            intent.setType("image/*");
@@ -228,6 +229,7 @@ class MainActivity extends BaseActivity {
                                 if ( getHomeFragment() != null ) {
                                     getHomeFragment().addNewVisit( visit );
                                     DATABASE.setVisit( visit );
+                                    Log.e( TAG , "OnChangeConfirmed: " + visit.getId() );
                                 }
                             }
                         } );
@@ -251,17 +253,19 @@ class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onResume(){
+    public
+    void onResume () {
         super.onResume();
 
         String lang = DATABASE.getSettings().getLanguage();
 
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
+        Locale locale = new Locale( lang );
+        Locale.setDefault( locale );
         Configuration config = getBaseContext().getResources().getConfiguration();
         config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources()
+                .updateConfiguration( config ,
+                        getBaseContext().getResources().getDisplayMetrics() );
     }
 
     @Override

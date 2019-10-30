@@ -63,11 +63,11 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                 if ( database == null ) {
                     database = new DatabaseHelper( context );
                     database.getStudent();
-                    if ( database.getSettings() == null ) {
-                        Log.e( TAG , "getInstance: Settings is null, Created new Settings " );
-                        database.setSettings( new Settings( true , true , ENGLISH , false ) );
-                        database.getSettings().addOnSettingsChangeListener( database );
-                    }
+                    //if ( database.getSettings() == null ) {
+                    //    Log.e( TAG , "getInstance: Settings is null, Created new Settings " );
+                    //    database.setSettings( new Settings( true , true , ENGLISH , true ) );
+                    //    database.getSettings().addOnSettingsChangeListener( database );
+                    //}
                 }
             }
         return database;
@@ -252,15 +252,14 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         Log.d( TAG , "------------------------------------------------------Data inserted" );
     }
 
+    @NonNull
     public
     Settings getSettings () {
 
-        if ( settings != null ) {
-            Log.e( TAG , "getSettings: " + settings.getLanguage() );
+        if ( settings != null )
             return settings;
-        }
 
-        settings = new Settings();
+        settings = new Settings( true , true , ENGLISH , true );
         settings.addOnSettingsChangeListener( this );
 
         Cursor cursor;
@@ -271,10 +270,16 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         if ( cursor.getCount() > 0 ) {
             cursor.moveToFirst();
 
-            Log.e( TAG , "getSettings: Reading new Settings language " +
-                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
-            Log.e( TAG , "getSettings: Reading new Settings animation " +
-                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings language " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings notification " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_NOTIFICATIONS ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings animation " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings first start " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_START ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings first start " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_START ) ).equals( "1" ) );
 
             settings.setLogin( cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LOGIN ) )
                     .equals( "1" ) );
@@ -308,7 +313,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         contentValues.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
         contentValues.put( COLUMN_SETTINGS_START , setting.isFirstStart() );
 
-        myDB.update( TABLE_SETTINGS , contentValues , COLUMN_SETTINGS_ID + " = 1 " , null );
+        myDB.update( TABLE_SETTINGS , contentValues , null , null );
 
         Log.d( TAG , "--------------------------------------Settings Updated" );
     }
@@ -323,12 +328,13 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     @Override
     public
     void OnSettingsChanged () {
+        Log.e( TAG , "OnSettingsChanged: "   );
         setSettings( settings );
     }
 
     public
     void deleteStudent () {
         SQLiteDatabase myDB = this.getWritableDatabase();
-        myDB.delete( TABLE_SETTINGS , "" , null );
+        myDB.delete( TABLE_STUDENT , "" , null );
     }
 }

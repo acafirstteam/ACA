@@ -118,7 +118,6 @@ class Course {
         return group_name;
     }
 
-    public
     void setGroup_name ( final Map<String, Object> group_name ) {
         this.group_name = group_name;
     }
