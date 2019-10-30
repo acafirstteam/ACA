@@ -1,5 +1,6 @@
 package am.newway.aca.ui.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+import am.newway.aca.AdminEditCourseActivity;
 import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
 import am.newway.aca.adapter.admin.AdminCourseAdapter;
@@ -47,7 +49,7 @@ class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
             public
             void OnCourseRead ( List<Course> courses ) {
                 courseItems = new ArrayList<>( courses );
-                adapter = new AdminCourseAdapter( courseItems );
+                adapter = new AdminCourseAdapter(getApplicationContext(), courseItems );
                 recyclerView.setAdapter( adapter );
                 Log.d( TAG , "-------------------------ListSize = " + courseItems.size() );
             }
@@ -57,6 +59,12 @@ class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public
     void onClick ( View v ) {
+        Intent intent = new Intent(AdminCourseActivity.this, AdminEditCourseActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("action", "add");
+        bundle.putInt("pos", 0);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
