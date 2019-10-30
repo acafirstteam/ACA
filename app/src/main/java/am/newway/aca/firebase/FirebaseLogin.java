@@ -32,6 +32,7 @@ import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
 import am.newway.aca.template.Student;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -195,6 +196,30 @@ class FirebaseLogin extends BaseActivity {
                     AuthCredential credential =
                             GoogleAuthProvider.getCredential( account.getIdToken() , null );
                     mAuth.signInWithCredential( credential );
+
+                    FIRESTORE.getStudent( DATABASE.getStudent().getId() ,
+                            new Firestore.OnStudentCheckListener() {
+                        @Override
+                        public
+                        void OnStudentChecked ( @Nullable final Student student ) {
+
+                        }
+
+                        @Override
+                        public
+                        void OnStudentCheckFailed ( final String exception ) {
+
+                        }
+
+                        @Override
+                        public
+                        void OnStudentIdentifier ( final Student student ) {
+                            DATABASE.getStudent().setPhone( student.getPhone() );
+                            DATABASE.getStudent().setType( student.getType() );
+                            DATABASE.getStudent().setCourse( student.getCourse() );
+                            DATABASE.getStudent().setVerified( student.isVerified() );
+                        }
+                    } );
                 }
             } catch ( ApiException e ) {
                 // Google Sign In failed, update UI appropriately
@@ -237,8 +262,6 @@ class FirebaseLogin extends BaseActivity {
 
         setResult( 1 );
         this.finish();
-
-        //DATABASE.setStudent( student );
     }
 
     @Override

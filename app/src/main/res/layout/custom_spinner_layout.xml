@@ -14,7 +14,7 @@
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		fresco:actualImageScaleType = "focusCrop"
-		fresco:backgroundImage = "@color/recyclerview_item"
+		fresco:backgroundImage = "@color/recycler_view_item"
 		fresco:fadeDuration = "300"
 		fresco:placeholderImage = "@drawable/ic_school_black_24dp"
 		fresco:placeholderImageScaleType = "centerCrop"

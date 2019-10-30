@@ -4,18 +4,17 @@
 	<string name = "cancelled">Cancelled</string>
 	<string name = "log_out">Log Out</string>
 
-	<string name = "nav_header_title">Armenian Code Academy</string>
-	<string name = "nav_header_subtitle">info@aca.am</string>
-	<string name = "nav_header_desc">Navigation header</string>
+	<string name = "nav_header_title" translatable = "false">Armenian Code Academy</string>
+	<string name = "nav_header_subtitle" translatable = "false">info@aca.am</string>
+	<string name = "nav_header_desc" translatable = "false">Navigation header</string>
 
 	<string name = "navigation_drawer_open" translatable = "false">Open navigation drawer</string>
 	<string name = "navigation_drawer_close" translatable = "false">Close navigation drawer</string>
 
 	<string name = "wellcome_text">Armenian Code Academy</string>
 
-	<string name = "next" translatable = "false">NEXT</string>
-	<string name = "skip" translatable = "false">SKIP</string>
-	<string name = "start" translatable = "false">GOT IT</string>
+	<string name = "next">Next</string>
+	<string name = "skip">Skip</string>
 
 	<string name = "slide_1_title" translatable = "false">{Armenian Code Academy}</string>
 	<string name = "slide_1_desc" translatable = "false">Ինտենսիվ IT դասընթացներ հետագա աշխատանքի հնարավորություններով և մրցունակ աշխատավարձով։</string>
@@ -38,6 +37,7 @@
 	<string name = "menu_home">Courses</string>
 	<string name = "menu_company">Company</string>
 	<string name = "menu_about">Application</string>
+	<string name = "devs">Developers</string>
 
 
 	<string-array name = "statusVsisitours">
@@ -71,6 +71,7 @@
 	<string name = "notification_type">Notification type</string>
 	<string name = "notification_segment">Notification segment</string>
 	<string name = "select_person">Select person</string>
+	<string name = "select_course">Select course</string>
 	<string name = "notification">Notification</string>
 
 	<string-array name = "notification_type">
@@ -78,12 +79,29 @@
 		<item>Alert</item>
 		<item>News</item>
 	</string-array>
+
 	<string-array name = "notification_segment">
 		<item>All</item>
 		<item>Administrators</item>
 		<item>Lecturers</item>
 		<item>Students</item>
+		<item>Courses</item>
 	</string-array>
+
+	<string-array name = "info_title">
+		<item>{Armenian Code Academy}</item>
+		<item>Courses</item>
+		<item>Certificate</item>
+		<item>Job</item>
+	</string-array>
+
+	<string-array name = "info_description">
+		<item>Intensive IT courses with subsequent employment and competitive salary.</item>
+		<item>We provide classes in the most cutting-edge IT professions.</item>
+		<item>Our certificates are well-recognized and highly valued among Armenian IT companies.</item>
+		<item>Our graduates receive job offers with highly competitive salaries from the best IT companies.</item>
+	</string-array>
+
 	<string name = "reception">We are waiting for you at the reception</string>
 	<string name = "new_student">New student</string>
 	<!-- TODO: Remove or change this placeholder text -->
@@ -101,9 +119,17 @@
 	<string name = "licenses">Licenses</string>
 	<string name = "title_activity_licenses">Licenses</string>
 	<string name = "course">Course</string>
-	<string name = "tel_number">+374 00 00 00</string>
+	<string name = "tel_number" translatable = "false">+374 00 00 00</string>
 	<string name = "number_of_student">Number of Student</string>
-	<string name = "number">Number of student</string>
+	<string name = "finish">Finish</string>
+	<string name = "back">Back</string>
+	<string name = "code">{code}</string>
+	<string name = "company_text">P. 0.1.2.4.8.16.32 \nE. info@aca.am</string>
+	<string name = "doors_codes">Doors codes</string>
+	<string name = "new_visitor">New visitor</string>
+	<string name = "waiting">We are waiting for you at the reception</string>
+	<string name = "visit">Registered visit</string>
+	<string name = "lecturer">Lecturer</string>
 
 
 </resources>

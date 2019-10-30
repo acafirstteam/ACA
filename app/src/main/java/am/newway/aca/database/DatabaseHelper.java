@@ -53,7 +53,8 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     private static final String COLUMN_SETTINGS_LOGIN = "login";
     private static final String COLUMN_SETTINGS_NOTIFICATIONS = "notifications";
     private static final String COLUMN_SETTINGS_LANGUAGE = "language";
-    private static final String COLUMN_SETTINGS_ANIMATION= "first_animation";
+    private static final String COLUMN_SETTINGS_ANIMATION = "first_animation";
+    private static final String COLUMN_SETTINGS_START = "first_start";
 
     public static
     DatabaseHelper getInstance ( Context context ) {
@@ -62,11 +63,11 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                 if ( database == null ) {
                     database = new DatabaseHelper( context );
                     database.getStudent();
-                    if ( database.getSettings() == null ) {
-                        Log.e( TAG , "getInstance: Settings is null, Created new Settings " );
-                        database.setSettings( new Settings( true , true , ENGLISH, false ) );
-                        database.getSettings().addOnSettingsChangeListener( database );
-                    }
+                    //if ( database.getSettings() == null ) {
+                    //    Log.e( TAG , "getInstance: Settings is null, Created new Settings " );
+                    //    database.setSettings( new Settings( true , true , ENGLISH , true ) );
+                    //    database.getSettings().addOnSettingsChangeListener( database );
+                    //}
                 }
             }
         return database;
@@ -75,17 +76,18 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     //Create table SQL query
     private String CREATE_STUDENT_TABLE = String.format(
             " CREATE TABLE IF NOT EXISTS %s(%s TEXT,%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT, " +
-                    "%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER )" ,
-            TABLE_STUDENT , COLUMN_STUDENT_ID , COLUMN_STUDENT_EMAIL , COLUMN_STUDENT_NAME ,
+                    "%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER )" , TABLE_STUDENT ,
+            COLUMN_STUDENT_ID , COLUMN_STUDENT_EMAIL , COLUMN_STUDENT_NAME ,
             COLUMN_STUDENT_SURNAME , COLUMN_STUDENT_AGE , COLUMN_STUDENT_PHONE ,
             COLUMN_STUDENT_PICTURE , COLUMN_STUDENT_TOKEN , COLUMN_STUDENT_VERIFICATION ,
             COLUMN_STUDENT_COURSE , COLUMN_STUDENT_TYPE );
 
     //Create table SQL query
     private String CREATE_SETTINGS_TABLE = String.format(
-            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT, %s TEXT)" ,
+            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)" ,
             TABLE_SETTINGS , COLUMN_SETTINGS_ID , COLUMN_SETTINGS_LOGIN ,
-            COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE, COLUMN_SETTINGS_ANIMATION );
+            COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE , COLUMN_SETTINGS_ANIMATION ,
+            COLUMN_SETTINGS_START );
 
     private
     DatabaseHelper ( Context context ) {
@@ -189,8 +191,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
             student.setType( cursor.getInt( cursor.getColumnIndex( COLUMN_STUDENT_TYPE ) ) );
 
             Log.d( TAG , "-----------------------Get Student Handled" );
-        }else if(student == null)
-            student = new Student(  );
+        }
+        else if ( student == null )
+            student = new Student();
 
         cursor.close();
 
@@ -241,6 +244,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         values.put( COLUMN_SETTINGS_NOTIFICATIONS , setting.isNotification() );
         values.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
         values.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
+        values.put( COLUMN_SETTINGS_START , setting.isFirstStart() );
 
         //Insert Row
         db.insert( TABLE_SETTINGS , null , values );
@@ -248,15 +252,14 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         Log.d( TAG , "------------------------------------------------------Data inserted" );
     }
 
+    @NonNull
     public
     Settings getSettings () {
 
-        if ( settings != null ) {
-            Log.e( TAG , "getSettings: " + settings.getLanguage()  );
+        if ( settings != null )
             return settings;
-        }
 
-        settings = new Settings();
+        settings = new Settings( true , true , ENGLISH , true );
         settings.addOnSettingsChangeListener( this );
 
         Cursor cursor;
@@ -267,10 +270,16 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         if ( cursor.getCount() > 0 ) {
             cursor.moveToFirst();
 
-            Log.e( TAG , "getSettings: Reading new Settings language " +
-                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
-            Log.e( TAG , "getSettings: Reading new Settings animation " +
-                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings language " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LANGUAGE ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings notification " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_NOTIFICATIONS ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings animation " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings first start " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_START ) ) );
+//            Log.e( TAG , "getSettings: Reading new Settings first start " +
+//                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_START ) ).equals( "1" ) );
 
             settings.setLogin( cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_LOGIN ) )
                     .equals( "1" ) );
@@ -282,6 +291,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
                             .equals( "1" ) );
             settings.setFirstAnimation(
                     cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_ANIMATION ) )
+                            .equals( "1" ) );
+            settings.setFirstStart(
+                    cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_START ) )
                             .equals( "1" ) );
         }
         cursor.close();
@@ -299,8 +311,9 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         contentValues.put( COLUMN_SETTINGS_NOTIFICATIONS , setting.isNotification() );
         contentValues.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
         contentValues.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
+        contentValues.put( COLUMN_SETTINGS_START , setting.isFirstStart() );
 
-        myDB.update( TABLE_SETTINGS , contentValues , COLUMN_SETTINGS_ID + " = 1 " , null );
+        myDB.update( TABLE_SETTINGS , contentValues , null , null );
 
         Log.d( TAG , "--------------------------------------Settings Updated" );
     }
@@ -315,12 +328,13 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     @Override
     public
     void OnSettingsChanged () {
+        Log.e( TAG , "OnSettingsChanged: "   );
         setSettings( settings );
     }
 
     public
     void deleteStudent () {
         SQLiteDatabase myDB = this.getWritableDatabase();
-        myDB.delete( TABLE_SETTINGS , "", null);
+        myDB.delete( TABLE_STUDENT , "" , null );
     }
 }

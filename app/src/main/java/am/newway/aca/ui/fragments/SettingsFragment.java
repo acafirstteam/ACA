@@ -14,7 +14,6 @@ import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import am.newway.aca.R;
-import am.newway.aca.ui.BaseFragment;
 import am.newway.aca.util.LocaleHelper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

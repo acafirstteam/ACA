@@ -13,7 +13,6 @@ import am.newway.aca.R;
 import am.newway.aca.adapter.HistoryAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Visit;
-import am.newway.aca.ui.BaseFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,7 +35,7 @@ class HistoryFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-    public static
+    private static
     HistoryFragment newInstance ( String param1 , String param2 ) {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
@@ -68,16 +67,18 @@ class HistoryFragment extends BaseFragment {
                 new LinearLayoutManager( view.getContext() , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
 
-        FIRESTORE.getVisits( new Firestore.OnVisitListener() {
+        String id = DATABASE.getStudent().getId();
+
+        FIRESTORE.getVisits( id, new Firestore.OnVisitListener() {
             @Override
             public
             void OnLoaded ( @Nullable List<Visit> visits ) {
-                items = new ArrayList<>( visits );
-                adapter = new HistoryAdapter( items );
-                recyclerView.setAdapter( adapter );
-                Log.d( TAG , "---------------------ListItem Count = " + items.size() );
-                Log.d( TAG , "---------------------List 1st data = " +
-                        items.get( 0 ).getCompleteTime() );
+                if(visits != null) {
+                    items = new ArrayList<>( visits );
+                    adapter = new HistoryAdapter( items );
+                    recyclerView.setAdapter( adapter );
+                    Log.d( TAG , "---------------------ListItem Count = " + items.size() );
+                }
             }
         } );
     }

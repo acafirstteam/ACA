@@ -9,7 +9,7 @@
 
 	<com.airbnb.lottie.LottieAnimationView
 		android:id = "@+id/animation_view"
-		android:layout_width = "wrap_content"
+		android:layout_width = "match_parent"
 		android:layout_height = "128dp"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintHorizontal_bias = "0.49"
@@ -54,7 +54,7 @@
 			app:layout_constraintLeft_toLeftOf = "parent"
 			app:layout_constraintTop_toTopOf = "parent"
 			fresco:actualImageScaleType = "focusCrop"
-			fresco:backgroundImage = "@color/recyclerview_item"
+			fresco:backgroundImage = "@color/recycler_view_item"
 			fresco:fadeDuration = "300"
 			fresco:placeholderImage = "@mipmap/ic_launcher"
 			fresco:placeholderImageScaleType = "centerCrop"
@@ -75,7 +75,6 @@
 				android:id = "@+id/edit_fullname"
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
-				android:imeOptions="actionDone"
 				android:hint = "@string/full_name"
 				android:inputType = "textPersonName" />
 
@@ -94,7 +93,6 @@
 				android:id = "@+id/edit_email"
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
-				android:enabled="false"
 				android:hint = "@string/email"
 				android:inputType = "textEmailAddress|textEmailSubject" />
 
@@ -114,7 +112,6 @@
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
 				android:hint = "@string/phone_number"
-				android:imeOptions="actionDone"
 				android:inputType = "phone" />
 
 		</com.google.android.material.textfield.TextInputLayout>

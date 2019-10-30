@@ -14,7 +14,7 @@
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		card_view:cardBackgroundColor = "@color/colorPrimary"
-		card_view:cardCornerRadius = "8dp"
+		card_view:cardCornerRadius = "4dp"
 		card_view:cardElevation = "4dp"
 		card_view:cardUseCompatPadding = "true">
 
@@ -29,11 +29,11 @@
 				android:layout_height = "wrap_content"
 				android:layout_marginStart = "10dp"
 				android:layout_marginTop = "4dp"
-				android:textColor="#ffff"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintRight_toRightOf="parent"
-				app:layout_constraintLeft_toRightOf="@+id/imageView"
-				android:textSize = "26sp" />
+				android:maxLines = "1"
+				android:textSize = "26sp"
+				app:layout_constraintLeft_toRightOf = "@+id/imageView"
+				app:layout_constraintRight_toRightOf = "parent"
+				app:layout_constraintTop_toTopOf = "parent" />
 
 			<TextView
 				android:id = "@+id/text_description"
@@ -51,10 +51,10 @@
 				android:id = "@+id/imageView"
 				android:layout_width = "96dp"
 				android:layout_height = "96dp"
+				app:layout_constraintBottom_toBottomOf = "parent"
 				app:layout_constraintLeft_toLeftOf = "parent"
 				app:layout_constraintTop_toTopOf = "parent"
-				app:layout_constraintBottom_toBottomOf="parent"
-				fresco:backgroundImage = "@color/recyclerview_item"
+				fresco:backgroundImage = "@color/recycler_view_item"
 				fresco:fadeDuration = "300"
 				fresco:placeholderImage = "@mipmap/ic_launcher"
 				fresco:placeholderImageScaleType = "centerCrop"

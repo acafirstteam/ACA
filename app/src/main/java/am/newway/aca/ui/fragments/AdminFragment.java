@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import am.newway.aca.AdminActivity;
+import am.newway.aca.adapter.admin.AdminMenuAdapter;
+import am.newway.aca.ui.admin.AdminCourseActivity;
 import am.newway.aca.R;
-import am.newway.aca.adapter.AdminAdapter;
 import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.AdminItem;
-import am.newway.aca.ui.BaseFragment;
-import am.newway.aca.ui.NotificationActivity;
-import am.newway.aca.ui.student.StudenActivity;
+import am.newway.aca.ui.admin.AdminMessageActivity;
+import am.newway.aca.ui.student.StudentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -29,7 +28,7 @@ public class AdminFragment extends BaseFragment {
     private final String TAG = "Admin";
     private ArrayList<AdminItem> items;
     private RecyclerView recyclerView;
-    private AdminAdapter adapter;
+    private AdminMenuAdapter adapter;
 
     public
     AdminFragment () {
@@ -73,8 +72,8 @@ public class AdminFragment extends BaseFragment {
                 "գործիք" );
         item.setName( "en", "Courses" );
         item.setDescription( "en","Working tool for editing adding and removing courses " );
-        item.setUrl( "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/47536.png?alt=media&token=494df820-fcd1-42bc-b7ac-dcc640a6c3fd" );
-        item.setCl( AdminActivity.class );
+        item.setRes( R.drawable.course );
+        item.setCl( AdminCourseActivity.class );
 
         items.add( item );
 
@@ -84,8 +83,8 @@ public class AdminFragment extends BaseFragment {
                 "դասընթացների նշանակման գործիք" );
         item.setName( "en", "Visitors" );
         item.setDescription( "en","Assignment tool to change the removal status of the add visitors" );
-        item.setUrl( "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/33308.png?alt=media&token=8adbf375-9d17-4557-86ac-9c437ce8484e" );
-        item.setCl( StudenActivity.class );
+        item.setRes( R.drawable.student );
+        item.setCl( StudentActivity.class );
 
         items.add( item );
 
@@ -95,12 +94,12 @@ public class AdminFragment extends BaseFragment {
                 "այցելուների կարգավիճակի" );
         item.setName( "en", "Messages" );
         item.setDescription( "en","Messaging tool by groups, individuals, and visitor status" );
-        item.setUrl( "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/60977.png?alt=media&token=eb264c98-eb28-4281-a0a2-3792eddcff12" );
-        item.setCl( NotificationActivity.class );
+        item.setRes( R.drawable.message );
+        item.setCl( AdminMessageActivity.class );
 
         items.add( item );
 
-        adapter = new AdminAdapter( getActivity(), new RecyclerViewAnimator( recyclerView ) );
+        adapter = new AdminMenuAdapter( getActivity(), new RecyclerViewAnimator( recyclerView ) );
         adapter.setLanguage( DATABASE.getSettings().getLanguage() );
         adapter.setItems( items );
         recyclerView.setAdapter( adapter );

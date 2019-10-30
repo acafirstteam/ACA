@@ -4,10 +4,15 @@ import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-public class App extends Application {
+//@ReportsCrashes ( mailTo = "acafirst@gmail.com", mode = ReportingInteractionMode.TOAST,
+//                  resToastText = R.string.app_name )
+public
+class App extends Application {
     @Override
-    public void onCreate() {
+    public
+    void onCreate () {
         super.onCreate();
-        Fresco.initialize(this);
+        //ACRA.init( this );
+        Fresco.initialize( this );
     }
 }
