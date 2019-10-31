@@ -83,7 +83,7 @@
 				app:layout_constraintLeft_toLeftOf = "parent"
 				app:layout_constraintTop_toTopOf = "parent"
 				fresco:actualImageScaleType = "focusCrop"
-				fresco:backgroundImage = "@color/recycler_view_item"
+				fresco:backgroundImage = "@color/colorPrimaryLight"
 				fresco:fadeDuration = "300"
 				fresco:placeholderImage = "@mipmap/ic_launcher"
 				fresco:placeholderImageScaleType = "centerCrop"

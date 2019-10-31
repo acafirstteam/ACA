@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,11 +23,10 @@ import java.util.Locale;
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
-import am.newway.aca.template.Student;
 import am.newway.aca.template.Visit;
 import am.newway.aca.ui.InfoActivity;
+import am.newway.aca.ui.QrActivity;
 import am.newway.aca.util.Util;
-import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 
 public
@@ -35,6 +35,15 @@ class MainActivity extends BaseActivity {
     private static long back_pressed;
     private String TAG = getClass().getSimpleName();
     //private final int PICK_IMAGE_REQUEST = 71;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent( intent );
+        int nMess = intent.getIntExtra( "message" , 0 );
+        if ( nMess == 1 ) {
+            navSelectDestination( 3 );
+        }
+    }
 
     @Override
     protected
@@ -51,7 +60,13 @@ class MainActivity extends BaseActivity {
 
         updateNavigationBar();
 
-        initNotifications();
+        //initNotifications();
+
+        Intent intent = getIntent();
+        int nMess = intent.getIntExtra( "message" , 0 );
+        if ( nMess == 1 ) {
+            navSelectDestination( 3 );
+        }
 
         if ( !DATABASE.getSettings().isFirstStart() ) {
             DATABASE.getSettings().setFirstStart( true );
@@ -137,57 +152,46 @@ class MainActivity extends BaseActivity {
     protected
     void onActivityResult ( int requestCode , int resultCode , Intent data ) {
 
-        //        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-        //                && data != null && data.getData() != null )
-        //        {
-        //            FIRESTORE.uploadImage( data.getData() , "testik" , new Firestore.OnImageUploadListener() {
-        //                @Override
-        //                public
-        //                void OnImageUploaded ( final String uri ) {
-        //
-        //                }
-        //
-        //                @Override
-        //                public
-        //                void OnImageUploadFailed ( final String error ) {
-        //
-        //                }
-        //            } );
-        //
-        //            return;
-        //        }
-
         if ( requestCode == 1 && resultCode == 1 ) {
 
             updateNavigationBar();
 
-            Student student = DATABASE.getStudent();
-
-            firebaseUser = mAuth.getCurrentUser();
-            if ( firebaseUser != null ) {
-
-                FIRESTORE.checkStudent( student , true , new Firestore.OnStudentCheckListener() {
-                    @Override
-                    public
-                    void OnStudentChecked ( @Nullable final Student student ) {
-                        //if ( student != null )
-                        //DATABASE.setStudent( student );
-                    }
-
-                    @Override
-                    public
-                    void OnStudentCheckFailed ( final String exception ) {
-
-                    }
-
-                    @Override
-                    public
-                    void OnStudentIdentifier ( final Student student ) {
-                        //if ( student != null )
-                        //DATABASE.setStudent( student );
-                    }
-                } );
+            Log.e( TAG , "onActivityResult: " + DATABASE.getStudent().getType() );
+            if ( DATABASE.getStudent().getType() == 1 ) {
+                startActivity( new Intent( MainActivity.this , QrActivity.class ) );
+                finish();
             }
+
+            showNavigationItem( !DATABASE.getStudent().getId().equals( "-1" ) &&
+                    DATABASE.getStudent().getType() == 2 );
+
+            //            Student student = DATABASE.getStudent();
+            //
+            //            firebaseUser = mAuth.getCurrentUser();
+            //            if ( firebaseUser != null ) {
+            //
+            //                FIRESTORE.checkStudent( student , true , new Firestore.OnStudentCheckListener() {
+            //                    @Override
+            //                    public
+            //                    void OnStudentChecked ( @Nullable final Student student ) {
+            //                        //if ( student != null )
+            //                        //DATABASE.setStudent( student );
+            //                    }
+            //
+            //                    @Override
+            //                    public
+            //                    void OnStudentCheckFailed ( final String exception ) {
+            //
+            //                    }
+            //
+            //                    @Override
+            //                    public
+            //                    void OnStudentIdentifier ( final Student student ) {
+            //                        //if ( student != null )
+            //                        //DATABASE.setStudent( student );
+            //                    }
+            //                } );
+            //            }
 
             super.onActivityResult( requestCode , resultCode , data );
             return;
@@ -208,16 +212,16 @@ class MainActivity extends BaseActivity {
 
             final Visit visit = DATABASE.getVisit();
             if ( visit != null ) {
-                new AlertDialog.Builder( MainActivity.this ).setTitle( "Ուշադրություն" )
-                        .setMessage( "Ցանկանում ե՞ք ավարտել դասաժամը" )
-                        .setPositiveButton( "Այո" , new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder( MainActivity.this ).setTitle( R.string.attention )
+                        .setMessage( R.string.end_visit )
+                        .setPositiveButton( R.string.yes , new DialogInterface.OnClickListener() {
                             @Override
                             public
                             void onClick ( final DialogInterface dialogInterface , final int i ) {
                                 completeVisit( visit.getId() );
                             }
                         } )
-                        .setNegativeButton( "Ոչ" , null )
+                        .setNegativeButton( R.string.no , null )
                         .show();
             }
             else {
@@ -254,8 +258,32 @@ class MainActivity extends BaseActivity {
 
     @Override
     public
+    void onPause () {
+        super.onPause();
+        PreferenceManager.getDefaultSharedPreferences( this )
+                .edit()
+                .putBoolean( "isActive" , false )
+                .apply();
+    }
+
+    @Override
+    public
+    void onDestroy () {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences( this )
+                .edit()
+                .putBoolean( "isActive" , false )
+                .apply();
+    }
+
+    @Override
+    public
     void onResume () {
         super.onResume();
+        PreferenceManager.getDefaultSharedPreferences( this )
+                .edit()
+                .putBoolean( "isActive" , true )
+                .apply();
 
         String lang = DATABASE.getSettings().getLanguage();
 

@@ -35,7 +35,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             fresco:actualImageScaleType="focusCrop"
-            fresco:backgroundImage="@color/recycler_view_item"
+            fresco:backgroundImage="@color/colorPrimaryLight"
             fresco:fadeDuration="300"
             fresco:placeholderImage="@drawable/load"
             fresco:placeholderImageScaleType="centerCrop"

@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -106,7 +107,8 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<DocumentReference> task ) {
-                        addListener( Objects.requireNonNull( task.getResult() ).getId() );
+                        addVisitConfirmListener(
+                                Objects.requireNonNull( task.getResult() ).getId() );
                     }
                 } );
     }
@@ -453,6 +455,8 @@ class Firestore {
         initFirestore();
 
         db.collection( NOTIFICATION_COLLECTION )
+                .orderBy( "date" , Query.Direction.DESCENDING )
+                .limit( 20 )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -832,7 +836,7 @@ class Firestore {
             @Override
             public
             void onComplete ( @NonNull final Task<Void> task ) {
-                listener.OnCourseUpdateed();
+                listener.OnCourseUpdated();
             }
         } ).addOnFailureListener( new OnFailureListener() {
             @Override
@@ -851,8 +855,8 @@ class Firestore {
                 db.collection( STUDENT_COLLECTION ).document( student.getId() );
 
         ObjectMapper oMapper = new ObjectMapper();
-        @SuppressWarnings( "unchecked" )
-        Map<String, Object> map = oMapper.convertValue( student , Map.class );
+        @SuppressWarnings ( "unchecked" ) Map<String, Object> map =
+                oMapper.convertValue( student , Map.class );
 
         docRef.set( map ).addOnCompleteListener( new OnCompleteListener<Void>() {
             @Override
@@ -870,7 +874,7 @@ class Firestore {
     }
 
     private
-    void addListener ( String docID ) {
+    void addVisitConfirmListener ( String docID ) {
         Log.e( TAG , "document id = " + docID );
         final DocumentReference docRef = db.collection( VISIT_COLLECTION ).document( docID );
         docRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
@@ -902,8 +906,7 @@ class Firestore {
     public
     void addListenerNotifications ( int nUserType , final OnNotificationListener listener ) {
         Log.e( TAG , "user type = " + nUserType );
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
+        initFirestore();
         final CollectionReference collRef = db.collection( NOTIFICATION_COLLECTION );
         collRef.whereEqualTo( "messageSegment" , nUserType );
         collRef.whereEqualTo( "messageSegment" , 0 );
@@ -912,17 +915,19 @@ class Firestore {
             public
             void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
                     @Nullable final FirebaseFirestoreException e ) {
-                if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() ) {
-                    List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                    for ( DocumentSnapshot doc : docs ) {
-                        Notification notification = doc.toObject( Notification.class );
-                        if ( notification != null ) {
-                            notification.setId( Integer.valueOf( doc.getId() ) );
-                            if ( listener != null )
-                                listener.OnNewNotification( notification );
-                        }
-                        else
-                            Log.e( TAG , "onEvent: " + "Unknown student" );
+                if ( e != null ) {
+                    Log.w( TAG , "listen:error" , e );
+                    return;
+                }
+
+                for ( DocumentChange dc : queryDocumentSnapshots.getDocumentChanges() ) {
+                    if ( dc.getType() == DocumentChange.Type.ADDED ) {
+                        Notification notification = dc.getDocument().toObject( Notification.class );
+
+                        notification.setId( Integer.valueOf( dc.getDocument().getId() ) );
+                        if ( listener != null )
+                            listener.OnNewNotification( notification );
+
                     }
                 }
             }
@@ -1059,6 +1064,7 @@ class Firestore {
         }
         initFirestore();
 
+        Log.e( TAG , "getStudent: id= " + id );
         db.collection( STUDENT_COLLECTION )
                 .whereEqualTo( "id" , id )
                 .get()
@@ -1066,7 +1072,8 @@ class Firestore {
                     @Override
                     public
                     void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        if ( task.getResult() != null && task.getResult().getDocuments().size() > 0) {
+                        if ( task.getResult() != null &&
+                                task.getResult().getDocuments().size() > 0 ) {
                             DocumentSnapshot doc = task.getResult().getDocuments().get( 0 );
                             if ( task.isSuccessful() && task.getResult() != null && doc.exists() ) {
                                 Student student = doc.toObject( Student.class );
@@ -1101,7 +1108,7 @@ class Firestore {
 
     public
     interface OnCourseUpdateListener {
-        void OnCourseUpdateed ();
+        void OnCourseUpdated ();
 
         void OnCourseUpdateFailed ();
     }

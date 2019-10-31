@@ -130,6 +130,13 @@
 	<string name = "waiting">We are waiting for you at the reception</string>
 	<string name = "visit">Registered visit</string>
 	<string name = "lecturer">Lecturer</string>
+	<string name = "attention">Attention</string>
+	<string name = "end_visit">Do you want to end the visit?</string>
+	<string name = "no">No</string>
+	<string name = "yes">Yes</string>
+	<string name = "unknown_user">Unknown user</string>
+	<string name = "messages">Notifications</string>
+	<string name = "visitors_list">Visitors list</string>
 
 
 </resources>
