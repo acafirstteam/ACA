@@ -46,16 +46,13 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
     private EditText editLink;
     private EditText editGroupType;
     private ImageView setImage;
-    private Button saveButton;
     private Bundle bundle;
     private ArrayList<Course> courseItems;
     private int position;
-    private Map<String, Object> groupName;
-    private Map<String, Object> description;
+    protected Map<String, Object> groupName;
     private String action = null;
     private String imageURI;
     private Uri imagePath;
-    private String url;
     private boolean imagePicked = false;
 
 
@@ -73,7 +70,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
         editDescriptionArm = findViewById( R.id.admin_edit_DescriptionArm_id );
         editLink = findViewById( R.id.admin_edit_Link_id );
         editGroupType = findViewById( R.id.admin_edit_groupType_id );
-        saveButton = findViewById( R.id.admin_edit_Save_btn_id );
+        final Button saveButton = findViewById( R.id.admin_edit_Save_btn_id );
         setImage = findViewById( R.id.admin_edit_imageView_id );
         setImage.setOnClickListener( this );
         saveButton.setOnClickListener( this );
@@ -164,7 +161,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                     switch ( action ) {
                         //CASE ADD
                         case ADD:
-                            if ( imagePicked == false ) {   //IMAGE NOT PICKED
+                            if ( !imagePicked ) {   //IMAGE NOT PICKED
                                 Toast.makeText( getApplicationContext() ,
                                         "Please Pick Course Image" , Toast.LENGTH_SHORT ).show();
                             }
@@ -203,7 +200,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                         case UPDATE:
                             Log.d( TAG , "---------------------- Case UPDATE" );
                             //IMAGE PICKED
-                            if ( imagePicked == true ) {
+                            if ( imagePicked ) {
                                 FIRESTORE.uploadImage( imagePath ,
                                         editCourseName.getText().toString() ,
                                         new Firestore.OnImageUploadListener() {
@@ -215,7 +212,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                                                         new Firestore.OnCourseUpdateListener() {
                                                             @Override
                                                             public
-                                                            void OnCourseUpdateed () {
+                                                            void OnCourseUpdated () {
                                                                 Toast.makeText(
                                                                         getApplicationContext() ,
                                                                         "Course Updated" ,
@@ -246,7 +243,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                                         new Firestore.OnCourseUpdateListener() {
                                             @Override
                                             public
-                                            void OnCourseUpdateed () {
+                                            void OnCourseUpdated () {
                                                 Toast.makeText( getApplicationContext() ,
                                                         "Course Updated" , Toast.LENGTH_SHORT )
                                                         .show();
@@ -323,12 +320,13 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
     Course createCourse () {
 
         groupName = new HashMap<>();
-        description = new HashMap<>();
+        final Map<String, Object> description = new HashMap<>();
         groupName.put( ENGLISH , editGroupNameEng.getText().toString() );
         groupName.put( ARMENIAN , editGroupNameArm.getText().toString() );
         description.put( ENGLISH , editDescriptionEng.getText().toString() );
         description.put( ARMENIAN , editDescriptionArm.getText().toString() );
 
+        String url;
         if ( imagePicked == true ) {
             url = imageURI;
         }

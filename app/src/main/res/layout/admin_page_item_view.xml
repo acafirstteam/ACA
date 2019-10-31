@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:background="@drawable/ic_launcher_foreground"
         fresco:actualImageScaleType = "focusCrop"
-        fresco:backgroundImage = "@color/recycler_view_item"
+        fresco:backgroundImage = "@color/colorPrimaryLight"
         fresco:fadeDuration = "300"
         fresco:placeholderImage = "@mipmap/ic_launcher"
         fresco:placeholderImageScaleType = "centerCrop"

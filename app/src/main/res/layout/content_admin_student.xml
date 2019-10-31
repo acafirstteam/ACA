@@ -5,12 +5,12 @@
 	xmlns:tools = "http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
+	android:padding = "5dp"
 	app:layout_behavior = "@string/appbar_scrolling_view_behavior"
 	tools:context = ".ui.admin.AdminStudentActivity"
-	android:padding="5dp"
 	tools:showIn = "@layout/activity_admin_student">
 
-<com.facebook.drawee.view.SimpleDraweeView
+	<com.facebook.drawee.view.SimpleDraweeView
 		android:id = "@+id/imageViewStudentItemA"
 		android:layout_width = "96dp"
 		android:layout_height = "96dp"
@@ -18,7 +18,7 @@
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
-		fresco:backgroundImage = "@color/recycler_view_item"
+		fresco:backgroundImage = "@color/colorPrimaryLight"
 		fresco:fadeDuration = "300"
 		fresco:placeholderImage = "@mipmap/ic_launcher"
 		fresco:placeholderImageScaleType = "centerCrop"
@@ -55,18 +55,14 @@
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
 		android:layout_marginStart = "15dp"
+		android:layout_marginTop = "24dp"
 		android:drawableStart = "@drawable/ic_phone_black_24dp"
 		android:drawablePadding = "8dp"
-		android:layout_marginTop = "24dp"
-
 		android:text = "@string/number_of_student"
 		android:textSize = "18sp"
 		app:layout_constraintRight_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
 		app:layout_constraintTop_toBottomOf = "@+id/textCourseStudentItmA" />
-
-
-
 
 	<TextView
 		android:id = "@+id/textEmailStudentItmA"
@@ -82,8 +78,6 @@
 		app:layout_constraintTop_toBottomOf = "@+id/textPhoneStudentItmA"
 		tools:text = "mail.com" />
 
-
-
 	<TextView
 		android:id = "@+id/textForChosseStatus"
 		android:layout_width = "wrap_content"
@@ -92,10 +86,7 @@
 		android:layout_marginTop = "24dp"
 		android:text = "@string/choose_status_for_visitor"
 		android:textSize = "14sp"
-
-
 		app:layout_constraintLeft_toLeftOf = "parent"
-
 		app:layout_constraintTop_toBottomOf = "@+id/textEmailStudentItmA" />
 
 
@@ -108,7 +99,6 @@
 		android:layout_marginEnd = "15dp"
 		android:dropDownHeight = "100dp"
 		android:gravity = "center"
-
 		android:textStyle = "bold"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
@@ -123,8 +113,6 @@
 		android:layout_marginEnd = "15dp"
 		android:gravity = "center"
 		android:text = "@string/please_choose_the_level"
-
-
 		android:textSize = "14sp"
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintTop_toBottomOf = "@+id/spinner" />
@@ -138,23 +126,10 @@
 		android:layout_marginEnd = "15dp"
 		android:dropDownHeight = "100dp"
 		android:gravity = "center"
-
-
 		android:textStyle = "bold"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toBottomOf = "@+id/TextChoseLevel" />
-
-	<!--	<Spinner-->
-	<!--		android:id = "@+id/spinner1"-->
-	<!--		android:layout_width = "match_parent"-->
-	<!--		android:layout_height = "wrap_content"-->
-	<!--		android:layout_marginStart = "15dp"-->
-	<!--		android:layout_marginTop = "8dp"-->
-	<!--		android:layout_marginEnd = "15dp"-->
-	<!--		app:layout_constraintEnd_toEndOf = "parent"-->
-	<!--		app:layout_constraintStart_toStartOf = "parent"-->
-	<!--		app:layout_constraintTop_toBottomOf = "@+id/TextChoseLevel" />-->
 
 	<TextView
 		android:id = "@+id/TextChoseCourse"
@@ -165,7 +140,6 @@
 		android:layout_marginEnd = "15dp"
 		android:gravity = "center"
 		android:text = "@string/please_choose_the_course"
-
 		android:textSize = "14sp"
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintTop_toBottomOf = "@+id/spinner1" />
@@ -177,24 +151,19 @@
 		android:layout_marginStart = "15dp"
 		android:layout_marginTop = "8dp"
 		android:layout_marginEnd = "15dp"
-
 		android:textStyle = "bold"
 		app:layout_constraintEnd_toEndOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
 		app:layout_constraintTop_toBottomOf = "@+id/TextChoseCourse" />
 
-
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:id = "@+id/btndoneForstatus"
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
 		android:layout_gravity = "bottom|end"
 		android:layout_margin = "@dimen/fab_margin"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintRight_toRightOf = "parent"
 		app:srcCompat = "@android:drawable/ic_menu_send" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
