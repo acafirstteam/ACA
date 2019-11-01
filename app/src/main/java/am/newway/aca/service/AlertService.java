@@ -122,7 +122,8 @@ class AlertService extends JobService {
     private
     void initNotifications () {
         if ( DATABASE.getSettings().isNotification() ) {
-            FIRESTORE.addListenerNotifications( DATABASE.getStudent().getType() ,
+            FIRESTORE.addListenerNotifications( DATABASE.getStudent().getId() ,
+                    DATABASE.getStudent().getCourse() , DATABASE.getStudent().getType() ,
                     new Firestore.OnNotificationListener() {
                         @Override
                         public
@@ -132,7 +133,7 @@ class AlertService extends JobService {
 
                         @Override
                         public
-                        void OnNotificationFaild () {
+                        void OnNotificationFailed () {
                         }
 
                         @Override
@@ -154,8 +155,13 @@ class AlertService extends JobService {
     private
     void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
             am.newway.aca.template.Notification notification ) {
+        if(DATABASE.getSettings().getNotifId() >= notification.getId() )
+            return;
+
         if ( !DATABASE.getSettings().isNotification() )
             return;
+
+        DATABASE.getSettings().setNotifId( notification.getId() );
 
         final NotificationManager notificationManager =
                 ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
@@ -197,11 +203,11 @@ class AlertService extends JobService {
                 .setWhen( System.currentTimeMillis() )
                 .setSmallIcon( R.drawable.ic_book_black_24dp )
                 .setTicker( getString( R.string.new_visitor ) )
-                .setPriority(Notification.PRIORITY_MAX)
+                .setPriority( Notification.PRIORITY_MAX )
                 .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
                         notifSegment ) : getString( R.string.new_student ) )
-                .setContentText( NOTIFICATION_CHANNEL_ID.equals( "02" ) ?
-                        notification.getMessage() : getString( R.string.waiting ));
+                .setContentText( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getMessage()
+                        : getString( R.string.waiting ) );
 
         notificationBuilder.setContentIntent( contentIntent );
 

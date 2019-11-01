@@ -10,13 +10,14 @@ import java.util.Locale;
 public
 class Settings {
 
+    private final String TAG = getClass().getSimpleName();
     private boolean login;
     private boolean notification;
     private boolean firstAnimation;
     private boolean firstStart = false;
     private String language;
     private OnSettingsChangeListener listener;
-    private final String TAG = getClass().getSimpleName();
+    private int notifId = 0;
 
     public
     Settings ( boolean login , boolean notification , String language , boolean anim ) {
@@ -35,6 +36,18 @@ class Settings {
     public
     Settings () {
 
+    }
+
+    public
+    int getNotifId () {
+        return notifId;
+    }
+
+    public
+    void setNotifId ( final int notifId ) {
+        this.notifId = notifId;
+        if ( listener != null )
+            listener.OnSettingsChanged();
     }
 
     public

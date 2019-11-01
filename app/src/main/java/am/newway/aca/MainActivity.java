@@ -51,7 +51,7 @@ class MainActivity extends BaseActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main );
         int nType = DATABASE.getStudent().getType();
-        if ( nType == 2 ) {
+        if ( nType != -1 && nType != 1 ) {
             //addOnNewStudentListener();
             Util.scheduleJob( this );
         }

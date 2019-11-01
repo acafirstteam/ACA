@@ -79,7 +79,7 @@ class AlertFragment extends BaseFragment {
 
             @Override
             public
-            void OnNotificationFaild () {
+            void OnNotificationFailed () {
 
             }
 
