@@ -10,15 +10,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
@@ -195,18 +194,19 @@ class AdminMessageActivity extends BaseActivity {
             @Override
             public
             void OnLastId ( @Nullable final int id ) {
+                Toast.makeText(AdminMessageActivity.this, "$$$ "+id, Toast.LENGTH_SHORT).show();
                 int nType = spinnerType.getSelectedItemPosition();
                 int nSegment = spinnerSegment.getSelectedItemPosition();
 
                 String messageText = editText.getText().toString();
 
-                SimpleDateFormat formatter =
-                        new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
+                //SimpleDateFormat formatter =
+                //        new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
                 Date date = new Date();
 
                 Notification notification =
                         new Notification( messageText , ident , nType , nSegment ,
-                                formatter.format( date ) );
+                                date  );
                 notification.setId( id + 1 );
 
                 FIRESTORE.sendMessage( notification );

@@ -336,7 +336,7 @@ class BaseActivity extends AppCompatActivity {
     //
     //                        @Override
     //                        public
-    //                        void OnNotificationFaild () {
+    //                        void OnNotificationFailed () {
     //                        }
     //
     //                        @Override
