@@ -55,6 +55,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
     private static final String COLUMN_SETTINGS_LANGUAGE = "language";
     private static final String COLUMN_SETTINGS_ANIMATION = "first_animation";
     private static final String COLUMN_SETTINGS_START = "first_start";
+    private static final String COLUMN_SETTINGS_NOTIFID = "notif_id";
 
     public static
     DatabaseHelper getInstance ( Context context ) {
@@ -84,10 +85,11 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
 
     //Create table SQL query
     private String CREATE_SETTINGS_TABLE = String.format(
-            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s TEXT, %s TEXT, %s TEXT, %s TEXT)" ,
+            " CREATE TABLE IF NOT EXISTS %s(%s INTEGER PRIMARY KEY AUTOINCREMENT,%s TEXT, %s " +
+                    "TEXT, %s TEXT, %s TEXT, %s TEXT, %s INTEGER)" ,
             TABLE_SETTINGS , COLUMN_SETTINGS_ID , COLUMN_SETTINGS_LOGIN ,
             COLUMN_SETTINGS_NOTIFICATIONS , COLUMN_SETTINGS_LANGUAGE , COLUMN_SETTINGS_ANIMATION ,
-            COLUMN_SETTINGS_START );
+            COLUMN_SETTINGS_START, COLUMN_SETTINGS_NOTIFID );
 
     private
     DatabaseHelper ( Context context ) {
@@ -245,6 +247,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         values.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
         values.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
         values.put( COLUMN_SETTINGS_START , setting.isFirstStart() );
+        values.put( COLUMN_SETTINGS_NOTIFID , setting.getNotifId() );
 
         //Insert Row
         db.insert( TABLE_SETTINGS , null , values );
@@ -295,6 +298,8 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
             settings.setFirstStart(
                     cursor.getString( cursor.getColumnIndex( COLUMN_SETTINGS_START ) )
                             .equals( "1" ) );
+            settings.setNotifId(
+                    cursor.getInt( cursor.getColumnIndex( COLUMN_SETTINGS_NOTIFID) ) );
         }
         cursor.close();
 
@@ -312,6 +317,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements Student.OnStudentChange
         contentValues.put( COLUMN_SETTINGS_LANGUAGE , setting.getLanguage() );
         contentValues.put( COLUMN_SETTINGS_ANIMATION , setting.isFirstAnimation() );
         contentValues.put( COLUMN_SETTINGS_START , setting.isFirstStart() );
+        contentValues.put( COLUMN_SETTINGS_NOTIFID , setting.getNotifId() );
 
         myDB.update( TABLE_SETTINGS , contentValues , null , null );
 

@@ -476,13 +476,13 @@ class Firestore {
                             else {
                                 Log.e( TAG , "getResult is null" );
                                 if ( listener != null )
-                                    listener.OnNotificationFaild();
+                                    listener.OnNotificationFailed();
                             }
                         }
                         else {
                             Log.e( TAG , "task is not Successful" );
                             if ( listener != null )
-                                listener.OnNotificationFaild();
+                                listener.OnNotificationFailed();
                         }
                     }
                 } );
@@ -904,12 +904,20 @@ class Firestore {
     }
 
     public
-    void addListenerNotifications ( int nUserType , final OnNotificationListener listener ) {
+    void addListenerNotifications ( String userId, String course, int nUserType ,
+            final OnNotificationListener listener ) {
         Log.e( TAG , "user type = " + nUserType );
         initFirestore();
         final CollectionReference collRef = db.collection( NOTIFICATION_COLLECTION );
-        collRef.whereEqualTo( "messageSegment" , nUserType );
         collRef.whereEqualTo( "messageSegment" , 0 );
+        collRef.whereEqualTo( "messageSegment" , nUserType )
+        .whereEqualTo( "user", "");
+        collRef.whereEqualTo( "messageSegment" , nUserType )
+        .whereEqualTo( "user", userId);
+        collRef.whereEqualTo( "messageSegment" , 4 )
+        .whereEqualTo( "user", "");
+        collRef.whereEqualTo( "messageSegment" , 4 )
+        .whereEqualTo( "user", course);
         collRef.addSnapshotListener( new EventListener<QuerySnapshot>() {
             @Override
             public
@@ -1101,7 +1109,7 @@ class Firestore {
     interface OnNotificationListener {
         void OnNotificationRead ( List<Notification> notifications );
 
-        void OnNotificationFaild ();
+        void OnNotificationFailed ();
 
         void OnNewNotification ( Notification notification );
     }
