@@ -45,5 +45,5 @@
 	<color name = "white">#FFF</color>
 	<color name = "green">#7A7A7A</color>
 
-	<color name = "recycler_view_item">#F00</color>
+	<color name = "recycler_view_item">#CFD8DC</color>
 </resources>
