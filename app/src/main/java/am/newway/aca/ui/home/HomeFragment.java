@@ -131,20 +131,18 @@ class HomeFragment extends BaseFragment {
             time.setText( visit.getDateTime() );
             String textCourse = DATABASE.getStudent().getCourse();
 
-            if ( !textCourse.isEmpty() ) {
+            if ( textCourse != null && !textCourse.isEmpty() ) {
                 course.setText( textCourse );
 
                 FIRESTORE.getStudent( DATABASE.getStudent() , new Firestore.OnStudentCheckListener() {
                     @Override
                     public
                     void OnStudentChecked ( @Nullable final Student student ) {
-
                     }
 
                     @Override
                     public
                     void OnStudentCheckFailed ( final String exception ) {
-
                     }
 
                     @Override

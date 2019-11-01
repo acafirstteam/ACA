@@ -103,6 +103,7 @@ class FirebaseLogin extends BaseActivity {
             void onClick ( final View view ) {
                 mGoogleSignInClient.signOut();
                 mAuth.signOut();
+                //mAuth.removeAuthStateListener( mAuthListener );
                 firebaseUser = mAuth.getCurrentUser();
                 DATABASE.deleteStudent();
                 setResult( 1 );
@@ -114,6 +115,8 @@ class FirebaseLogin extends BaseActivity {
             @Override
             public
             void onAuthStateChanged ( @NonNull FirebaseAuth firebaseAuth ) {
+
+                //firebaseUser= firebaseAuth.getCurrentUser();
                 firebaseUser = mAuth.getCurrentUser();
                 if ( firebaseUser != null ) {
                     animation.setVisibility( View.GONE );
@@ -125,22 +128,46 @@ class FirebaseLogin extends BaseActivity {
                     if ( actionBar != null )
                         actionBar.setTitle( R.string.personal );
 
-                    Student student = DATABASE.getStudent();
+                    final Student student = DATABASE.getStudent();
 
                     fullName.setText( student.getName() == null || student.getName().isEmpty() ?
                             firebaseUser.getDisplayName() : student.getName());
                     email.setText( firebaseUser.getEmail() );
-                    phone.setText( student.getPhone() == null || student.getPhone().isEmpty() ?
-                            firebaseUser.getPhoneNumber() : student.getPhone() );
                     image.setImageURI( firebaseUser.getPhotoUrl() );
 
                     student.setId( firebaseUser.getUid() );
                     student.setEmail( firebaseUser.getEmail() );
                     student.setName( firebaseUser.getDisplayName() );
-                    student.setPhone( firebaseUser.getPhoneNumber() );
                     student.setPicture( Objects.requireNonNull( firebaseUser.getPhotoUrl() ).toString() );
 
-                    DATABASE.setStudent( student );
+                    FIRESTORE.getStudent( DATABASE.getStudent().getId() , new Firestore.OnStudentCheckListener() {
+                        @Override
+                        public
+                        void OnStudentChecked ( @Nullable final Student student ) {
+
+                        }
+
+                        @Override
+                        public
+                        void OnStudentCheckFailed ( final String exception ) {
+                            Log.e( TAG , "OnStudentCheckFailed: " +exception  );
+                        }
+
+                        @Override
+                        public
+                        void OnStudentIdentifier ( final Student stud ) {
+                            student.setPhone( stud.getPhone() );
+                            student.setType( stud.getType() );
+                            student.setCourse( stud.getCourse() );
+                            student.setVerified( stud.isVerified() );
+                            student.setPhone( student.getPhone().isEmpty() ?
+                                    firebaseUser.getPhoneNumber() : student.getPhone());
+                            phone.setText( student.getPhone() == null || student.getPhone().isEmpty() ?
+                                    firebaseUser.getPhoneNumber() : student.getPhone() );
+
+                            DATABASE.setStudent( student );
+                        }
+                    } );
                 }
                 else
                     Log.e( TAG , "onAuthStateChanged: user is null" );
@@ -197,29 +224,12 @@ class FirebaseLogin extends BaseActivity {
                             GoogleAuthProvider.getCredential( account.getIdToken() , null );
                     mAuth.signInWithCredential( credential );
 
-                    FIRESTORE.getStudent( DATABASE.getStudent().getId() ,
-                            new Firestore.OnStudentCheckListener() {
-                        @Override
-                        public
-                        void OnStudentChecked ( @Nullable final Student student ) {
-
-                        }
-
-                        @Override
-                        public
-                        void OnStudentCheckFailed ( final String exception ) {
-
-                        }
-
-                        @Override
-                        public
-                        void OnStudentIdentifier ( final Student student ) {
-                            DATABASE.getStudent().setPhone( student.getPhone() );
-                            DATABASE.getStudent().setType( student.getType() );
-                            DATABASE.getStudent().setCourse( student.getCourse() );
-                            DATABASE.getStudent().setVerified( student.isVerified() );
-                        }
-                    } );
+//                    firebaseUser = mAuth.getCurrentUser();
+//                    Log.e( TAG , "OnStudentIdentifier: Updated data1"   );
+//                    Log.e( TAG , "OnStudentIdentifier: Updated data1"+firebaseUser   );
+//                    if(firebaseUser != null) {
+//
+//                    }
                 }
             } catch ( ApiException e ) {
                 // Google Sign In failed, update UI appropriately

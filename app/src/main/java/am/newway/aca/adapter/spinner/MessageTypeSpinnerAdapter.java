@@ -49,24 +49,24 @@ class MessageTypeSpinnerAdapter extends ArrayAdapter<String> {
         String name = getItem( position );
 
         ViewHolder holder;
-        View rowview = convertView;
-        if ( rowview == null ) {
+        View rowView = convertView;
+        if ( rowView == null ) {
             holder = new ViewHolder();
             final LayoutInflater flatter = ( LayoutInflater ) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE );
-            rowview = flatter.inflate( R.layout.custom_spinner_layout , null , false );
+            rowView = flatter.inflate( R.layout.custom_spinner_layout , null , false );
 
-            holder.txtTitle = rowview.findViewById( R.id.icon_spinner_levl_text );
-            holder.imageView = rowview.findViewById( R.id.icon_spinner_levl );
-            rowview.setTag( holder );
+            holder.txtTitle = rowView.findViewById( R.id.icon_spinner_levl_text );
+            holder.imageView = rowView.findViewById( R.id.icon_spinner_levl );
+            rowView.setTag( holder );
         }
         else {
-            holder = ( ViewHolder ) rowview.getTag();
+            holder = ( ViewHolder ) rowView.getTag();
         }
         holder.imageView.setImageResource( images.get( position ) );
         holder.txtTitle.setText( name );
 
-        return rowview;
+        return rowView;
     }
 
     private

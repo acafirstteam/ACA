@@ -98,6 +98,13 @@
 	<string name = "course">Դասընթաց</string>
 	<string name = "lecturer">Դասախոս</string>
 	<string name = "number_of_student">Ուսանողի հեռախոսահամար</string>
+	<string name = "attention">Ուշադրություն</string>
+	<string name = "end_visit">Ցանկանում ե՞ք ավարտել այցելությունը</string>
+	<string name = "yes">Այո</string>
+	<string name = "no">Ոչ</string>
+	<string name = "unknown_user">Անհայտ օգտատեր</string>
+	<string name = "visitors_list">Այցելուների ցանկ</string>
+	<string name = "messages">Հաղորդագրություններ</string>
 
 
 </resources>

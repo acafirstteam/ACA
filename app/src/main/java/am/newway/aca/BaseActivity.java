@@ -1,17 +1,10 @@
 package am.newway.aca;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -39,14 +32,12 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.util.List;
 import java.util.Locale;
 
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.FirebaseLogin;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
-import am.newway.aca.ui.QrActivity;
 import am.newway.aca.ui.home.HomeFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -55,7 +46,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -189,92 +179,103 @@ class BaseActivity extends AppCompatActivity {
                 .getBackStackEntryCount();
     }
 
-    protected
-    void addOnNewStudentListener () {
-        FIRESTORE.addListenerNewStudent( new Firestore.OnNewStudentListener() {
-            @Override
-            public
-            void OnNewStudentAdded ( @Nullable final Student student ) {
-                if ( student != null ) {
-                    am.newway.aca.template.Notification notification =
-                            new am.newway.aca.template.Notification();
+    //    protected
+    //    void addOnNewStudentListener () {
+    //        FIRESTORE.addListenerNewStudent( new Firestore.OnNewStudentListener() {
+    //            @Override
+    //            public
+    //            void OnNewStudentAdded ( @Nullable final Student student ) {
+    //                if ( student != null ) {
+    //                    am.newway.aca.template.Notification notification =
+    //                            new am.newway.aca.template.Notification();
+    //
+    //                    notification.setMessage( getString( R.string.reception ) );
+    //                    notification.setTitle( getString( R.string.new_student ) );
+    //                    notification.setUser( student.getId() );
+    //                    notification.setLargeBitmap( student.getPicture() );
+    //
+    //                    notificationDialog( "01" , notification );
+    //                }
+    //            }
+    //        } );
+    //    }
 
-                    notification.setMessage( getString( R.string.reception ) );
-                    notification.setTitle( getString( R.string.new_student ) );
-                    notification.setUser( student.getId() );
-                    notification.setLargeBitmap( student.getPicture() );
-
-                    notificationDialog( "01" , notification );
-                }
-            }
-        } );
-    }
-
-    //@RequiresApi ( api = Build.VERSION_CODES.O)
-    private
-    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
-            am.newway.aca.template.Notification notification ) {
-        final NotificationManager notificationManager =
-                ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
-
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
-            @SuppressLint ( "WrongConstant" ) NotificationChannel notificationChannel =
-                    new NotificationChannel( NOTIFICATION_CHANNEL_ID , "My Notifications" ,
-                            NotificationManager.IMPORTANCE_MAX );
-            // Configure the notification channel.
-            notificationChannel.setDescription( "Empty description" );
-            notificationChannel.enableLights( true );
-            notificationChannel.setLightColor( Color.RED );
-            notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
-            notificationChannel.enableVibration( true );
-            if ( notificationManager != null )
-                notificationManager.createNotificationChannel( notificationChannel );
-        }
-
-        PendingIntent contentIntent =
-                PendingIntent.getActivity( this , 0 , new Intent( this , QrActivity.class ) ,
-                        PendingIntent.FLAG_UPDATE_CURRENT );
-
-        final NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
-
-        String[] notifSegment = getResources().getStringArray( R.array.notification_type );
-
-        notificationBuilder.setAutoCancel( true )
-                .setDefaults( Notification.DEFAULT_ALL )
-                .setWhen( System.currentTimeMillis() )
-                .setSmallIcon( R.drawable.ic_book_black_24dp )
-                //.setTicker( "TutorialsPoint" )
-                //.setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
-                        notifSegment ) : notification.getTitle() )
-                .setContentText( notification.getMessage() )
-                .setContentIntent( contentIntent )
-        //.setContentInfo( "Ինֆորմացիա" )
-        ;
-
-        if ( notificationManager != null ) {
-
-            Uri uri = Uri.parse(
-                    notification.getLargeBitmap() != null ? notification.getLargeBitmap() : "" );
-            getBitmapFromUrl( uri , new bitmapLoading() {
-                @Override
-                public
-                void OnLoaded ( final Bitmap bmp ) {
-                    notificationBuilder.setLargeIcon( bmp );
-                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
-                            notificationBuilder.build() );
-                }
-
-                @Override
-                public
-                void OnFailureLoad () {
-                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
-                            notificationBuilder.build() );
-                }
-            } );
-        }
-    }
+    //    @RequiresApi ( api = Build.VERSION_CODES.O)
+    //    private
+    //    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
+    //            am.newway.aca.template.Notification notification ) {
+    //        Log.e( TAG , "notificationDialog: " +NOTIFICATION_CHANNEL_ID  );
+    //        final NotificationManager notificationManager =
+    //                ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
+    //
+    //        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+    //            @SuppressLint ( "WrongConstant" ) NotificationChannel notificationChannel =
+    //                    new NotificationChannel( NOTIFICATION_CHANNEL_ID , "My Notifications" ,
+    //                            NotificationManager.IMPORTANCE_MAX );
+    //            // Configure the notification channel.
+    //            notificationChannel.setDescription( "Empty description" );
+    //            notificationChannel.enableLights( true );
+    //            notificationChannel.setLightColor( Color.RED );
+    //            notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
+    //            notificationChannel.enableVibration( true );
+    //            if ( notificationManager != null )
+    //                notificationManager.createNotificationChannel( notificationChannel );
+    //        }
+    //
+    //        PendingIntent contentIntent = null;
+    //        if(NOTIFICATION_CHANNEL_ID.equals( "01" )){
+    //            NavigationView navigationView = findViewById( R.id.nav_view );
+    //
+    //            Menu nav_Menu = navigationView.getMenu();
+    //            nav_Menu.findItem( R.id.aligned ).setChecked( true );
+    //            nav_Menu.findItem( R.id.aligned ).setCheckable( true);
+    //
+    //
+    //        }else {
+    //            contentIntent =
+    //                    PendingIntent.getActivity( this , 0 , new Intent( this , QrActivity.class ) ,
+    //                            PendingIntent.FLAG_UPDATE_CURRENT );
+    //        }
+    //        final NotificationCompat.Builder notificationBuilder =
+    //                new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
+    //
+    //        String[] notifSegment = getResources().getStringArray( R.array.notification_type );
+    //
+    //        notificationBuilder.setAutoCancel( true )
+    //                .setDefaults( Notification.DEFAULT_ALL )
+    //                .setWhen( System.currentTimeMillis() )
+    //                .setSmallIcon( R.drawable.ic_book_black_24dp )
+    //                //.setTicker( "TutorialsPoint" )
+    //                //.setPriority(Notification.PRIORITY_MAX)
+    //                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
+    //                        notifSegment ) : notification.getTitle() )
+    //                .setContentText( notification.getMessage() );
+    //
+    //        if(NOTIFICATION_CHANNEL_ID.equals( "02" ) && contentIntent != null)
+    //            notificationBuilder.setContentIntent( contentIntent );
+    //
+    //        if ( notificationManager != null ) {
+    //
+    //            Uri uri = Uri.parse(
+    //                    notification.getLargeBitmap() != null ? notification.getLargeBitmap() : "" );
+    //            getBitmapFromUrl( uri , new bitmapLoading() {
+    //                @Override
+    //                public
+    //                void OnLoaded ( final Bitmap bmp ) {
+    //                    notificationBuilder.setLargeIcon( bmp );
+    //                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+    //                            notificationBuilder.build() );
+    //                }
+    //
+    //                @Override
+    //                public
+    //                void OnFailureLoad () {
+    //                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+    //                            notificationBuilder.build() );
+    //                }
+    //            } );
+    //        }
+    //    }
 
     interface bitmapLoading {
         void OnLoaded ( Bitmap bmp );
@@ -322,31 +323,31 @@ class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected
-    void initNotifications () {
-        if ( DATABASE.getSettings().isNotification() ) {
-            FIRESTORE.addListenerNotifications( DATABASE.getStudent().getType() ,
-                    new Firestore.OnNotificationListener() {
-                        @Override
-                        public
-                        void OnNotificationRead (
-                                final List<am.newway.aca.template.Notification> notifications ) {
-                        }
-
-                        @Override
-                        public
-                        void OnNotificationFaild () {
-                        }
-
-                        @Override
-                        public
-                        void OnNewNotification (
-                                final am.newway.aca.template.Notification notification ) {
-                            notificationDialog( "02" , notification );
-                        }
-                    } );
-        }
-    }
+    //    protected
+    //    void initNotifications () {
+    //        if ( DATABASE.getSettings().isNotification() ) {
+    //            FIRESTORE.addListenerNotifications( DATABASE.getStudent().getType() ,
+    //                    new Firestore.OnNotificationListener() {
+    //                        @Override
+    //                        public
+    //                        void OnNotificationRead (
+    //                                final List<am.newway.aca.template.Notification> notifications ) {
+    //                        }
+    //
+    //                        @Override
+    //                        public
+    //                        void OnNotificationFaild () {
+    //                        }
+    //
+    //                        @Override
+    //                        public
+    //                        void OnNewNotification (
+    //                                final am.newway.aca.template.Notification notification ) {
+    //                            notificationDialog( "02" , notification );
+    //                        }
+    //                    } );
+    //        }
+    //    }
 
     protected
     void initNavigationBar () {
@@ -368,6 +369,25 @@ class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected
+    void showNavigationItem ( boolean blt ) {
+        NavigationView navigationView = findViewById( R.id.nav_view );
+
+        if ( navigationView != null ) {
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem( R.id.nav_admin ).setVisible( blt );
+        }
+        else
+            Log.e( TAG , "showNavigationItem: navigationView is null" );
+    }
+
+    protected
+    void navSelectDestination ( int position ) {
+        NavigationView navigationView = findViewById( R.id.nav_view );
+        Menu nav_Menu = navigationView.getMenu();
+        NavigationUI.onNavDestinationSelected( nav_Menu.getItem( position ) , navController );
+    }
+
     private
     void initNavigationView () {
         drawer = findViewById( R.id.drawer_layout );
@@ -378,7 +398,10 @@ class BaseActivity extends AppCompatActivity {
         nav_Menu.findItem( R.id.nav_admin ).setVisible( false );
 
         if ( DATABASE.getStudent().getType() == 2 )
-            nav_Menu.findItem( R.id.nav_admin ).setVisible( true );
+            nav_Menu.findItem( R.id.nav_admin )
+                    .setCheckable( true )
+                    .setChecked( true )
+                    .setVisible( true );
 
         final AppBarConfiguration mAppBarConfiguration =
                 new AppBarConfiguration.Builder( R.id.nav_home , R.id.nav_settings ,
@@ -386,7 +409,6 @@ class BaseActivity extends AppCompatActivity {
                         R.id.nav_about ).setDrawerLayout( drawer ).build();
         NavigationUI.setupActionBarWithNavController( this , navController , mAppBarConfiguration );
         NavigationUI.setupWithNavController( navigationView , navController );
-
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -441,6 +463,8 @@ class BaseActivity extends AppCompatActivity {
         TextView textName = headerLayout.findViewById( R.id.title );
         TextView textDescription = headerLayout.findViewById( R.id.desc );
         SimpleDraweeView imageView = headerLayout.findViewById( R.id.imageView );
+        TextView textStatus = headerLayout.findViewById( R.id.status );
+        ImageView imageStatus = headerLayout.findViewById( R.id.image_status );
 
         Student student = DATABASE.getStudent();
 
@@ -477,6 +501,33 @@ class BaseActivity extends AppCompatActivity {
                             new Intent( BaseActivity.this , FirebaseLogin.class ) );
                 }
             } );
+
+            switch ( student.getType() ) {
+                case -1: {
+                    textStatus.setText( R.string.unknown_user );
+                    imageStatus.setImageDrawable(
+                            getResources().getDrawable( R.drawable.unknown ) );
+                    break;
+                }
+                case 0: {
+                    textStatus.setText( R.string.student );
+                    imageStatus.setImageDrawable(
+                            getResources().getDrawable( R.drawable.student ) );
+                    break;
+                }
+                case 2: {
+                    textStatus.setText( R.string.administrator );
+                    imageStatus.setImageDrawable(
+                            getResources().getDrawable( R.drawable.administrator ) );
+                    break;
+                }
+                case 3: {
+                    textStatus.setText( R.string.lecturer );
+                    imageStatus.setImageDrawable(
+                            getResources().getDrawable( R.drawable.lecturer ) );
+                    break;
+                }
+            }
         }
         else {
             imageView.setImageResource( R.mipmap.ic_launcher );
@@ -556,7 +607,7 @@ class BaseActivity extends AppCompatActivity {
                 .get( 0 );
 
         if ( fragment instanceof HomeFragment )
-            homeFragment = ( HomeFragment )fragment;
+            homeFragment = ( HomeFragment ) fragment;
         else
             Log.e( TAG , "getHomeFragment: " + fragment.getClass().getName() );
 

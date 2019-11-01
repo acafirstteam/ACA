@@ -144,7 +144,7 @@ class Student {
 
     public
     String getPhone () {
-        return phone;
+        return phone == null ? "" : phone;
     }
 
     public
