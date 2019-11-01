@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:windowSoftInputMode="stateHidden|adjustResize"
     app:layout_behavior = "@string/appbar_scrolling_view_behavior"
     xmlns:fresco = "http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -51,6 +50,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/admin_edit_imageView_id"
                 tools:text="course name"
                 android:singleLine="true"
+
                 android:textSize="18sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="12dp"
@@ -246,12 +246,15 @@
 
         <Button
             android:id="@+id/admin_edit_Save_btn_id"
-            android:layout_gravity="center"
             android:text="Save"
+            android:layout_gravity="right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="50dp"
+            android:textColor="@color/white"
+            android:shadowRadius="10"
+            android:background="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-
 
 
     </LinearLayout>
