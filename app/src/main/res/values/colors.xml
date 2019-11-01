@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<array name = "array_dot_active">
+		<item>@color/dot_light_screen1</item>
+		<item>@color/dot_light_screen2</item>
+		<item>@color/dot_light_screen3</item>
+		<item>@color/dot_light_screen4</item>
+	</array>
+	<array name = "array_dot_inactive">
+		<item>@color/dot_dark_screen1</item>
+		<item>@color/dot_dark_screen2</item>
+		<item>@color/dot_dark_screen3</item>
+		<item>@color/dot_dark_screen4</item>
+	</array>
 
-
-	<color name = "colorPrimary">#90d0a9</color>
-	<color name = "colorPrimaryLight">#c2ffdb</color>
-	<color name = "colorPrimaryDark">#609f7a</color>
+	<color name = "colorPrimary">#455a64</color>
+	<color name = "colorPrimaryLight">#CFD8DC</color>
+	<color name = "colorPrimaryDark">#455a64</color>
 	<color name = "colorAccent">#ff6e40</color>
 	<color name = "colorAccentLight">#ffa06d</color>
 	<color name = "colorAccentDark">#c53d13</color>
@@ -14,16 +25,23 @@
 
 	<color name = "bg_screen1">#f64c73</color>
 	<color name = "bg_screen2">#20d2bb</color>
-	<color name = "recycler_view_item">#7CB090</color>
+	<color name = "recyclerview_item">#CFD8DC</color>
 
+	<!-- dots inactive colors -->
+	<color name = "bg_screen3">#3395ff</color>
+	<color name = "bg_screen4">#c873f4</color>
+	<color name = "dot_dark_screen1">#d1395c</color>
+	<color name = "dot_dark_screen2">#14a895</color>
 
-
+	<!-- dots active colors -->
+	<color name = "dot_dark_screen3">#2278d4</color>
+	<color name = "dot_dark_screen4">#a854d4</color>
+	<color name = "dot_light_screen1">#f98da5</color>
+	<color name = "dot_light_screen2">#8cf9eb</color>
 	<color name = "dot_light_screen3">#93c6fd</color>
-
 	<color name = "dot_light_screen4">#e4b5fc</color>
 	<color name = "white">#FFF</color>
 	<color name = "green">#7A7A7A</color>
 	<color name = "color_course_item">#ddffec</color>
-
-
+	<color name = "recycler_view_item">#CFD8DC</color>
 </resources>

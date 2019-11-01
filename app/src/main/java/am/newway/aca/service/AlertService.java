@@ -10,9 +10,12 @@ import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -28,18 +31,22 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
+import am.newway.aca.MainActivity;
 import am.newway.aca.R;
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
-import am.newway.aca.ui.QrActivity;
+import am.newway.aca.ui.student.StudentActivity;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
+import androidx.core.content.ContextCompat;
 
 public
 class AlertService extends JobService {
 
+    private static final String TAG = "AlertService";
     Firestore FIRESTORE = Firestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser firebaseUser;
@@ -59,6 +66,15 @@ class AlertService extends JobService {
             student.setId( uID );
         }
 
+        initNotifications();
+
+        initNewStudentNotification( student );
+
+        return true;
+    }
+
+    private
+    void initNewStudentNotification ( Student student ) {
         FIRESTORE.checkStudent( student , false , new Firestore.OnStudentCheckListener() {
             @Override
             public
@@ -66,7 +82,6 @@ class AlertService extends JobService {
                 Log.d( "Service" , "OnStudentChecked" );
 
                 if ( student != null ) {
-
                     //DATABASE.setStudent( student );
                     if ( student.getType() == 2 ) {
                         FIRESTORE.addListenerNewStudent( new Firestore.OnNewStudentListener() {
@@ -76,7 +91,8 @@ class AlertService extends JobService {
                                 Log.d( "Service" , "OnNewStudentAdded" );
 
                                 if ( student != null ) {
-                                    notificationDialog("01");
+                                    notificationDialog( "01" ,
+                                            new am.newway.aca.template.Notification() );
                                 }
                             }
                         } );
@@ -94,22 +110,60 @@ class AlertService extends JobService {
             void OnStudentIdentifier ( final Student student ) {
             }
         } );
-        return false;
     }
 
     @Override
     public
     boolean onStopJob ( final JobParameters jobParameters ) {
         Log.d( "Service" , "on job finish" );
-        return false;
+        return true;
     }
 
     private
-    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ) {
+    void initNotifications () {
+        if ( DATABASE.getSettings().isNotification() ) {
+            FIRESTORE.addListenerNotifications( DATABASE.getStudent().getId() ,
+                    DATABASE.getStudent().getCourse() , DATABASE.getStudent().getType() ,
+                    new Firestore.OnNotificationListener() {
+                        @Override
+                        public
+                        void OnNotificationRead (
+                                final List<am.newway.aca.template.Notification> notifications ) {
+                        }
+
+                        @Override
+                        public
+                        void OnNotificationFailed () {
+                        }
+
+                        @Override
+                        public
+                        void OnNewNotification (
+                                final am.newway.aca.template.Notification notification ) {
+                            notificationDialog( "02" , notification );
+                        }
+                    } );
+        }
+    }
+
+    public
+    boolean isActive () {
+        return PreferenceManager.getDefaultSharedPreferences( this )
+                .getBoolean( "isActive" , false );
+    }
+
+    private
+    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
+            am.newway.aca.template.Notification notification ) {
+        if(DATABASE.getSettings().getNotifId() >= notification.getId() )
+            return;
+
         if ( !DATABASE.getSettings().isNotification() )
             return;
 
-            final NotificationManager notificationManager =
+        DATABASE.getSettings().setNotifId( notification.getId() );
+
+        final NotificationManager notificationManager =
                 ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
@@ -126,9 +180,21 @@ class AlertService extends JobService {
                 notificationManager.createNotificationChannel( notificationChannel );
         }
 
-        PendingIntent contentIntent =
-                PendingIntent.getActivity( this , 0 , new Intent( this , QrActivity.class ) ,
-                        PendingIntent.FLAG_UPDATE_CURRENT );
+        Log.e( TAG , "notificationDialog: " + NOTIFICATION_CHANNEL_ID );
+        PendingIntent contentIntent = null;
+        if ( NOTIFICATION_CHANNEL_ID.equals( "02" ) ) {
+            Intent intent = new Intent( this , MainActivity.class );
+            intent.putExtra( "message" , 1 );
+            contentIntent = PendingIntent.getActivity( this , 0 , intent ,
+                    PendingIntent.FLAG_UPDATE_CURRENT );
+        }
+        else {
+            Intent intent = new Intent( this , StudentActivity.class );
+            intent.putExtra( "new" , true );
+            contentIntent = PendingIntent.getActivity( this , 0 , intent ,
+                    PendingIntent.FLAG_UPDATE_CURRENT );
+        }
+        String[] notifSegment = getResources().getStringArray( R.array.notification_type );
 
         final NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
@@ -137,24 +203,64 @@ class AlertService extends JobService {
                 .setWhen( System.currentTimeMillis() )
                 .setSmallIcon( R.drawable.ic_book_black_24dp )
                 .setTicker( getString( R.string.new_visitor ) )
-                //.setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle( getString( R.string.new_visitor ) )
-                .setContentText( getString( R.string.waiting ) )
-                .setContentIntent( contentIntent )
-                .setContentInfo( getString( R.string.new_visitor ) );
+                .setPriority( Notification.PRIORITY_MAX )
+                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
+                        notifSegment ) : getString( R.string.new_student ) )
+                .setContentText( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getMessage()
+                        : getString( R.string.waiting ) );
 
-        Uri uri = Uri.parse(
-                "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/33308.png?alt=media&token=8adbf375-9d17-4557-86ac-9c437ce8484e" );
-        getBitmapFromUrl( uri , new bitmapLoading() {
-            @Override
-            public
-            void OnLoaded ( final Bitmap bmp ) {
-                notificationBuilder.setLargeIcon( bmp );
-                if ( notificationManager != null )
-                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) , notificationBuilder.build() );
+        notificationBuilder.setContentIntent( contentIntent );
 
+        if ( NOTIFICATION_CHANNEL_ID.equals( "01" ) ) {
+            Uri uri = Uri.parse(
+                    "https://firebasestorage.googleapis.com/v0/b/acafirst-a0a43.appspot.com/o/33308.png?alt=media&token=8adbf375-9d17-4557-86ac-9c437ce8484e" );
+            getBitmapFromUrl( uri , new bitmapLoading() {
+                @Override
+                public
+                void OnLoaded ( final Bitmap bmp ) {
+                    notificationBuilder.setLargeIcon( bmp );
+                    if ( notificationManager != null )
+                        notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+                                notificationBuilder.build() );
+
+                }
+            } );
+        }
+        else if ( NOTIFICATION_CHANNEL_ID.equals( "02" ) ) {
+
+            int nRes = R.drawable.message;
+            switch ( notification.getMessageType() ) {
+                case 0:
+                    nRes = R.drawable.message;
+                    break;
+                case 1:
+                    nRes = R.drawable.alert;
+                    break;
+                case 2:
+                    nRes = R.drawable.news;
+                    break;
             }
-        } );
+            Bitmap icon = getBitmapFromVectorDrawable( this , nRes );
+
+            notificationBuilder.setLargeIcon( icon );
+            if ( notificationManager != null )
+                notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+                        notificationBuilder.build() );
+        }
+    }
+
+    public static
+    Bitmap getBitmapFromVectorDrawable ( Context context , int drawableId ) {
+        Drawable drawable = ContextCompat.getDrawable( context , drawableId );
+
+        Bitmap bitmap =
+                Bitmap.createBitmap( drawable.getIntrinsicWidth() , drawable.getIntrinsicHeight() ,
+                        Bitmap.Config.ARGB_8888 );
+        Canvas canvas = new Canvas( bitmap );
+        drawable.setBounds( 0 , 0 , canvas.getWidth() , canvas.getHeight() );
+        drawable.draw( canvas );
+
+        return bitmap;
     }
 
     private

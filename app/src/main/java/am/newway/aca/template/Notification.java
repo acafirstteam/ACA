@@ -2,6 +2,9 @@ package am.newway.aca.template;
 
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
 
 @IgnoreExtraProperties
 public
@@ -12,13 +15,14 @@ class Notification {
     private String user;
     private int messageType;
     private int messageSegment;
-    private String date;
+    @ServerTimestamp
+    private Date date;
     private String title;
     private String largeBitmap;
 
     public
     Notification ( final String message , final String user , final int messageType ,
-            final int messageSegment, final String date ) {
+            final int messageSegment, final Date date ) {
         this.message = message;
         this.user = user;
         this.messageType = messageType;
@@ -73,12 +77,12 @@ class Notification {
     }
 
     public
-    String getDate () {
+    Date getDate () {
         return date;
     }
 
     public
-    void setDate ( final String date ) {
+    void setDate ( final Date date ) {
         this.date = date;
     }
 

@@ -1,89 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android = "http://schemas.android.com/apk/res/android"
 	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:fresco = "http://schemas.android.com/apk/res-auto"
 	xmlns:tools = "http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "match_parent"
 	android:background = "@color/colorPrimaryLight">
-
-	<com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-		android:id="@+id/dots_indicator"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:dotsColor="@color/white"
-		app:dotsCornerRadius="8dp"
-		app:dotsSize="8dp"
-		app:dotsSpacing="4dp"
-		app:dotsWidthFactor="2.5"
-		app:selectedDotColor="@color/colorAccentDark"
-		app:progressMode="true"
-		android:layout_marginBottom="10dp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		/>
 
 	<androidx.viewpager.widget.ViewPager
 		android:id = "@+id/view_pager"
 		android:layout_width = "match_parent"
 		android:layout_height = "0dp"
 		android:layout_marginBottom = "8dp"
-		app:layout_constraintBottom_toTopOf = "@id/dots_indicator"
+		app:layout_constraintBottom_toBottomOf = "@id/dots_indicator"
 		app:layout_constraintEnd_toEndOf = "parent"
+		app:layout_constraintHorizontal_bias = "0.0"
 		app:layout_constraintStart_toStartOf = "parent"
-		app:layout_constraintTop_toTopOf = "parent" />
+		app:layout_constraintTop_toBottomOf = "@id/user_card"
+		app:layout_constraintVertical_bias = "1.0" />
+
+	<com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+		android:id = "@+id/dots_indicator"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginBottom = "10dp"
+		app:dotsColor = "@color/white"
+		app:dotsCornerRadius = "8dp"
+		app:dotsSize = "8dp"
+		app:dotsSpacing = "4dp"
+		app:dotsWidthFactor = "2.5"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintLeft_toLeftOf = "parent"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:progressMode = "true"
+		app:selectedDotColor = "@color/colorAccentDark" />
 
 	<androidx.cardview.widget.CardView xmlns:card_view = "http://schemas.android.com/apk/res-auto"
 		android:id = "@+id/user_card"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_margin = "10dp"
+		android:layout_margin = "2dp"
 		android:focusable = "true"
 		android:foreground = "?android:attr/selectableItemBackground"
 		android:visibility = "gone"
+		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		card_view:cardBackgroundColor = "@color/colorPrimary"
 		card_view:cardCornerRadius = "4dp"
 		card_view:cardElevation = "2dp"
-		card_view:cardUseCompatPadding = "true"
-		card_view:layout_constraintLeft_toLeftOf = "parent">
+		card_view:cardUseCompatPadding = "true">
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width = "match_parent"
-			android:layout_height = "match_parent"
-			android:padding = "10dp">
+			android:layout_height = "match_parent">
 
 			<TextView
 				android:id = "@+id/welcome_text"
 				android:layout_width = "match_parent"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
-				android:text = "Գրանցված դասաժամ"
+				android:text = "@string/visit"
 				android:textAlignment = "center"
 				android:textSize = "18sp"
-				android:textStyle = "bold"
-				card_view:layout_constraintTop_toTopOf = "parent" />
+				android:textStyle = "bold|italic"
+				app:layout_constraintTop_toTopOf = "parent" />
 
 			<TextView
 				android:id = "@+id/time"
 				android:layout_width = "match_parent"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
+				android:textAlignment = "center"
 				android:textSize = "16sp"
-				android:textStyle = "bold"
+				android:textStyle = "normal"
 				app:layout_constraintTop_toBottomOf = "@id/welcome_text"
 				tools:text = "16.10.2019 17:25" />
 
+			<com.facebook.drawee.view.SimpleDraweeView
+				android:id = "@+id/imageView"
+				android:layout_width = "48dp"
+				android:layout_height = "48dp"
+				android:layout_margin="16dp"
+				app:layout_constraintBottom_toTopOf = "@id/lecturer"
+				app:layout_constraintLeft_toLeftOf = "parent"
+				app:layout_constraintTop_toTopOf = "parent"
+				fresco:actualImageScaleType = "focusCrop"
+				fresco:backgroundImage = "@color/colorPrimaryLight"
+				fresco:fadeDuration = "300"
+				fresco:placeholderImage = "@drawable/student"
+				fresco:placeholderImageScaleType = "centerCrop"
+				fresco:roundAsCircle = "true"
+				fresco:roundingBorderColor = "@color/colorPrimaryDark"
+				fresco:roundingBorderWidth = "1dp" />
+
 			<TextView
 				android:id = "@+id/course"
-				android:layout_width = "match_parent"
+				android:layout_width = "wrap_content"
 				android:layout_height = "wrap_content"
 				android:layout_margin = "10dp"
-				android:textSize = "16sp"
+				android:textSize = "18sp"
 				android:textStyle = "bold"
-				card_view:layout_constraintTop_toBottomOf = "@+id/time"
-				tools:text = "Android" />
+				android:layout_marginBottom="16dp"
+				app:layout_constraintRight_toRightOf = "parent"
+				card_view:layout_constraintBaseline_toBaselineOf="@id/lecturer"
+				android:text = "@string/course" />
+
+			<TextView
+				android:id = "@+id/lecturer"
+				android:layout_width = "wrap_content"
+				android:layout_height = "wrap_content"
+				android:layout_marginTop = "2dp"
+				android:textSize = "18sp"
+				android:textStyle = "bold"
+				android:layout_marginBottom="8dp"
+				app:layout_constraintBottom_toBottomOf = "parent"
+				app:layout_constraintLeft_toLeftOf = "@id/imageView"
+				app:layout_constraintTop_toBottomOf = "@id/imageView"
+				android:text = "@string/lecturer" />
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 

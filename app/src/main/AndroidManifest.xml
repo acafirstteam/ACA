@@ -27,7 +27,12 @@
 			</intent-filter>
 		</receiver>
 
-		<activity android:name = ".ui.student.StudentActivity" />
+		<activity
+			android:name = ".ui.student.StudentActivity"
+			android:launchMode = "singleTop"
+			android:label = "@string/visitors_list"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar" />
 
 		<activity
 			android:name = ".ui.QrActivity"
@@ -46,6 +51,7 @@
 		<activity
 			android:name = ".MainActivity"
 			android:label = "@string/app_name"
+			android:launchMode = "singleTop"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar">
 			<intent-filter>
@@ -81,6 +87,7 @@
 
 		<activity
 			android:name = ".ui.admin.AdminMessageActivity"
+			android:label = "@string/messages"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar" />
 
@@ -97,7 +104,8 @@
 			android:screenOrientation = "portrait"
 			/>
 
-        <service
+
+		<service
 			android:name = ".service.AlertService"
 			android:exported = "true"
 			android:permission = "android.permission.BIND_JOB_SERVICE" />

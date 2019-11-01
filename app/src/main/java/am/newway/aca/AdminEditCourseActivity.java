@@ -236,7 +236,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                                         imageURI = uri;
                                         FIRESTORE.updateCourse(createCourse(), new Firestore.OnCourseUpdateListener() {
                                             @Override
-                                            public void OnCourseUpdateed() {
+                                            public void OnCourseUpdated() {
                                                 Toast.makeText(getApplicationContext(),"Course Updated",Toast.LENGTH_SHORT).show();
                                             }
 
@@ -256,7 +256,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                     //IMAGE NOT PICKED
                                 FIRESTORE.updateCourse(createCourse(), new Firestore.OnCourseUpdateListener() {
                                     @Override
-                                    public void OnCourseUpdateed() {
+                                    public void OnCourseUpdated() {
                                         Toast.makeText(getApplicationContext(),"Course Updated",Toast.LENGTH_SHORT).show();
                                     }
 

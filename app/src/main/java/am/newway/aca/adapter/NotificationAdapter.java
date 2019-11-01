@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -37,7 +36,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
 
     public
     void setNotifications ( List<Notification> notifications ) {
-        if(notifications != null) {
+        if ( notifications != null ) {
             this.notifications.clear();
             this.notifications.addAll( notifications );
             notifyDataSetChanged();
@@ -93,32 +92,38 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout item_courses;
-        TextView textViewCourseName;
-        TextView textViewCourseDescription;
+        TextView textName;
+        TextView textDescription;
         SimpleDraweeView imageView;
         Notification notification;
+        String[] type =
+                context.getResources().getStringArray( R.array.notification_type );
 
         ViewHolder ( @NonNull final View itemView ) {
             super( itemView );
 
-            textViewCourseDescription = itemView.findViewById( R.id.textDialogCoursesDescription );
-            textViewCourseName = itemView.findViewById( R.id.textDialogCoursesName );
-            item_courses = itemView.findViewById( R.id.course_activity_layout_itm );
+            textDescription = itemView.findViewById( R.id.text_description );
+            textName = itemView.findViewById( R.id.text_name );
             imageView = itemView.findViewById( R.id.imageView );
-
-
         }
 
-        //@SuppressLint ( "DefaultLocale" )
         void bind ( Notification notification ) {
 
             synchronized ( this ) {
 
-                //Uri uri = Uri.parse( "https://aca.am/assets/img/intro-level/cpp.png" );
                 this.notification = notification;
+
+                textName.setText( type[notification.getMessageType()] );
+                textDescription.setText( notification.getMessage() );
                 if ( imageView != null ) {
-                    imageView.setImageURI( notification.getDate() );
+                    switch ( notification.getMessageType() ) {
+                        case 0:
+                            imageView.setImageResource( R.drawable.message ); break;
+                        case 1:
+                            imageView.setImageResource( R.drawable.alert ); break;
+                        case 2:
+                            imageView.setImageResource( R.drawable.news ); break;
+                    }
                 }
             }
         }
