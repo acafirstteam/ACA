@@ -8,15 +8,16 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -69,7 +70,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_course_layout);
-//        initNavigationBar(2);
+        initNavigationBar(2);
 
 
         editCourseName = (EditText) findViewById(R.id.admin_edit_courseName_id);
@@ -104,6 +105,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                 }
             }
         });
+
 
 //GET ACTION AND POSITION FROM BUNDLE
         bundle = getIntent().getExtras();
@@ -346,6 +348,16 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
 
         return newCourse;
 
+    }
+
+    @Override
+    public
+    boolean onOptionsItemSelected ( @NonNull final MenuItem item ) {
+        if ( item.getItemId() == android.R.id.home ) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 
 }

@@ -102,6 +102,7 @@
 			android:theme = "@style/AppTheme.NoActionBar" />
         <activity android:name=".AdminEditCourseActivity"
 			android:screenOrientation = "portrait"
+			android:theme="@style/AppTheme.NoActionBar"
 			/>
 
 
