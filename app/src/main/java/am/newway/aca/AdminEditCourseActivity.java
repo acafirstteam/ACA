@@ -10,8 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -44,8 +47,9 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     private EditText editDescriptionEng;
     private EditText editDescriptionArm;
     private EditText editLink;
-    private EditText editGroupType;
     private ImageView setImage;
+    private RadioGroup groupTypeRadioGroup;
+    private RadioButton typeBeginner, typeSpecialized, typeAdvanced;
     private Button saveButton;
     private Bundle bundle;
     private ArrayList<Course> courseItems;
@@ -57,6 +61,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     private Uri imagePath;
     private String url;
     private boolean imagePicked = false;
+    private int radioState;
 
 
 
@@ -64,8 +69,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_edit_course_layout);
-        initNavigationBar(2);
-//        actionBar.setDisplayHomeAsUpEnabled();
+//        initNavigationBar(2);
 
 
         editCourseName = (EditText) findViewById(R.id.admin_edit_courseName_id);
@@ -75,12 +79,33 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         editDescriptionEng = (EditText) findViewById(R.id.admin_edit_DescriptionEng_id);
         editDescriptionArm = (EditText) findViewById(R.id.admin_edit_DescriptionArm_id);
         editLink = (EditText) findViewById(R.id.admin_edit_Link_id);
-        editGroupType = (EditText) findViewById(R.id.admin_edit_groupType_id);
+        groupTypeRadioGroup = (RadioGroup) findViewById(R.id.admin_edit_radioGroup_id);
+        typeBeginner = (RadioButton) findViewById(R.id.admin_edit_radio_0);
+        typeSpecialized = (RadioButton) findViewById(R.id.admin_edit_radio_1);
+        typeAdvanced = (RadioButton) findViewById(R.id.admin_edit_radio_2);
         saveButton = (Button) findViewById(R.id.admin_edit_Save_btn_id);
         setImage = (ImageView) findViewById(R.id.admin_edit_imageView_id);
         setImage.setOnClickListener(this);
         saveButton.setOnClickListener(this);
+        groupTypeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+                switch (checkedId){
+                    case R.id.admin_edit_radio_0:
+                        radioState = 0;
+                        break;
+                    case R.id.admin_edit_radio_1:
+                        radioState = 1;
+                        break;
+                    case R.id.admin_edit_radio_2:
+                        radioState = 2;
+                        break;
+                }
+            }
+        });
+
+//GET ACTION AND POSITION FROM BUNDLE
         bundle = getIntent().getExtras();
         action = bundle.getString("action");
         Log.d(TAG, "action: " + action);
@@ -108,13 +133,31 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                 courseItems = new ArrayList<Course>(courses);
                 Log.d(TAG, "-----------------------------Courses count = " + courseItems.size());
 
-                setImage.setImageURI(Uri.parse(courseItems.get(position).getUrl()));
+                if (courseItems.get(position).getUrl().toString().trim().isEmpty()){
+                    setImage.setImageResource(R.drawable.ic_add_image_view);
+                }else{
+                    setImage.setImageURI(Uri.parse(courseItems.get(position).getUrl()));
+                }
+
                 editCourseName.setText(courseItems.get(position).getName());
                 editCourseName.setEnabled(false);
                 editLecturer.setText(courseItems.get(position).getLecturer());
                 editGroupNameEng.setText(courseItems.get(position).getGroup_name().get("en").toString());
                 editGroupNameArm.setText(courseItems.get(position).getGroup_name().get("hy").toString());
-                editGroupType.setText(String.valueOf(courseItems.get(position).getGroup()));
+                switch (courseItems.get(position).getGroup()){
+                    case 0:
+                        typeBeginner.setChecked(true);
+                        radioState = 0;
+                        break;
+                    case 1:
+                        typeSpecialized.setChecked(true);
+                        radioState = 1;
+                        break;
+                    case 2:
+                        typeAdvanced.setChecked(true);
+                        radioState = 2;
+                        break;
+                }
                 editDescriptionEng.setText(courseItems.get(position).getDescription().get("en").toString());
                 editDescriptionArm.setText(courseItems.get(position).getDescription().get("hy").toString());
                 editLink.setText(courseItems.get(position).getLink());
@@ -129,6 +172,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         FIRESTORE.getCourses(new Firestore.OnCourseReadListener() {
             @Override
             public void OnCourseRead(List<Course> courses) {
+                setImage.setImageResource(R.drawable.ic_add_image_view);
                 courseItems = new ArrayList<>(courses);
             }
         });
@@ -144,7 +188,7 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
             case R.id.admin_edit_Save_btn_id:
 
                 if (editCourseName.getText().toString().trim().isEmpty() ||
-                        editGroupType.getText().toString().trim().isEmpty() ||
+                        groupTypeRadioGroup.getCheckedRadioButtonId() == -1 ||
                         editGroupNameEng.getText().toString().trim().isEmpty() ||
                         editGroupNameArm.getText().toString().trim().isEmpty() ||
                         editDescriptionEng.getText().toString().trim().isEmpty() ||
@@ -292,11 +336,10 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
                 editCourseName.getText().toString(),
                 editLink.getText().toString(),
                 false,
-                Integer.parseInt(editGroupType.getText().toString()),
+                radioState,
                 url
         );
 
-        newCourse.setGroup(Integer.parseInt(editGroupType.getText().toString()));
         newCourse.setGroup_name(groupName);
         newCourse.setDescription(description);
         newCourse.setLecturer(editLecturer.getText().toString());
@@ -304,4 +347,5 @@ public class AdminEditCourseActivity extends BaseActivity implements View.OnClic
         return newCourse;
 
     }
+
 }
