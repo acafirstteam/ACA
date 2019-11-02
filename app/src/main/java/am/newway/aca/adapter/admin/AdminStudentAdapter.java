@@ -164,7 +164,9 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                     ActivityCompat.requestPermissions( ( Activity ) context ,
                             new String[]{ Manifest.permission.CALL_PHONE } , REQUEST_CALL );
 
+
                 }
+
                 else {
                     String dial = "tel:" + number;
 
@@ -191,6 +193,12 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                             Manifest.permission.INTERNET ) != PackageManager.PERMISSION_GRANTED ) {
                         ActivityCompat.requestPermissions( ( Activity ) context ,
                                 new String[]{ Manifest.permission.INTERNET } , REQUEST_EMAIL );
+                        Intent intent = new Intent( Intent.ACTION_SEND );
+                        intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
+                        intent.putExtra( Intent.EXTRA_SUBJECT, sendSubject);
+                        intent.setType( "message/rfc822" );
+                        context.startActivity(
+                                Intent.createChooser( intent , "choose an email client" ) );
 
                     }
                     else {

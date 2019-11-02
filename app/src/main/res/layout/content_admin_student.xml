@@ -36,18 +36,7 @@
 		app:layout_constraintTop_toBottomOf = "@+id/imageViewStudentItemA"
 		tools:ignore = "MissingConstraints" />
 
-	<TextView
-		android:id = "@+id/textCourseStudentItmA"
-		android:layout_width = "match_parent"
-		android:layout_height = "wrap_content"
-		android:layout_marginStart = "15dp"
-		android:layout_marginTop = "24dp"
-		android:drawableStart = "@drawable/ic_school_black_24dp"
-		android:drawablePadding = "8dp"
-		android:text = "@string/course"
-		android:textSize = "18sp"
-		app:layout_constraintLeft_toLeftOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/textNameStudentItmA" />
+
 	<!--		app:layout_constraintRight_toLeftOf = "textPhoneStudentItmA"-->
 
 	<TextView
@@ -62,7 +51,7 @@
 		android:textSize = "18sp"
 		app:layout_constraintRight_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/textCourseStudentItmA" />
+		app:layout_constraintTop_toBottomOf = "@+id/textNameStudentItmA" />
 
 	<TextView
 		android:id = "@+id/textEmailStudentItmA"

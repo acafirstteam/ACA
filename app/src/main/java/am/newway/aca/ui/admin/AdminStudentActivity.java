@@ -88,7 +88,6 @@ class AdminStudentActivity extends BaseActivity {
 
         //Views
         final TextView textNameStudentItm = findViewById( R.id.textNameStudentItmA );
-        final TextView textCourseStudentItm = findViewById( R.id.textCourseStudentItmA );
         final TextView textPhoneStudentItm = findViewById( R.id.textPhoneStudentItmA );
         final TextView textEmailStudentItm = findViewById( R.id.textEmailStudentItmA );
         textEmailStudentItm.setOnClickListener( new View.OnClickListener() {
@@ -106,6 +105,13 @@ class AdminStudentActivity extends BaseActivity {
                                 PackageManager.PERMISSION_GRANTED ) {
                             ActivityCompat.requestPermissions( AdminStudentActivity.this ,
                                     new String[]{ Manifest.permission.INTERNET } , REQUEST_EMAIL );
+                            Intent intent = new Intent( Intent.ACTION_SEND );
+                            intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
+                            intent.putExtra( Intent.EXTRA_SUBJECT , sendSubject );
+
+                            intent.setType( "message/rfc822" );
+                            startActivity(
+                                    Intent.createChooser( intent , "choose an email client" ) );
 
                         }
                         else {
@@ -141,6 +147,7 @@ class AdminStudentActivity extends BaseActivity {
                         ActivityCompat.requestPermissions( AdminStudentActivity.this ,
                                 new String[]{ Manifest.permission.CALL_PHONE } , REQUEST_CALL );
 
+
                     }
                     else {
                         String dial = "tel:" + number;
@@ -148,6 +155,7 @@ class AdminStudentActivity extends BaseActivity {
                         startActivity( new Intent( Intent.ACTION_CALL , Uri.parse( dial ) ) );
                     }
                 }
+                
                 else {
                     Toast.makeText( AdminStudentActivity.this , "Student has not any number" ,
                             Toast.LENGTH_SHORT ).show();
@@ -217,7 +225,6 @@ class AdminStudentActivity extends BaseActivity {
         textNameStudentItm.setText( student.getName() );
         textEmailStudentItm.setText( student.getEmail() );
         textPhoneStudentItm.setText( student.getPhone() );
-        textCourseStudentItm.setText( student.getCourse() );
         imageViewStudentItem.setImageURI( Uri.parse( student.getPicture() ) );
 
         buttonSave.setOnClickListener( new View.OnClickListener() {

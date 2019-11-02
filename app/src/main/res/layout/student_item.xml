@@ -17,6 +17,8 @@
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
 		fresco:backgroundImage = "@color/colorPrimaryLight"
+		android:layout_marginTop="15dp"
+		android:layout_marginLeft="10dp"
 		fresco:fadeDuration = "300"
 		fresco:placeholderImage = "@mipmap/ic_launcher"
 		fresco:placeholderImageScaleType = "centerCrop"
@@ -27,12 +29,13 @@
 		android:id = "@+id/textNameStudentItm"
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "10dp"
+		android:layout_marginStart = "15dp"
 		android:layout_marginTop = "4dp"
+
 		android:textSize = "30sp"
 		app:layout_constraintBottom_toTopOf = "@+id/textCourseStudentItm"
-		app:layout_constraintLeft_toRightOf = "@+id/imageViewStudentItem"
 		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintStart_toEndOf = "@+id/imageViewStudentItem"
 		app:layout_constraintTop_toTopOf = "parent"
 		tools:text = "Arsen" />
 
