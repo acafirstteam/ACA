@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,6 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
     void setStudents ( List<Student> students ) {
         this.students.clear();
         this.students.addAll( students );
-        Log.e( "@@@@@@@@@@@@@@@@@@" , "onComplete: " + students.size() );
 
         notifyDataSetChanged();
     }
@@ -97,34 +95,15 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                 @Override
                 public
                 void onClick ( View view ) {
-
                     makePhoneCall();
-
-
                 }
             } );
+
             textEmailStudentItm.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public
                 void onClick ( View view ) {
-
                     sendEmail();
-
-                }
-            } );
-
-
-            imageView.setOnClickListener( new View.OnClickListener() {
-                // DialogFragments dialogFragments = new DialogFragments();
-
-                @Override
-                public
-                void onClick ( View view ) {
-       /*             FragmentManager fragmentManager = ((AppCompatActivity) context)
-                            .getSupportFragmentManager()
-                            .getFragments().get(0).getChildFragmentManager();*/
-
-
                 }
             } );
 
@@ -133,8 +112,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                 @Override
                 public
                 void onClick ( View view ) {
-                    startActivityAdapter(getAdapterPosition());
-
+                    startActivityAdapter( getAdapterPosition() );
                 }
             } );
         }
@@ -178,13 +156,11 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
         void sendEmail () {
             String sendEmail = textEmailStudentItm.getText().toString();
             if ( sendEmail.length() > 0 ) {
-
                 {
                     if ( ContextCompat.checkSelfPermission( context ,
                             Manifest.permission.INTERNET ) != PackageManager.PERMISSION_GRANTED ) {
                         ActivityCompat.requestPermissions( ( Activity ) context ,
                                 new String[]{ Manifest.permission.INTERNET } , REQUEST_EMAIL );
-
                     }
                     else {
                         Intent intent = new Intent( Intent.ACTION_SEND );
@@ -193,40 +169,24 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                         context.startActivity(
                                 Intent.createChooser( intent , "choose an email client" ) );
                     }
-
                 }
-
             }
             else {
                 Toast.makeText( context , "Student's email does not right" , Toast.LENGTH_SHORT )
                         .show();
             }
-
-
         }
-
-       /* @Override
-        public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults){
-            if (requestCode==REQUEST_CALL){
-                if (grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    makePhoneCall();
-                }else {
-                    Toast.makeText(context,"permission Denied",Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }*/
     }
 
     private
-    void startActivityAdapter (int position) {
+    void startActivityAdapter ( int position ) {
         // startActivity(new Intent(this, AdminStudentActivity.class));
         Intent intent = new Intent( context , AdminStudentActivity.class );
         Student student = students.get( position );
-        ObjectMapper maper = new ObjectMapper(  );
-        HashMap<String, String> map = maper.convertValue( student, HashMap.class );
+        ObjectMapper mapper = new ObjectMapper();
+        HashMap<String, String> map = mapper.convertValue( student , HashMap.class );
 
-        intent.putExtra( "map", map );
+        intent.putExtra( "map" , map );
         context.startActivity( intent );
     }
 }

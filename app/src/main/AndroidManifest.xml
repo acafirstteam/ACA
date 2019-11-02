@@ -29,8 +29,8 @@
 
 		<activity
 			android:name = ".ui.student.StudentActivity"
-			android:launchMode = "singleTop"
 			android:label = "@string/visitors_list"
+			android:launchMode = "singleTop"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar" />
 
@@ -100,7 +100,11 @@
 			android:name = ".ui.admin.AdminCourseActivity"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar" />
-		<activity android:name = ".AdminEditCourseActivity" />
+
+		<activity
+			android:name = ".AdminEditCourseActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar" />
 
 		<service
 			android:name = ".service.AlertService"

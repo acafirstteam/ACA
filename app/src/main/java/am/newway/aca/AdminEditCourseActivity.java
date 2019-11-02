@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import java.util.Map;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Course;
 import am.newway.aca.ui.admin.AdminCourseActivity;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,8 +36,6 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
     private final String TAG = getClass().getSimpleName();
     private final String ADD = "add";
     private final String UPDATE = "update";
-    private final int RESULT_LOAD_IMG = 5;
-    private final int MY_PERMISSION_REQUEST = 1;
 
     private EditText editCourseName;
     private EditText editLecturer;
@@ -55,12 +55,13 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
     private Uri imagePath;
     private boolean imagePicked = false;
 
-
     @Override
     protected
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.admin_edit_course_layout );
+
+        initNavigationBar( 2 );
 
         editCourseName = findViewById( R.id.admin_edit_courseName_id );
         editLecturer = findViewById( R.id.admin_edit_lecturerEng_id );
@@ -107,21 +108,14 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                 editCourseName.setText( courseItems.get( position ).getName() );
                 editCourseName.setEnabled( false );
                 editLecturer.setText( courseItems.get( position ).getLecturer() );
-                editGroupNameEng.setText(
-                        courseItems.get( position ).getGroup_name().get( "en" ).toString() );
-                editGroupNameArm.setText(
-                        courseItems.get( position ).getGroup_name().get( "hy" ).toString() );
+                editGroupNameEng.setText( courseItems.get( position ).getGroup_name( "en" ) );
+                editGroupNameArm.setText( courseItems.get( position ).getGroup_name( "hy" ) );
                 editGroupType.setText( String.valueOf( courseItems.get( position ).getGroup() ) );
-                editDescriptionEng.setText(
-                        courseItems.get( position ).getDescription().get( "en" ).toString() );
-                editDescriptionArm.setText(
-                        courseItems.get( position ).getDescription().get( "hy" ).toString() );
+                editDescriptionEng.setText( courseItems.get( position ).getDescription( "en" ) );
+                editDescriptionArm.setText( courseItems.get( position ).getDescription( "hy" ) );
                 editLink.setText( courseItems.get( position ).getLink() );
-
             }
         } );
-
-
     }
 
     //Action Add Course
@@ -155,7 +149,6 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                         editLink.getText().toString().trim().isEmpty() ) {
                     Toast.makeText( getApplicationContext() , "Please fill all fields" ,
                             Toast.LENGTH_SHORT ).show();
-
                 }
                 else {
                     switch ( action ) {
@@ -273,6 +266,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                         Manifest.permission.READ_EXTERNAL_STORAGE ) !=
                         PackageManager.PERMISSION_GRANTED ) {
 
+                    final int MY_PERMISSION_REQUEST = 1;
                     ActivityCompat.requestPermissions( this ,
                             new String[]{ Manifest.permission.READ_EXTERNAL_STORAGE } ,
                             MY_PERMISSION_REQUEST );
@@ -280,6 +274,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                 else {
                     Intent photoPickerIntent = new Intent( Intent.ACTION_PICK );
                     photoPickerIntent.setType( "image/*" );
+                    final int RESULT_LOAD_IMG = 5;
                     startActivityForResult( photoPickerIntent , RESULT_LOAD_IMG );
                 }
                 break;
@@ -293,7 +288,7 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
     void onActivityResult ( int requestCode , int resultCode , @Nullable Intent data ) {
         super.onActivityResult( requestCode , resultCode , data );
 
-        if ( resultCode == RESULT_OK ) {
+        if ( resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
                 final Uri imageUri = data.getData();
                 final InputStream imageStream = getContentResolver().openInputStream( imageUri );
@@ -307,7 +302,6 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
                 Toast.makeText( getApplicationContext() , "Something went wrong" ,
                         Toast.LENGTH_SHORT ).show();
             }
-
         }
         else {
             Toast.makeText( getApplicationContext() , "You haven't picked Image" ,
@@ -345,5 +339,15 @@ class AdminEditCourseActivity extends BaseActivity implements View.OnClickListen
 
         return newCourse;
 
+    }
+
+    @Override
+    public
+    boolean onOptionsItemSelected ( @NonNull final MenuItem item ) {
+        if ( item.getItemId() == android.R.id.home ) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 }

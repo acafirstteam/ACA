@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import am.newway.aca.adapter.admin.AdminMenuAdapter;
-import am.newway.aca.ui.admin.AdminCourseActivity;
 import am.newway.aca.R;
+import am.newway.aca.adapter.admin.AdminMenuAdapter;
 import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.AdminItem;
+import am.newway.aca.ui.admin.AdminCourseActivity;
 import am.newway.aca.ui.admin.AdminMessageActivity;
 import am.newway.aca.ui.student.StudentActivity;
 import androidx.annotation.NonNull;

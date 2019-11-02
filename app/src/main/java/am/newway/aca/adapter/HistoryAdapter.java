@@ -6,7 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import am.newway.aca.R;
 import am.newway.aca.template.Visit;
@@ -51,6 +56,7 @@ class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
         private TextView dateTime;
         private TextView comingTime;
         private TextView completeTime;
+        private TextView durationTime;
 
         MyViewHolder ( @NonNull View itemView ) {
             super( itemView );
@@ -58,18 +64,38 @@ class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
             dateTime = itemView.findViewById( R.id.dateTime_history_item );
             comingTime = itemView.findViewById( R.id.comming_time_history_id );
             completeTime = itemView.findViewById( R.id.complete_time_history_id );
+            durationTime = itemView.findViewById( R.id.duration_time_history_id );
         }
 
         void bind ( Visit item ) {
-            String dateString = item.getDateTime();
+            Date dateStart, dateEnd;
+            SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
+            try {
+                Log.e( TAG , "bind: " +item.getDateTime()  );
+                dateStart = formatter.parse( item.getDateTime() );
+                dateEnd = formatter.parse( item.getCompleteTime() );
+            } catch ( ParseException e ) {
+                e.printStackTrace();
+                return;
+            }
 
-            String[] split = dateString.split( " " );
-            dateTime.setText( split[0] );
-            String str1 = split[1].substring( 0 , 5 );
-            comingTime.setText( str1 + "  - " );
-            Log.e( TAG , "bind: " + item.getCompleteTime() );
-            String dateString2 = item.getCompleteTime().substring( 10 , 16 );
-            completeTime.setText( dateString2 );
+            if ( dateEnd == null || dateStart == null ) {
+                Log.e( TAG , "bind: date is null" );
+                return;
+            }
+
+            SimpleDateFormat fTime = new SimpleDateFormat( "HH:mm" , Locale.US );
+            SimpleDateFormat fDate = new SimpleDateFormat( "dd/MM/yyyy" , Locale.US );
+
+            long diff = dateEnd.getTime() - dateStart.getTime();
+
+            long hours = TimeUnit.MILLISECONDS.toHours( diff );
+            long minutes = TimeUnit.MILLISECONDS.toMinutes( diff );
+
+            dateTime.setText( fDate.format( dateStart ) );
+            comingTime.setText( fTime.format( dateStart ) );
+            completeTime.setText( fTime.format( dateEnd ) );
+            durationTime.setText( String.format( Locale.US , "%02d:%02d" , hours , minutes ) );
         }
     }
 }

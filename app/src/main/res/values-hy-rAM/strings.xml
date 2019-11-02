@@ -105,6 +105,9 @@
 	<string name = "unknown_user">Անհայտ օգտատեր</string>
 	<string name = "visitors_list">Այցելուների ցանկ</string>
 	<string name = "messages">Հաղորդագրություններ</string>
+	<string name = "visit_time">Այցել. ժամ</string>
+	<string name = "end_time">Ավար. ժամը</string>
+	<string name = "duration">Տևողութ.</string>
 
 
 </resources>

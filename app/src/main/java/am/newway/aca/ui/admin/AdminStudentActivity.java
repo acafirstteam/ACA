@@ -1,11 +1,5 @@
 package am.newway.aca.ui.admin;
 
-import am.newway.aca.BaseActivity;
-import am.newway.aca.R;
-import am.newway.aca.firebase.Firestore;
-import am.newway.aca.template.Course;
-import am.newway.aca.template.Student;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +19,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import am.newway.aca.BaseActivity;
+import am.newway.aca.R;
 import am.newway.aca.adapter.spinner.CourseSpinnerAdapter;
+import am.newway.aca.firebase.Firestore;
+import am.newway.aca.template.Course;
+import am.newway.aca.template.Student;
 import androidx.annotation.NonNull;
 
 public
@@ -76,8 +75,6 @@ class AdminStudentActivity extends BaseActivity {
         initNavigationBar( 2 );
 
         Intent intent = getIntent();
-        HashMap<String, String> map =
-                ( HashMap<String, String> ) intent.getSerializableExtra( "map" );
 
         //Views
         final TextView textNameStudentItm = findViewById( R.id.textNameStudentItmA );
@@ -107,7 +104,6 @@ class AdminStudentActivity extends BaseActivity {
                     final long l ) {
                 String state = adapterView.getItemAtPosition( i ).toString();
                 Toast.makeText( adapterView.getContext() , state , Toast.LENGTH_SHORT );
-
             }
 
             @Override
@@ -117,8 +113,10 @@ class AdminStudentActivity extends BaseActivity {
             }
         } );
 
-        ObjectMapper maper = new ObjectMapper();
-        final Student student = maper.convertValue( map , Student.class );
+        HashMap<String, String> map =
+                ( HashMap<String, String> ) intent.getSerializableExtra( "map" );
+        ObjectMapper mapper = new ObjectMapper();
+        final Student student = mapper.convertValue( map , Student.class );
 
         FIRESTORE.getCourses( new Firestore.OnCourseReadListener() {
             @Override
@@ -140,8 +138,13 @@ class AdminStudentActivity extends BaseActivity {
             void onClick ( View view ) {
 
                 Course course = (Course)customSpinner2.getSelectedItem();
+                Course courseType = (Course)customSpinnerStatus.getSelectedItem();
 
                 student.setCourse( course.getName() );
+
+//                courseType.getName()
+//
+//                student.setType(  );
 
                 FIRESTORE.updateStudent( student , new Firestore.OnStudentUpdateListener() {
                     @Override
@@ -179,26 +182,6 @@ class AdminStudentActivity extends BaseActivity {
 
             }
         } );
-        //
-        //        customSpinner2.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
-        //            @Override
-        //            public
-        //            void onItemSelected ( final AdapterView<?> adapterView , final View view , final int i ,
-        //                    final long l ) {
-        //
-        //            }
-        //
-        //            @Override
-        //            public
-        //            void onNothingSelected ( final AdapterView<?> adapterView ) {
-        //
-        //            }
-        //        } );
-
-        //        customList = getCustomList();
-        //        customListTwo = getCustomListTwo();
-
-
     }
 
     private
