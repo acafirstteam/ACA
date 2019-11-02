@@ -104,7 +104,8 @@
 		<activity
 			android:name = ".AdminEditCourseActivity"
 			android:screenOrientation = "portrait"
-			android:theme = "@style/AppTheme.NoActionBar" />
+			android:theme = "@style/AppTheme.NoActionBar"
+			android:windowSoftInputMode = "stateHidden|adjustResize" />
 
 		<service
 			android:name = ".service.AlertService"

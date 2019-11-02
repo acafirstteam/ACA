@@ -20,6 +20,6 @@
 
 	</com.google.android.material.appbar.AppBarLayout>
 
-	<include layout = "@layout/content_course_layout" />
+	<include layout = "@layout/content_admin_edit_course" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
