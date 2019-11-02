@@ -63,15 +63,14 @@ class AdminCourseAdapter extends RecyclerView.Adapter<AdminCourseAdapter.MyViewH
 
         private SimpleDraweeView logo;
         private TextView name;
-        private View editBtn;
+
 
         MyViewHolder ( @NonNull View itemView ) {
             super( itemView );
 
             logo = itemView.findViewById( R.id.admin_course_item_logo_id );
             name = itemView.findViewById( R.id.admin_course_item_name_id );
-            editBtn = itemView.findViewById( R.id.admin_course_item_edit_btn_id );
-            editBtn.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "--------------------------------Cklicked");

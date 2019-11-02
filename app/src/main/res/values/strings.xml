@@ -72,6 +72,9 @@
 	<string name = "select_person">Select person</string>
 	<string name = "select_course">Select course</string>
 	<string name = "notification">Notification</string>
+	<string name = "history_start">START</string>
+	<string name = "history_end">END</string>
+
 
 	<string-array name = "notification_type">
 		<item>Message</item>
@@ -127,6 +130,12 @@
 	<string name = "doors_codes">Doors codes</string>
 	<string name = "new_visitor">New visitor</string>
 	<string name = "waiting">We are waiting for you at the reception</string>
+	<string name = "courses">Courses</string>
+	<string name = "add_course">Add Course</string>
+	<string name = "edit_course">Edit Course</string>
+
+
+
 	<string name = "visit">Registered visit</string>
 	<string name = "lecturer">Lecturer</string>
 	<string name = "attention">Attention</string>

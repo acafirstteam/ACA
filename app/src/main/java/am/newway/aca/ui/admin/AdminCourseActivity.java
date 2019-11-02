@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,12 @@ class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_admin_course );
+        setTitle(R.string.courses);
 
         initNavigationBar( 2 );
 
         recyclerView = findViewById( R.id.recycler_view_adminPage_id );
-        final Button addCourseBtn = findViewById( R.id.admin_add_course_btn_id );
+        final TextView addCourseBtn = findViewById( R.id.admin_add_course_floating_id );
         addCourseBtn.setOnClickListener( this );
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager( getApplicationContext() , RecyclerView.VERTICAL , false );
