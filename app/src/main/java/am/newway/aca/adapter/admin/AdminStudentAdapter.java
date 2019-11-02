@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
     private Context context;
     private static final int REQUEST_CALL = 1;
     private static final int REQUEST_EMAIL = 1;
+    private static final int REQUEST_SUBJECT = 1;
 
     public
     AdminStudentAdapter ( List<Student> students , Context context ) {
@@ -44,6 +46,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
     void setStudents ( List<Student> students ) {
         this.students.clear();
         this.students.addAll( students );
+        Log.e( "@@@@@@@@@@@@@@@@@@" , "onComplete: " + students.size() );
 
         notifyDataSetChanged();
     }
@@ -76,18 +79,21 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
         TextView textEmailStudentItm;
         TextView textPhoneStudentItm;
         TextView textNameStudentItm;
+        TextView textCourseStudentItm;
 
         SimpleDraweeView imageView;
         Student student;
 
 
         ViewHolder ( @NonNull final View itemView ) {
+
             super( itemView );
 
             textViewCourseName = itemView.findViewById( R.id.textDialogCoursesName );
             textNameStudentItm = itemView.findViewById( R.id.textNameStudentItm );
             textEmailStudentItm = itemView.findViewById( R.id.textEmailStudentItm );
             textPhoneStudentItm = itemView.findViewById( R.id.textPhoneStudentItm );
+            textCourseStudentItm = itemView.findViewById( R.id.textCourseStudentItm );
             imageView = itemView.findViewById( R.id.imageViewStudentItem );
 
 
@@ -95,15 +101,34 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                 @Override
                 public
                 void onClick ( View view ) {
+
                     makePhoneCall();
+
+
                 }
             } );
-
             textEmailStudentItm.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public
                 void onClick ( View view ) {
+
                     sendEmail();
+
+                }
+            } );
+
+
+            imageView.setOnClickListener( new View.OnClickListener() {
+                // DialogFragments dialogFragments = new DialogFragments();
+
+                @Override
+                public
+                void onClick ( View view ) {
+       /*             FragmentManager fragmentManager = ((AppCompatActivity) context)
+                            .getSupportFragmentManager()
+                            .getFragments().get(0).getChildFragmentManager();*/
+
+
                 }
             } );
 
@@ -112,7 +137,8 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                 @Override
                 public
                 void onClick ( View view ) {
-                    startActivityAdapter( getAdapterPosition() );
+                    startActivityAdapter(getAdapterPosition());
+
                 }
             } );
         }
@@ -123,6 +149,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
             textNameStudentItm.setText( student.getName() );
             textEmailStudentItm.setText( student.getEmail() );
             textPhoneStudentItm.setText( student.getPhone() );
+            textCourseStudentItm.setText( student.getCourse() );
             imageView.setImageURI( student.getPicture() );
             //imageView.setImageURI(Uri.parse(course.getRes()));
         }
@@ -155,38 +182,65 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
         private
         void sendEmail () {
             String sendEmail = textEmailStudentItm.getText().toString();
+            String[] sendEmails=sendEmail.split( "," );
+            String sendSubject = ("ACA Administration" );
             if ( sendEmail.length() > 0 ) {
+
                 {
                     if ( ContextCompat.checkSelfPermission( context ,
                             Manifest.permission.INTERNET ) != PackageManager.PERMISSION_GRANTED ) {
                         ActivityCompat.requestPermissions( ( Activity ) context ,
                                 new String[]{ Manifest.permission.INTERNET } , REQUEST_EMAIL );
+                        Intent intent = new Intent( Intent.ACTION_SEND );
+                        intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
+                        intent.putExtra( Intent.EXTRA_SUBJECT, sendSubject);
+                        intent.setType( "message/rfc822" );
+                        context.startActivity(
+                                Intent.createChooser( intent , "choose an email client" ) );
+
                     }
                     else {
                         Intent intent = new Intent( Intent.ACTION_SEND );
-                        intent.putExtra( Intent.EXTRA_EMAIL , sendEmail );
+                        intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
+                        intent.putExtra( Intent.EXTRA_SUBJECT, sendSubject);
                         intent.setType( "message/rfc822" );
                         context.startActivity(
                                 Intent.createChooser( intent , "choose an email client" ) );
                     }
+
                 }
+
             }
             else {
                 Toast.makeText( context , "Student's email does not right" , Toast.LENGTH_SHORT )
                         .show();
             }
+
+
         }
+
+       /* @Override
+        public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults){
+            if (requestCode==REQUEST_CALL){
+                if (grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    makePhoneCall();
+                }else {
+                    Toast.makeText(context,"permission Denied",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }*/
     }
 
     private
-    void startActivityAdapter ( int position ) {
+    void startActivityAdapter (int position) {
         // startActivity(new Intent(this, AdminStudentActivity.class));
         Intent intent = new Intent( context , AdminStudentActivity.class );
         Student student = students.get( position );
-        ObjectMapper mapper = new ObjectMapper();
-        HashMap<String, String> map = mapper.convertValue( student , HashMap.class );
+        ObjectMapper maper = new ObjectMapper(  );
+        HashMap<String, String> map = maper.convertValue( student, HashMap.class );
 
-        intent.putExtra( "map" , map );
+        intent.putExtra( "map", map );
         context.startActivity( intent );
     }
 }
