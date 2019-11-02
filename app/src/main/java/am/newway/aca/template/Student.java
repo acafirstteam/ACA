@@ -11,12 +11,10 @@ class Student {
     private String phone;
     private String picture;
     private String course;
-    @Exclude
     private boolean verified;
     private String token;
     @Exclude
     public String id;
-    @Exclude
     private int type = -1;
     private OnStudentChangeListener listener;
 

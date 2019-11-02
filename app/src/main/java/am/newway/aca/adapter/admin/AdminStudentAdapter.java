@@ -164,9 +164,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                     ActivityCompat.requestPermissions( ( Activity ) context ,
                             new String[]{ Manifest.permission.CALL_PHONE } , REQUEST_CALL );
 
-
                 }
-
                 else {
                     String dial = "tel:" + number;
 

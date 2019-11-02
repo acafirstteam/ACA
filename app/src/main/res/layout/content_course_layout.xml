@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android = "http://schemas.android.com/apk/res/android"
+	xmlns:app = "http://schemas.android.com/apk/res-auto"
+	xmlns:fresco = "http://schemas.android.com/apk/res-auto"
+	xmlns:tools = "http://schemas.android.com/tools"
+	android:layout_marginTop="?attr/actionBarSize"
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent">
+
+	<LinearLayout
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:orientation = "vertical">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width = "match_parent"
+			android:layout_height = "match_parent">
+
+			<com.facebook.drawee.view.SimpleDraweeView
+				android:id = "@+id/admin_edit_imageView_id"
+				android:layout_width = "120dp"
+				android:layout_height = "120dp"
+				android:layout_margin = "8dp"
+				android:background = "@drawable/image_border"
+				fresco:actualImageScaleType = "focusCrop"
+				fresco:fadeDuration = "300"
+				fresco:layout_constraintLeft_toLeftOf = "parent"
+				fresco:layout_constraintTop_toTopOf = "parent"
+				fresco:placeholderImageScaleType = "centerCrop"
+				fresco:roundAsCircle = "true"
+				fresco:roundingBorderColor = "@color/colorPrimaryDark"
+				fresco:roundingBorderWidth = "1dp" />
+
+			<TextView
+				android:id = "@+id/admin_courseName_TV_id"
+				android:layout_width = "wrap_content"
+				android:layout_height = "wrap_content"
+				android:layout_marginStart = "12dp"
+				android:layout_marginTop = "14dp"
+				android:text = "Course Name:"
+				android:textSize = "18sp"
+				app:layout_constraintLeft_toRightOf = "@+id/admin_edit_imageView_id"
+				app:layout_constraintTop_toTopOf = "@+id/admin_edit_imageView_id" />
+
+			<EditText
+				android:id = "@+id/admin_edit_courseName_id"
+				android:layout_width = "240dp"
+				android:layout_height = "wrap_content"
+				android:layout_marginStart = "12dp"
+				android:layout_marginTop = "8dp"
+				android:singleLine = "true"
+				android:textSize = "18sp"
+				app:layout_constraintLeft_toRightOf = "@+id/admin_edit_imageView_id"
+				app:layout_constraintTop_toBottomOf = "@+id/admin_courseName_TV_id"
+				tools:text = "course name" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+		<TextView
+			android:id = "@+id/admin_lecturerEng_TV_id"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:text = "Lecturer:"
+			android:textSize = "18sp"
+			app:layout_constraintLeft_toLeftOf = "parent"
+			app:layout_constraintTop_toBottomOf = "@+id/admin_edit_imageView_id" />
+
+		<EditText
+			android:id = "@+id/admin_edit_lecturerEng_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:singleLine = "true"
+			app:layout_constraintLeft_toLeftOf = "parent"
+			app:layout_constraintTop_toBottomOf = "@+id/admin_lecturerEng_TV_id"
+			tools:text = "Anun Azganun" />
+
+		<TextView
+			android:id = "@+id/admin_edit_groupNameEng_TV_id"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:text = "Group Name:"
+			android:textSize = "18sp"
+			app:layout_constraintLeft_toLeftOf = "parent" />
+
+		<EditText
+			android:id = "@+id/admin_edit_groupNameEng_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:singleLine = "true"
+			app:layout_constraintTop_toBottomOf = "@+id/admin_edit_groupNameEng_TV_id"
+			tools:text = "group name" />
+
+		<TextView
+			android:id = "@+id/admin_edit_groupNameArm_TV_id"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:text = "Խմբի անունը:"
+			android:textSize = "18sp"
+			app:layout_constraintLeft_toLeftOf = "parent"
+			app:layout_constraintTop_toBottomOf = "@+id/admin_edit_groupNameEng_id" />
+
+		<EditText
+			android:id = "@+id/admin_edit_groupNameArm_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			app:layout_constraintTop_toBottomOf = "@+id/admin_edit_groupNameArm_TV_id"
+			tools:text = "խմբի անուն" />
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id = "@+id/admin_edit_groupConstraint_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp">
+
+			<TextView
+				android:id = "@+id/admin_edit_groupType_TV_id"
+				android:layout_width = "wrap_content"
+				android:layout_height = "wrap_content"
+				android:layout_margin = "8dp"
+				android:text = "Group Type:"
+				android:textSize = "18sp"
+				fresco:layout_constraintLeft_toLeftOf = "parent"
+				fresco:layout_constraintRight_toLeftOf = "@+id/admin_edit_groupType_types_TV_id"
+				fresco:layout_constraintTop_toTopOf = "parent" />
+
+			<TextView
+				android:id = "@+id/admin_edit_groupType_types_TV_id"
+				android:layout_width = "wrap_content"
+				android:layout_height = "wrap_content"
+				android:layout_marginStart = "40dp"
+				android:layout_marginTop = "8dp"
+				android:text = "0 - For Beginners\n1 - Specialized\n2 - Advanced"
+				android:textSize = "18sp"
+				fresco:layout_constraintLeft_toRightOf = "@+id/admin_edit_groupType_TV_id"
+				fresco:layout_constraintTop_toTopOf = "parent" />
+
+			<EditText
+				android:id = "@+id/admin_edit_groupType_id"
+				android:layout_width = "40dp"
+				android:layout_height = "wrap_content"
+				android:layout_margin = "8dp"
+				android:inputType = "number"
+				android:maxLength = "1"
+				fresco:layout_constraintLeft_toLeftOf = "parent"
+				fresco:layout_constraintTop_toBottomOf = "@+id/admin_edit_groupType_TV_id" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+		<TextView
+			android:id = "@+id/admin_edit_DescriptionEng_TV_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:text = "Description:"
+			android:textSize = "18sp" />
+
+		<EditText
+			android:id = "@+id/admin_edit_DescriptionEng_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp" />
+
+		<TextView
+			android:id = "@+id/admin_edit_DescriptionArm_TV_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:text = "Նկարագրություն:"
+			android:textSize = "18sp" />
+
+		<EditText
+			android:id = "@+id/admin_edit_DescriptionArm_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp" />
+
+		<TextView
+			android:id = "@+id/admin_edit_Link_TV_id"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:text = "Link:"
+			android:textSize = "18sp" />
+
+		<EditText
+			android:id = "@+id/admin_edit_Link_id"
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_margin = "8dp"
+			android:singleLine = "true" />
+
+		<Button
+			android:id = "@+id/admin_edit_Save_btn_id"
+			android:layout_width = "wrap_content"
+			android:layout_height = "wrap_content"
+			android:layout_gravity = "center"
+			android:text = "Save" />
+
+	</LinearLayout>
+
+</ScrollView>

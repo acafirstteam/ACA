@@ -909,6 +909,7 @@ class Firestore {
         Log.e( TAG , "user type = " + nUserType );
         initFirestore();
         final CollectionReference collRef = db.collection( NOTIFICATION_COLLECTION );
+
         collRef.whereEqualTo( "messageSegment" , 0 );
         collRef.whereEqualTo( "messageSegment" , nUserType )
         .whereEqualTo( "user", "");

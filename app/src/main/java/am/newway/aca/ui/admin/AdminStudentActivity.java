@@ -9,12 +9,12 @@ import am.newway.aca.template.Student;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,8 +30,6 @@ import java.util.List;
 
 import am.newway.aca.adapter.spinner.CourseSpinnerAdapter;
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public
 class AdminStudentActivity extends BaseActivity {
@@ -44,8 +42,6 @@ class AdminStudentActivity extends BaseActivity {
     private Spinner customSpinner2;
     private Spinner customSpinnerStatus;
     private CourseSpinnerAdapter adapter2;
-    private static final int REQUEST_CALL = 1;
-    private static final int REQUEST_EMAIL = 1;
 
     private
     void setCourses ( List<Course> courses ) {
@@ -83,120 +79,28 @@ class AdminStudentActivity extends BaseActivity {
         initNavigationBar( 2 );
 
         Intent intent = getIntent();
-        HashMap<String, String> map =
-                ( HashMap<String, String> ) intent.getSerializableExtra( "map" );
+
 
         //Views
         final TextView textNameStudentItm = findViewById( R.id.textNameStudentItmA );
         final TextView textPhoneStudentItm = findViewById( R.id.textPhoneStudentItmA );
         final TextView textEmailStudentItm = findViewById( R.id.textEmailStudentItmA );
-        textEmailStudentItm.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public
-            void onClick ( final View view ) {
-                String sendEmail = textEmailStudentItm.getText().toString();
-                String[] sendEmails = sendEmail.split( "," );
-                String sendSubject = ( "ACA Administration" );
-                if ( sendEmail.length() > 0 ) {
-
-                    {
-                        if ( ContextCompat.checkSelfPermission( AdminStudentActivity.this ,
-                                Manifest.permission.INTERNET ) !=
-                                PackageManager.PERMISSION_GRANTED ) {
-                            ActivityCompat.requestPermissions( AdminStudentActivity.this ,
-                                    new String[]{ Manifest.permission.INTERNET } , REQUEST_EMAIL );
-                            Intent intent = new Intent( Intent.ACTION_SEND );
-                            intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
-                            intent.putExtra( Intent.EXTRA_SUBJECT , sendSubject );
-
-                            intent.setType( "message/rfc822" );
-                            startActivity(
-                                    Intent.createChooser( intent , "choose an email client" ) );
-
-                        }
-                        else {
-                            Intent intent = new Intent( Intent.ACTION_SEND );
-                            intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
-                            intent.putExtra( Intent.EXTRA_SUBJECT , sendSubject );
-
-                            intent.setType( "message/rfc822" );
-                            startActivity(
-                                    Intent.createChooser( intent , "choose an email client" ) );
-                        }
-
-                    }
-
-                }
-                else {
-                    Toast.makeText( AdminStudentActivity.this , "Student's email does not right" ,
-                            Toast.LENGTH_SHORT ).show();
-                }
-
-            }
-        } );
-        textPhoneStudentItm.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public
-            void onClick ( final View view ) {
-                String number = textPhoneStudentItm.getText().toString();
-                if ( number.trim().length() > 0 ) {
-                    if ( ContextCompat.checkSelfPermission( AdminStudentActivity.this ,
-                            Manifest.permission.CALL_PHONE ) !=
-                            PackageManager.PERMISSION_GRANTED ) {
-
-                        ActivityCompat.requestPermissions( AdminStudentActivity.this ,
-                                new String[]{ Manifest.permission.CALL_PHONE } , REQUEST_CALL );
 
 
-                    }
-                    else {
-                        String dial = "tel:" + number;
-
-                        startActivity( new Intent( Intent.ACTION_CALL , Uri.parse( dial ) ) );
-                    }
-                }
-                
-                else {
-                    Toast.makeText( AdminStudentActivity.this , "Student has not any number" ,
-                            Toast.LENGTH_SHORT ).show();
-                }
-
-
-            }
-        } );
         final ImageView imageViewStudentItem = findViewById( R.id.imageViewStudentItemA );
 
         //Spinners
         customSpinner = findViewById( R.id.spinner1 );
         customSpinner2 = findViewById( R.id.spinner2 );
         customSpinnerStatus = findViewById( R.id.spinner );
+
+
+        final ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource( this , R.array.statusVisitors ,
+                        android.R.layout.simple_spinner_item );
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         final FloatingActionButton buttonSave = findViewById( R.id.btndoneForstatus );
-
-//        final ArrayAdapter<CharSequence> adapter =
-//                ArrayAdapter.createFromResource( this , R.array.statusVsisitours ,
-//                        android.R.layout.simple_spinner_item );
-//        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-
-        ObjectMapper maper = new ObjectMapper();
-        final Student student = maper.convertValue( map , Student.class );
-
-        int nIndex = 0;
-        switch ( student.getType() ) {
-            case 0:
-                nIndex = 0;
-                break;
-            case 1:
-                nIndex = 3;
-                break;
-            case 2:
-                nIndex = 1;
-                break;
-            case 3:
-                nIndex = 2;
-                break;
-        }
-
-        customSpinnerStatus.setSelection( nIndex );
+        customSpinnerStatus.setAdapter( adapter );
         customSpinnerStatus.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public
@@ -221,6 +125,11 @@ class AdminStudentActivity extends BaseActivity {
                 setCourses( courses );
             }
         } );
+
+        HashMap<String, String> map =
+                ( HashMap<String, String> ) intent.getSerializableExtra( "map" );
+        ObjectMapper mapper = new ObjectMapper(  );
+       final Student student = mapper.convertValue( map, Student.class );
 
         textNameStudentItm.setText( student.getName() );
         textEmailStudentItm.setText( student.getEmail() );
@@ -260,9 +169,9 @@ class AdminStudentActivity extends BaseActivity {
                     final long l ) {
                 String group = adapterView.getItemAtPosition( i ).toString();
                 List<Course> course = getFilteredCourse( group );
-                adapter2 = new CourseSpinnerAdapter( AdminStudentActivity.this ,
-                        R.layout.custom_spinner_layout , android.R.layout.simple_spinner_item ,
-                        course );
+                adapter2 =
+                        new CourseSpinnerAdapter( AdminStudentActivity.this , R.layout.custom_spinner_layout ,
+                                android.R.layout.simple_spinner_item , course );
                 customSpinner2.setAdapter( adapter2 );
             }
 
