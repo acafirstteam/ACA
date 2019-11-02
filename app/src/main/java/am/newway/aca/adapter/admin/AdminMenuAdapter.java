@@ -2,6 +2,8 @@ package am.newway.aca.adapter.admin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +93,9 @@ class AdminMenuAdapter extends RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>
         TextView textDescription;
         SimpleDraweeView imageView;
         AdminItem item;
+        PorterDuffColorFilter colorFilter =
+                new PorterDuffColorFilter( context.getResources().getColor(R.color.colorPrimaryLight),
+                PorterDuff.Mode.SRC_IN);
 
         ViewHolder ( @NonNull final View itemView ) {
             super( itemView );
@@ -114,6 +119,7 @@ class AdminMenuAdapter extends RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>
             textName.setText( item.getName( lang ) );
             textDescription.setText( item.getDescription( lang ) );
             if ( imageView != null ) {
+                imageView.setColorFilter(colorFilter);
                 imageView.setImageResource( item.getRes() );
             }
         }

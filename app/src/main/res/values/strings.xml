@@ -144,8 +144,12 @@
 	<string name = "no">No</string>
 	<string name = "yes">Yes</string>
 	<string name = "unknown_user">Unknown user</string>
+	<string name = "aca_phone" translatable = "false">012 48 16 32</string>
 	<string name = "messages">Notifications</string>
 	<string name = "visitors_list">Visitors list</string>
+	<string name = "visit_time">Visit time</string>
+	<string name = "end_time">End time</string>
+	<string name = "duration">Duration</string>
 
 
 </resources>

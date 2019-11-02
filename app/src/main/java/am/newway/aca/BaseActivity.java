@@ -467,107 +467,92 @@ class BaseActivity extends AppCompatActivity {
         ImageView imageStatus = headerLayout.findViewById( R.id.image_status );
 
         Student student = DATABASE.getStudent();
+        final boolean isNotNull = "-1".equals( student.getId() );
 
-        if ( student.getId() != null && !student.getId().equals( "-1" ) ) {
+        if ( !isNotNull )
             imageView.setImageURI( Uri.parse( student.getPicture() ) );
-
-            textName.setText( student.getName() );
-
-            textDescription.setText( student.getEmail() );
-
-            imageView.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public
-                void onClick ( final View view ) {
-                    startActivityWithIntent(
-                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
-                }
-            } );
-
-            textName.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public
-                void onClick ( final View view ) {
-                    startActivityWithIntent(
-                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
-                }
-            } );
-
-            textDescription.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public
-                void onClick ( final View view ) {
-                    startActivityWithIntent(
-                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
-                }
-            } );
-
-            switch ( student.getType() ) {
-                case -1: {
-                    textStatus.setText( R.string.unknown_user );
-                    imageStatus.setImageDrawable(
-                            getResources().getDrawable( R.drawable.unknown ) );
-                    break;
-                }
-                case 0: {
-                    textStatus.setText( R.string.student );
-                    imageStatus.setImageDrawable(
-                            getResources().getDrawable( R.drawable.student ) );
-                    break;
-                }
-                case 2: {
-                    textStatus.setText( R.string.administrator );
-                    imageStatus.setImageDrawable(
-                            getResources().getDrawable( R.drawable.administrator ) );
-                    break;
-                }
-                case 3: {
-                    textStatus.setText( R.string.lecturer );
-                    imageStatus.setImageDrawable(
-                            getResources().getDrawable( R.drawable.lecturer ) );
-                    break;
-                }
-            }
-        }
-        else {
+        else
             imageView.setImageResource( R.mipmap.ic_launcher );
 
-            textName.setText( getResources().getString( R.string.nav_header_title ) );
+        textName.setText( !isNotNull ? student.getName()
+                : getResources().getString( R.string.nav_header_title ) );
 
+        if ( !isNotNull )
+            textDescription.setText( student.getEmail() );
+        else
             textDescription.setText( getResources().getString( R.string.nav_header_subtitle ) );
 
-            imageView.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public
-                void onClick ( final View view ) {
+        imageView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public
+            void onClick ( final View view ) {
+                if ( !isNotNull )
+                    startActivityWithIntent(
+                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
+                else {
                     String url = "http://www.aca.am";
                     Intent i = new Intent( Intent.ACTION_VIEW );
                     i.setData( Uri.parse( url ) );
                     startActivityWithIntent( i );
                 }
-            } );
+            }
+        } );
 
-            textName.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public
-                void onClick ( final View view ) {
+        textName.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public
+            void onClick ( final View view ) {
+                if ( !isNotNull )
+                    startActivityWithIntent(
+                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
+                else {
                     Intent emailIntent = new Intent( Intent.ACTION_SENDTO ,
                             Uri.fromParts( "mailto" , "info@aca.am" , null ) );
                     startActivityWithIntent(
                             Intent.createChooser( emailIntent , "Send email..." ) );
                 }
-            } );
+            }
+        } );
 
-            textDescription.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public
-                void onClick ( final View view ) {
+        textDescription.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public
+            void onClick ( final View view ) {
+                if ( !isNotNull )
+                    startActivityWithIntent(
+                            new Intent( BaseActivity.this , FirebaseLogin.class ) );
+                else {
                     Intent emailIntent = new Intent( Intent.ACTION_SENDTO ,
                             Uri.fromParts( "mailto" , "info@aca.am" , null ) );
                     startActivityWithIntent(
                             Intent.createChooser( emailIntent , "Send email..." ) );
                 }
-            } );
+            }
+        } );
+
+        Log.e( TAG , "updateNavigationBar: " + student.getType() );
+        switch ( student.getType() ) {
+            case -1: {
+                textStatus.setText( R.string.aca_phone );
+                imageStatus.setImageDrawable( getResources().getDrawable( R.drawable.phone ) );
+                break;
+            }
+            case 0: {
+                textStatus.setText( R.string.student );
+                imageStatus.setImageDrawable( getResources().getDrawable( R.drawable.student ) );
+                break;
+            }
+            case 2: {
+                textStatus.setText( R.string.administrator );
+                imageStatus.setImageDrawable(
+                        getResources().getDrawable( R.drawable.administrator ) );
+                break;
+            }
+            case 3: {
+                textStatus.setText( R.string.lecturer );
+                imageStatus.setImageDrawable( getResources().getDrawable( R.drawable.lecturer ) );
+                break;
+            }
         }
     }
 

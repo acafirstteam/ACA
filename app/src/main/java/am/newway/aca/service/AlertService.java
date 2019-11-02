@@ -10,9 +10,7 @@ import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -39,9 +37,9 @@ import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
 import am.newway.aca.ui.student.StudentActivity;
+import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
 public
 class AlertService extends JobService {
@@ -240,27 +238,13 @@ class AlertService extends JobService {
                     nRes = R.drawable.news;
                     break;
             }
-            Bitmap icon = getBitmapFromVectorDrawable( this , nRes );
+            Bitmap icon = Util.getBitmapFromVectorDrawable( this , nRes );
 
             notificationBuilder.setLargeIcon( icon );
             if ( notificationManager != null )
                 notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
                         notificationBuilder.build() );
         }
-    }
-
-    public static
-    Bitmap getBitmapFromVectorDrawable ( Context context , int drawableId ) {
-        Drawable drawable = ContextCompat.getDrawable( context , drawableId );
-
-        Bitmap bitmap =
-                Bitmap.createBitmap( drawable.getIntrinsicWidth() , drawable.getIntrinsicHeight() ,
-                        Bitmap.Config.ARGB_8888 );
-        Canvas canvas = new Canvas( bitmap );
-        drawable.setBounds( 0 , 0 , canvas.getWidth() , canvas.getHeight() );
-        drawable.draw( canvas );
-
-        return bitmap;
     }
 
     private

@@ -89,6 +89,12 @@ class Course {
     }
 
     public
+    String getDescription ( String lang ) {
+        Object obj = description.get( lang );
+        return obj != null ? obj.toString() : "";
+    }
+
+    public
     void setDescription ( final Map<String, Object> description ) {
         this.description = description;
     }
@@ -116,6 +122,12 @@ class Course {
     public
     Map<String, Object> getGroup_name () {
         return group_name;
+    }
+
+    public
+    String getGroup_name ( String lang ) {
+        Object obj = group_name.get( lang );
+        return obj != null ? obj.toString() : "";
     }
 
     public
