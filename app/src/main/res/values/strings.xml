@@ -40,12 +40,11 @@
 	<string name = "devs">Developers</string>
 
 
-	<string-array name = "statusVsisitours">
+	<string-array name = "statusVisitors">
 		<item>Student</item>
-		<item>Admin</item>
-		<item>Lecturers</item>
+		<item>Administrator</item>
+		<item>Lecturer</item>
 		<item>QR View</item>
-
 	</string-array>
 
 	<!-- TODO: Remove or change this placeholder text -->
@@ -137,6 +136,7 @@
 	<string name = "unknown_user">Unknown user</string>
 	<string name = "messages">Notifications</string>
 	<string name = "visitors_list">Visitors list</string>
+	<string name = "edit_student_profile">Edit Student Profile</string>
 
 
 </resources>

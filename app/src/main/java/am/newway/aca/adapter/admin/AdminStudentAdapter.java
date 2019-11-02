@@ -34,6 +34,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
     private Context context;
     private static final int REQUEST_CALL = 1;
     private static final int REQUEST_EMAIL = 1;
+    private static final int REQUEST_SUBJECT = 1;
 
     public
     AdminStudentAdapter ( List<Student> students , Context context ) {
@@ -78,18 +79,21 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
         TextView textEmailStudentItm;
         TextView textPhoneStudentItm;
         TextView textNameStudentItm;
+        TextView textCourseStudentItm;
 
         SimpleDraweeView imageView;
         Student student;
 
 
         ViewHolder ( @NonNull final View itemView ) {
+
             super( itemView );
 
             textViewCourseName = itemView.findViewById( R.id.textDialogCoursesName );
             textNameStudentItm = itemView.findViewById( R.id.textNameStudentItm );
             textEmailStudentItm = itemView.findViewById( R.id.textEmailStudentItm );
             textPhoneStudentItm = itemView.findViewById( R.id.textPhoneStudentItm );
+            textCourseStudentItm = itemView.findViewById( R.id.textCourseStudentItm );
             imageView = itemView.findViewById( R.id.imageViewStudentItem );
 
 
@@ -145,6 +149,7 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
             textNameStudentItm.setText( student.getName() );
             textEmailStudentItm.setText( student.getEmail() );
             textPhoneStudentItm.setText( student.getPhone() );
+            textCourseStudentItm.setText( student.getCourse() );
             imageView.setImageURI( student.getPicture() );
             //imageView.setImageURI(Uri.parse(course.getRes()));
         }
@@ -177,6 +182,8 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
         private
         void sendEmail () {
             String sendEmail = textEmailStudentItm.getText().toString();
+            String[] sendEmails=sendEmail.split( "," );
+            String sendSubject = ("ACA Administration" );
             if ( sendEmail.length() > 0 ) {
 
                 {
@@ -188,7 +195,8 @@ class AdminStudentAdapter extends RecyclerView.Adapter<AdminStudentAdapter.ViewH
                     }
                     else {
                         Intent intent = new Intent( Intent.ACTION_SEND );
-                        intent.putExtra( Intent.EXTRA_EMAIL , sendEmail );
+                        intent.putExtra( Intent.EXTRA_EMAIL , sendEmails );
+                        intent.putExtra( Intent.EXTRA_SUBJECT, sendSubject);
                         intent.setType( "message/rfc822" );
                         context.startActivity(
                                 Intent.createChooser( intent , "choose an email client" ) );
