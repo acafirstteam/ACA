@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public
 class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
 
@@ -40,7 +42,7 @@ class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
         initNavigationBar( 2 );
 
         recyclerView = findViewById( R.id.recycler_view_adminPage_id );
-        final TextView addCourseBtn = findViewById( R.id.admin_add_course_floating_id );
+        final FloatingActionButton addCourseBtn = findViewById( R.id.admin_add_course_floating_id );
         addCourseBtn.setOnClickListener( this );
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager( getApplicationContext() , RecyclerView.VERTICAL , false );
