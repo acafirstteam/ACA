@@ -4,9 +4,15 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import am.newway.aca.service.AlertService;
+import androidx.core.content.ContextCompat;
 
 public
 class Util {
@@ -26,5 +32,20 @@ class Util {
                 ( JobScheduler ) context.getSystemService( context.JOB_SCHEDULER_SERVICE );
         if ( jobScheduler != null )
             jobScheduler.schedule( builder.build() );
+    }
+
+    public static
+    Bitmap getBitmapFromVectorDrawable ( Context context , int drawableId ) {
+        Drawable drawable = ContextCompat.getDrawable( context , drawableId );
+
+        Bitmap bitmap =
+                Bitmap.createBitmap( drawable.getIntrinsicWidth() , drawable.getIntrinsicHeight() ,
+                        Bitmap.Config.ARGB_8888 );
+        Canvas canvas = new Canvas( bitmap );
+        drawable.setBounds( 0 , 0 , canvas.getWidth() , canvas.getHeight() );
+        drawable.setColorFilter( Color.RED, PorterDuff.Mode.MULTIPLY );
+        drawable.draw( canvas );
+
+        return bitmap;
     }
 }

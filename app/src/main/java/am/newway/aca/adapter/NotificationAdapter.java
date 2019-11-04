@@ -1,6 +1,8 @@
 package am.newway.aca.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +100,9 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
         Notification notification;
         String[] type =
                 context.getResources().getStringArray( R.array.notification_type );
+        PorterDuffColorFilter colorFilter =
+                new PorterDuffColorFilter( context.getResources().getColor(R.color.colorPrimaryLight),
+                        PorterDuff.Mode.SRC_IN);
 
         ViewHolder ( @NonNull final View itemView ) {
             super( itemView );
@@ -116,6 +121,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
                 textName.setText( type[notification.getMessageType()] );
                 textDescription.setText( notification.getMessage() );
                 if ( imageView != null ) {
+                    imageView.setColorFilter( colorFilter );
                     switch ( notification.getMessageType() ) {
                         case 0:
                             imageView.setImageResource( R.drawable.message ); break;

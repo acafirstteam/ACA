@@ -15,7 +15,7 @@
 		android:fullBackupContent = "true"
 		android:hardwareAccelerated = "true"
 		android:icon = "@mipmap/ic_launcher"
-		android:label = "@string/app_name"
+		android:label =  "@string/app_name"
 		android:roundIcon = "@mipmap/ic_launcher_round"
 		android:supportsRtl = "true"
 		android:theme = "@style/AppTheme">
@@ -29,8 +29,8 @@
 
 		<activity
 			android:name = ".ui.student.StudentActivity"
-			android:launchMode = "singleTop"
 			android:label = "@string/visitors_list"
+			android:launchMode = "singleTop"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar" />
 
@@ -94,17 +94,19 @@
 		<activity
 			android:name = ".ui.admin.AdminStudentActivity"
 			android:screenOrientation = "portrait"
+			android:label="@string/edit_student_profile"
 			android:theme = "@style/AppTheme.NoActionBar" />
 
 		<activity
 			android:name = ".ui.admin.AdminCourseActivity"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar" />
-        <activity android:name=".AdminEditCourseActivity"
-			android:screenOrientation = "portrait"
-			android:theme="@style/AppTheme.NoActionBar"
-			android:windowSoftInputMode="stateHidden|adjustResize"/>
 
+		<activity
+			android:name = ".AdminEditCourseActivity"
+			android:screenOrientation = "portrait"
+			android:theme = "@style/AppTheme.NoActionBar"
+			android:windowSoftInputMode = "stateHidden|adjustResize" />
 
 		<service
 			android:name = ".service.AlertService"

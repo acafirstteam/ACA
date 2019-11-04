@@ -86,6 +86,14 @@
 	<string name = "log_out">Դուրս գալ</string>
 	<string name = "title_activity_licenses">Արտոնագրեր</string>
 	<string name = "devs">Ծրագրավորողներ</string>
+
+	<string-array name = "statusVisitors">
+		<item>Ուսանող</item>
+		<item>Ադմինիստրատոր</item>
+		<item>Դասախոս</item>
+		<item>QR</item>
+	</string-array>
+
 	<string name = "finish">Ավարտ</string>
 	<string name = "back">Վերադառնալ</string>
 	<string name = "code">{code}</string>
@@ -111,6 +119,10 @@
 	<string name = "unknown_user">Անհայտ օգտատեր</string>
 	<string name = "visitors_list">Այցելուների ցանկ</string>
 	<string name = "messages">Հաղորդագրություններ</string>
+	<string name = "visit_time">Այցել. ժամ</string>
+	<string name = "end_time">Ավար. ժամը</string>
+	<string name = "duration">Տևողութ.</string>
+	<string name = "edit_student_profile">Խմբագրել այցելուի պրոֆիլը</string>
 
 
 </resources>

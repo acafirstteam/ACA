@@ -5,132 +5,136 @@
 	xmlns:tools = "http://schemas.android.com/tools"
 	android:layout_width = "match_parent"
 	android:layout_height = "wrap_content"
-	android:background = "@drawable/item_shape"
 	android:layout_marginRight = "6dp"
+	android:background = "@drawable/item_shape"
 	android:padding = "12dp">
 
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/imageViewStudentItem"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        fresco:backgroundImage="@color/colorPrimaryLight"
-        fresco:fadeDuration="300"
-        fresco:placeholderImage="@mipmap/ic_launcher"
-        fresco:placeholderImageScaleType="centerCrop"
-        fresco:roundAsCircle="true"
-        fresco:roundingBorderColor="@color/colorPrimaryDark" />
+	<com.facebook.drawee.view.SimpleDraweeView
+		android:id = "@+id/imageViewStudentItem"
+		android:layout_width = "96dp"
+		android:layout_height = "96dp"
+		app:layout_constraintLeft_toLeftOf = "parent"
+		app:layout_constraintTop_toTopOf = "parent"
+		fresco:backgroundImage = "@color/colorPrimaryLight"
+		android:layout_marginTop="15dp"
+		android:layout_marginLeft="10dp"
+		fresco:fadeDuration = "300"
+		fresco:placeholderImage = "@mipmap/ic_launcher"
+		fresco:placeholderImageScaleType = "centerCrop"
+		fresco:roundAsCircle = "true"
+		fresco:roundingBorderColor = "@color/colorPrimaryDark" />
 
-    <TextView
-        android:id="@+id/textNameStudentItm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textCourseStudentItm"
-        app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Arsen" />
+	<TextView
+		android:id = "@+id/textNameStudentItm"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "15dp"
+		android:layout_marginTop = "4dp"
 
-    <TextView
-        android:id="@+id/textCourseStudentItm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="4dp"
-        android:drawableStart="@drawable/ic_school_black_24dp"
-        android:drawablePadding="8dp"
+		android:textSize = "30sp"
+		app:layout_constraintBottom_toTopOf = "@+id/textCourseStudentItm"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintStart_toEndOf = "@+id/imageViewStudentItem"
+		app:layout_constraintTop_toTopOf = "parent"
+		tools:text = "Arsen" />
 
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textPhoneStudentItm"
-        app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNameStudentItm"
-        android:text="@string/course" />
+	<TextView
+		android:id = "@+id/textCourseStudentItm"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "15dp"
 
-    <TextView
-        android:id = "@+id/textPhoneStudentItm"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_marginStart = "15dp"
-        android:layout_marginTop = "4dp"
-        android:drawableStart = "@drawable/ic_phone_black_24dp"
-        android:drawablePadding = "8dp"
+		android:layout_marginTop = "4dp"
+		android:drawableStart = "@drawable/ic_school_black_24dp"
+		android:drawablePadding = "8dp"
 
-        android:text = "@string/number_of_student"
-        android:textSize = "18sp"
-        app:layout_constraintBottom_toTopOf = "@+id/textEmailStudentItm"
-        app:layout_constraintLeft_toRightOf = "@+id/imageViewStudentItem"
-        app:layout_constraintRight_toRightOf = "parent"
-        app:layout_constraintTop_toBottomOf = "@+id/textCourseStudentItm" />
+		android:text = "@string/course"
+		android:textSize = "18sp"
+		app:layout_constraintBottom_toTopOf = "@+id/textPhoneStudentItm"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintStart_toEndOf = "@+id/imageViewStudentItem"
+		app:layout_constraintTop_toBottomOf = "@+id/textNameStudentItm" />
 
-    <TextView
-        android:id="@+id/textEmailStudentItm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="4dp"
-        android:drawableStart="@drawable/ic_email"
-        android:drawablePadding="8dp"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/imageViewStudentItem"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textPhoneStudentItm"
-        tools:text="mail.com" />
-    <!--<LinearLayout
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
-       app:layout_constraintRight_toRightOf="parent"
-       app:layout_constraintTop_toTopOf="parent">
+	<TextView
+		android:id = "@+id/textPhoneStudentItm"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "15dp"
+		android:layout_marginTop = "4dp"
+		android:drawableStart = "@drawable/ic_phone_black_24dp"
+		android:drawablePadding = "8dp"
 
-       <TextView
-           android:id="@+id/textNameStudentItm"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginStart="10dp"
-           android:layout_marginTop="4dp"
-           android:textSize="30sp"
-           tools:text="Arsen" />
+		android:text = "@string/number_of_student"
+		android:textSize = "18sp"
+		app:layout_constraintBottom_toTopOf = "@+id/textEmailStudentItm"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintStart_toEndOf = "@+id/imageViewStudentItem"
+		app:layout_constraintTop_toBottomOf = "@+id/textCourseStudentItm" />
 
-       <TextView
-           android:id="@+id/textCourseStudentItm"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginStart="15dp"
-           android:layout_marginTop="4dp"
-           android:drawableStart="@drawable/ic_school_black_24dp"
-           android:drawablePadding="8dp"
-           android:textSize="18sp"
-           tools:text="Android" />
+	<TextView
+		android:id = "@+id/textEmailStudentItm"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_marginStart = "15dp"
+		android:layout_marginTop = "4dp"
+		android:drawableStart = "@drawable/ic_email"
+		android:drawablePadding = "8dp"
+		android:textSize = "18sp"
+		app:layout_constraintBottom_toBottomOf = "parent"
+		app:layout_constraintRight_toRightOf = "parent"
+		app:layout_constraintStart_toEndOf = "@+id/imageViewStudentItem"
+		app:layout_constraintTop_toBottomOf = "@+id/textPhoneStudentItm"
+		tools:text = "mail.com" />
+	<!--<LinearLayout
+	   android:layout_width="0dp"
+	   android:layout_height="wrap_content"
+	   android:orientation="vertical"
+	   app:layout_constraintLeft_toRightOf="@+id/imageViewStudentItem"
+	   app:layout_constraintRight_toRightOf="parent"
+	   app:layout_constraintTop_toTopOf="parent">
 
-       <TextView
-           android:id="@+id/textEmailStudentItm"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginStart="15dp"
-           android:layout_marginTop="4dp"
-           android:drawableStart="@drawable/ic_email"
-           android:drawablePadding="8dp"
-           android:textSize="18sp"
-           tools:text="mail.com" />
+	   <TextView
+		   android:id="@+id/textNameStudentItm"
+		   android:layout_width="match_parent"
+		   android:layout_height="wrap_content"
+		   android:layout_marginStart="10dp"
+		   android:layout_marginTop="4dp"
+		   android:textSize="30sp"
+		   tools:text="Arsen" />
 
-       <TextView
-           android:id="@+id/textPhoneStudentItm"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginStart="15dp"
-           android:layout_marginTop="4dp"
-           android:drawableStart="@drawable/ic_phone_black_24dp"
-           android:drawablePadding="8dp"
-           android:textSize="18sp"
-           tools:text="+37498800869" />
+	   <TextView
+		   android:id="@+id/textCourseStudentItm"
+		   android:layout_width="match_parent"
+		   android:layout_height="wrap_content"
+		   android:layout_marginStart="15dp"
+		   android:layout_marginTop="4dp"
+		   android:drawableStart="@drawable/ic_school_black_24dp"
+		   android:drawablePadding="8dp"
+		   android:textSize="18sp"
+		   tools:text="Android" />
+
+	   <TextView
+		   android:id="@+id/textEmailStudentItm"
+		   android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		   android:layout_marginStart="15dp"
+		   android:layout_marginTop="4dp"
+		   android:drawableStart="@drawable/ic_email"
+		   android:drawablePadding="8dp"
+		   android:textSize="18sp"
+		   tools:text="mail.com" />
+
+	   <TextView
+		   android:id="@+id/textPhoneStudentItm"
+		   android:layout_width="match_parent"
+		   android:layout_height="wrap_content"
+		   android:layout_marginStart="15dp"
+		   android:layout_marginTop="4dp"
+		   android:drawableStart="@drawable/ic_phone_black_24dp"
+		   android:drawablePadding="8dp"
+		   android:textSize="18sp"
+		   tools:text="+37498800869" />
 
 
 
