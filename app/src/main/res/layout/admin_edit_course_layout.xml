@@ -22,4 +22,19 @@
 
 	<include layout = "@layout/content_admin_edit_course" />
 
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/admin_edit_Save_btn_id"
+			android:src="@drawable/check_symbol"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:fabCustomSize="50dp"
+			android:layout_margin="16dp"
+			android:layout_width="50dp"
+			android:layout_height="50dp"/>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

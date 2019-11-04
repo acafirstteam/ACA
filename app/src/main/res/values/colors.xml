@@ -42,6 +42,8 @@
 	<color name = "dot_light_screen4">#e4b5fc</color>
 	<color name = "white">#FFF</color>
 	<color name = "green">#7A7A7A</color>
-	<color name = "color_course_item">#ddffec</color>
+	<color name = "color_course_item">#eeeeee</color>
 	<color name = "recycler_view_item">#CFD8DC</color>
+	<color name = "edit_item_layout">#eeeeee</color>
+
 </resources>
