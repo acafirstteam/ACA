@@ -17,7 +17,7 @@
 			android:layout_height = "match_parent">
 
 			<com.facebook.drawee.view.SimpleDraweeView
-				android:id = "@+id/admin_edit_imageView_id"
+				android:id = "@+id/imageView"
 				android:layout_width = "120dp"
 				android:layout_height = "120dp"
 				android:layout_margin = "8dp"
@@ -39,8 +39,8 @@
 				android:layout_marginTop = "14dp"
 				android:text = "Course Name:"
 				android:textSize = "18sp"
-				app:layout_constraintLeft_toRightOf = "@+id/admin_edit_imageView_id"
-				app:layout_constraintTop_toTopOf = "@+id/admin_edit_imageView_id" />
+				app:layout_constraintLeft_toRightOf = "@+id/imageView"
+				app:layout_constraintTop_toTopOf = "@+id/imageView" />
 
 			<EditText
 				android:id = "@+id/admin_edit_courseName_id"
@@ -50,7 +50,7 @@
 				android:layout_marginTop = "8dp"
 				android:singleLine = "true"
 				android:textSize = "18sp"
-				app:layout_constraintLeft_toRightOf = "@+id/admin_edit_imageView_id"
+				app:layout_constraintLeft_toRightOf = "@+id/imageView"
 				app:layout_constraintTop_toBottomOf = "@+id/admin_courseName_TV_id"
 				tools:text = "course name" />
 
@@ -64,7 +64,7 @@
 			android:text = "Lecturer:"
 			android:textSize = "18sp"
 			app:layout_constraintLeft_toLeftOf = "parent"
-			app:layout_constraintTop_toBottomOf = "@+id/admin_edit_imageView_id" />
+			app:layout_constraintTop_toBottomOf = "@+id/imageView" />
 
 		<EditText
 			android:id = "@+id/admin_edit_lecturerEng_id"

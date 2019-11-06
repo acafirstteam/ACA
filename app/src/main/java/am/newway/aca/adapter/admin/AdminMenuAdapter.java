@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.AdminItem;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,12 +25,10 @@ public
 class AdminMenuAdapter extends RecyclerView.Adapter<AdminMenuAdapter.ViewHolder> {
     private Context context;
     private String lang;
-    private RecyclerViewAnimator mAnimator;
     private List<AdminItem> items;
 
     public
-    AdminMenuAdapter ( Context context , RecyclerViewAnimator mAnimator ) {
-        this.mAnimator = mAnimator;
+    AdminMenuAdapter ( Context context ) {
         this.context = context;
         items = new ArrayList<>();
     }
@@ -57,8 +54,6 @@ class AdminMenuAdapter extends RecyclerView.Adapter<AdminMenuAdapter.ViewHolder>
         View view;
         view = LayoutInflater.from( parent.getContext() )
                 .inflate( R.layout.admin_item , parent , false );
-
-        mAnimator.onCreateViewHolder( view );
 
         return new ViewHolder( view );
     }

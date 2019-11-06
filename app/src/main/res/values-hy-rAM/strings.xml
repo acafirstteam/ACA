@@ -18,7 +18,7 @@
 	<string name = "menu_company">Կազմակերպություն</string>
 	<string name = "menu_about">Ծրագրի մասին</string>
 	<string name = "menu_about_new">Մասին․․․</string>
-	<string name = "history">Պատմություն</string>
+	<string name = "history">Այցելություն</string>
 	<string name = "menu_settings">Կարգավորումներ</string>
 
 	<string name = "snackbar">Սեղմեք ևս մեկ անգամ կամ սեղմեք "Փակել"</string>
@@ -88,6 +88,7 @@
 	<string name = "devs">Ծրագրավորողներ</string>
 
 	<string-array name = "statusVisitors">
+		<item>Ընտրել</item>
 		<item>Ուսանող</item>
 		<item>Ադմինիստրատոր</item>
 		<item>Դասախոս</item>
@@ -123,6 +124,15 @@
 	<string name = "end_time">Ավար. ժամը</string>
 	<string name = "duration">Տևողութ.</string>
 	<string name = "edit_student_profile">Խմբագրել այցելուի պրոֆիլը</string>
+	<string name = "call">Զանգել</string>
+	<string name = "call_title">Հնարավոր է նաև այս տարբերակով։ Մենք առաջարկում ենք զանգել։</string>
+	<string name = "like_to_call">Ցանկանում եք զանգե՞լ</string>
+	<string name = "empty_phone">Դատարկ հեռախոսահամար</string>
+	<string name = "empty_course">Անհայտ դաս</string>
+	<string name = "select_group">Ընտրել</string>
+	<string name = "no_phone_number">Այցելուն համարը չունի</string>
+	<string name = "course_name">Դասի անվանումը</string>
+	<string name = "link">Հղում</string>
 
 
 </resources>

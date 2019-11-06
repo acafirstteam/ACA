@@ -3,8 +3,11 @@ package am.newway.aca;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -46,6 +49,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.PermissionChecker;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -370,12 +374,12 @@ class BaseActivity extends AppCompatActivity {
     }
 
     protected
-    void showNavigationItem ( boolean blt ) {
+    void showNavigationItem ( int id, boolean blt ) {
         NavigationView navigationView = findViewById( R.id.nav_view );
 
         if ( navigationView != null ) {
             Menu nav_Menu = navigationView.getMenu();
-            nav_Menu.findItem( R.id.nav_admin ).setVisible( blt );
+            nav_Menu.findItem( id ).setVisible( blt );
         }
         else
             Log.e( TAG , "showNavigationItem: navigationView is null" );
@@ -396,12 +400,13 @@ class BaseActivity extends AppCompatActivity {
 
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem( R.id.nav_admin ).setVisible( false );
+        nav_Menu.findItem( R.id.nav_history ).setVisible( false );
 
         if ( DATABASE.getStudent().getType() == 2 )
-            nav_Menu.findItem( R.id.nav_admin )
-                    .setCheckable( true )
-                    .setChecked( true )
-                    .setVisible( true );
+            nav_Menu.findItem( R.id.nav_admin ).setCheckable( true ).setVisible( true );
+
+        if ( !"-1".equals( DATABASE.getStudent().getId() ) )
+            nav_Menu.findItem( R.id.nav_history ).setCheckable( true ).setVisible( true );
 
         final AppBarConfiguration mAppBarConfiguration =
                 new AppBarConfiguration.Builder( R.id.nav_home , R.id.nav_settings ,
@@ -597,5 +602,36 @@ class BaseActivity extends AppCompatActivity {
             Log.e( TAG , "getHomeFragment: " + fragment.getClass().getName() );
 
         return homeFragment;
+    }
+
+    protected
+    boolean selfPermissionGranted ( String permission ) {
+        // For Android < Android M, self permissions are always granted.
+        boolean result = true;
+
+        int targetSdkVersion = 0;
+
+        try {
+            final PackageInfo info = getPackageManager().getPackageInfo( getPackageName() , 0 );
+            targetSdkVersion = info.applicationInfo.targetSdkVersion;
+        } catch ( PackageManager.NameNotFoundException e ) {
+            e.printStackTrace();
+        }
+
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
+
+            if ( targetSdkVersion >= Build.VERSION_CODES.M ) {
+                // targetSdkVersion >= Android M, we can
+                // use Context#checkSelfPermission
+                result = checkSelfPermission( permission ) == PackageManager.PERMISSION_GRANTED;
+            }
+            else {
+                // targetSdkVersion < Android M, we have to use PermissionChecker
+                result = PermissionChecker.checkSelfPermission( this , permission ) ==
+                        PermissionChecker.PERMISSION_GRANTED;
+            }
+        }
+
+        return result;
     }
 }

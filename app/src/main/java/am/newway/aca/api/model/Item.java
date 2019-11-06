@@ -1,4 +1,4 @@
-package am.newway.aca.ui.fragments.model;
+package am.newway.aca.api.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

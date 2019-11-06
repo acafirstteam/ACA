@@ -46,6 +46,7 @@ class Firestore {
     private StorageReference storageReference;
     private static String NOTIFICATION_COLLECTION = "Notification";
     private static String VISIT_COLLECTION = "Visits";
+    private static String VISIT_GROUPS = "Groups";
     private static String STUDENT_COLLECTION = "Students";
     private static String COURSE_COLLECTION = "Courses";
     private static String QR_COLLECTION = "QR";
@@ -451,53 +452,59 @@ class Firestore {
     }
 
     public
-    void getNotifications ( final OnNotificationListener listener ) {
+    void getNotifications ( boolean onlyNews , final OnNotificationListener listener ) {
         initFirestore();
 
-        db.collection( NOTIFICATION_COLLECTION )
-                .orderBy( "date" , Query.Direction.DESCENDING )
-                .limit( 20 )
-                .get()
-                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public
-                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
-                        if ( task.isSuccessful() ) {
-                            List<Notification> notifications = new ArrayList<>();
-                            if ( task.getResult() != null ) {
-                                List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                                for ( DocumentSnapshot doc : docs ) {
-                                    Notification notification = doc.toObject( Notification.class );
-                                    notifications.add( notification );
-                                }
-                                if ( listener != null )
-                                    listener.OnNotificationRead( notifications );
-                            }
-                            else {
-                                Log.e( TAG , "getResult is null" );
-                                if ( listener != null )
-                                    listener.OnNotificationFailed();
-                            }
-                        }
-                        else {
-                            Log.e( TAG , "task is not Successful" );
-                            if ( listener != null )
-                                listener.OnNotificationFailed();
-                        }
-                    }
-                } );
-    }
+        CollectionReference ref = db.collection( NOTIFICATION_COLLECTION );
+        Query query;
 
+        if ( onlyNews ) {
+            query = ref.whereEqualTo( "messageType" , 2 )
+                    .orderBy( "date" , Query.Direction.DESCENDING )
+                    .limit( 20 );
+        }
+        else {
+            query = ref.orderBy( "date" , Query.Direction.DESCENDING ).limit( 20 );
+        }
+
+        query.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public
+            void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                if ( task.isSuccessful() ) {
+                    List<Notification> notifications = new ArrayList<>();
+                    if ( task.getResult() != null ) {
+                        List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                        for ( DocumentSnapshot doc : docs ) {
+                            Notification notification = doc.toObject( Notification.class );
+                            notifications.add( notification );
+                        }
+                        if ( listener != null )
+                            listener.OnNotificationRead( notifications );
+                    }
+                    else {
+                        Log.e( TAG , "getResult is null" );
+                        if ( listener != null )
+                            listener.OnNotificationFailed();
+                    }
+                }
+                else {
+                    Log.e( TAG , "task is not Successful" );
+                    if ( listener != null )
+                        listener.OnNotificationFailed();
+                }
+            }
+        } );
+    }
 
     public
     void getCourses ( final OnCourseReadListener listener ) {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
-        //this.listener_course = listener;
+        initFirestore();
 
         final String COURSE_COLLECTION = "Courses";
         db.collection( COURSE_COLLECTION )
-                .orderBy( "group_name" )
+                .whereEqualTo( "isdel" , false )
+                .orderBy( "group" )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -573,7 +580,7 @@ class Firestore {
      * Վերադարձնում է նոր ուսանողների ցանկը
      */
     public
-    void getActiveStudents ( final OnStudentsLoadistener listener_student_loading ) {
+    void getActiveStudents ( final OnStudentsLoadListener listener_student_loading ) {
         initFirestore();
         db.collection( STUDENT_COLLECTION )
                 .get()
@@ -604,6 +611,41 @@ class Firestore {
                     }
                 } );
     }
+
+    public
+    void getActiveLecturers ( final OnStudentsLoadListener listener_student_loading ) {
+        initFirestore();
+        db.collection( STUDENT_COLLECTION )
+                .whereEqualTo( "type" , 3 )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<QuerySnapshot> task ) {
+                        List<Student> students = new ArrayList<>();
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            List<DocumentSnapshot> docs = task.getResult().getDocuments();
+                            for ( DocumentSnapshot doc : docs ) {
+                                Student student = doc.toObject( Student.class );
+                                if ( student != null ) {
+                                    student.setId( doc.getId() );
+                                    students.add( student );
+                                }
+                            }
+                        }
+                        if ( listener_student_loading != null )
+                            listener_student_loading.OnStudentLoaded( students );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading students" );
+                    }
+                } );
+    }
+
 
     public
     void sendMessage ( Notification notification ) {
@@ -650,6 +692,43 @@ class Firestore {
                     public
                     void onFailure ( @NonNull final Exception e ) {
                         Log.e( TAG , "onFailure: loading visits" );
+                    }
+                } );
+    }
+
+    public
+    void getGroups ( int id , final OnGroupReadListener listener ) {
+        if ( id == 0 )
+            return;
+
+        id--;
+        initFirestore();
+        Log.e( TAG , "getGroups: " + id );
+        db.collection( VISIT_GROUPS )
+                .document( String.valueOf( id ) )
+                .get()
+                .addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull final Task<DocumentSnapshot> task ) {
+                        final Map<String, Object> groups = new HashMap<>();
+                        if ( task.isSuccessful() && task.getResult() != null ) {
+                            DocumentSnapshot docs = task.getResult();
+                            if ( docs != null && docs.get( "en" ) != null &&
+                                    docs.get( "hy" ) != null ) {
+                                groups.put( "en" , docs.get( "en" ).toString() );
+                                groups.put( "hy" , docs.get( "hy" ).toString() );
+                            }
+                        }
+                        if ( listener != null )
+                            listener.OnGroupRead( groups );
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public
+                    void onFailure ( @NonNull final Exception e ) {
+                        Log.e( TAG , "onFailure: loading groups" );
                     }
                 } );
     }
@@ -862,13 +941,15 @@ class Firestore {
             @Override
             public
             void onComplete ( @NonNull final Task<Void> task ) {
-                listener.OnStudentUpdated();
+                if ( listener != null )
+                    listener.OnStudentUpdated();
             }
         } ).addOnFailureListener( new OnFailureListener() {
             @Override
             public
             void onFailure ( @NonNull final Exception e ) {
-                listener.OnStudentUpdateFailed();
+                if ( listener != null )
+                    listener.OnStudentUpdateFailed();
             }
         } );
     }
@@ -904,27 +985,121 @@ class Firestore {
     }
 
     public
-    void addListenerNotifications ( String userId, String course, int nUserType ,
+    void addListenerNotifications ( String userId , String course , int nUserType ,
             final OnNotificationListener listener ) {
         Log.e( TAG , "user type = " + nUserType );
+
+        switch ( nUserType ){
+            case 0: nUserType = 3; break;
+            case 2: nUserType = 1; break;
+            case 3: nUserType = 2; break;
+        }
+        Log.e( TAG , "user type = " + nUserType );
+
         initFirestore();
         final CollectionReference collRef = db.collection( NOTIFICATION_COLLECTION );
+        Query query1 = collRef.whereEqualTo( "messageSegment" , 0 );
+        Query query2 =
+                collRef.whereEqualTo( "messageSegment" , nUserType ).whereEqualTo( "user" , null );
+        Query query3 = collRef.whereEqualTo( "messageSegment" , nUserType )
+                .whereEqualTo( "user" , userId );
+        Query query4 = collRef.whereEqualTo( "messageSegment" , 4 ).whereEqualTo( "user" , null );
+        Query query5 = collRef.whereEqualTo( "messageSegment" , 4 ).whereEqualTo( "user" , course );
 
-        collRef.whereEqualTo( "messageSegment" , 0 );
-        collRef.whereEqualTo( "messageSegment" , nUserType )
-        .whereEqualTo( "user", "");
-        collRef.whereEqualTo( "messageSegment" , nUserType )
-        .whereEqualTo( "user", userId);
-        collRef.whereEqualTo( "messageSegment" , 4 )
-        .whereEqualTo( "user", "");
-        collRef.whereEqualTo( "messageSegment" , 4 )
-        .whereEqualTo( "user", course);
-        collRef.addSnapshotListener( new EventListener<QuerySnapshot>() {
+        query1.addSnapshotListener( new EventListener<QuerySnapshot>() {
             @Override
             public
             void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
                     @Nullable final FirebaseFirestoreException e ) {
-                if ( e != null ) {
+                if ( e != null || queryDocumentSnapshots == null ) {
+                    Log.w( TAG , "listen:error" , e );
+                    return;
+                }
+
+                for ( DocumentChange dc : queryDocumentSnapshots.getDocumentChanges() ) {
+                    if ( dc.getType() == DocumentChange.Type.ADDED ) {
+                        Notification notification = dc.getDocument().toObject( Notification.class );
+
+                        notification.setId( Integer.valueOf( dc.getDocument().getId() ) );
+                        if ( listener != null )
+                            listener.OnNewNotification( notification );
+
+                    }
+                }
+            }
+        } );
+        query2.addSnapshotListener( new EventListener<QuerySnapshot>() {
+            @Override
+            public
+            void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
+                    @Nullable final FirebaseFirestoreException e ) {
+                if ( e != null || queryDocumentSnapshots == null ) {
+                    Log.w( TAG , "listen:error" , e );
+                    return;
+                }
+
+                for ( DocumentChange dc : queryDocumentSnapshots.getDocumentChanges() ) {
+                    if ( dc.getType() == DocumentChange.Type.ADDED ) {
+                        Notification notification = dc.getDocument().toObject( Notification.class );
+
+                        notification.setId( Integer.valueOf( dc.getDocument().getId() ) );
+                        if ( listener != null )
+                            listener.OnNewNotification( notification );
+
+                    }
+                }
+            }
+        } );
+        query3.addSnapshotListener( new EventListener<QuerySnapshot>() {
+            @Override
+            public
+            void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
+                    @Nullable final FirebaseFirestoreException e ) {
+                if ( e != null || queryDocumentSnapshots == null ) {
+                    Log.w( TAG , "listen:error" , e );
+                    return;
+                }
+
+                for ( DocumentChange dc : queryDocumentSnapshots.getDocumentChanges() ) {
+                    if ( dc.getType() == DocumentChange.Type.ADDED ) {
+                        Notification notification = dc.getDocument().toObject( Notification.class );
+
+                        notification.setId( Integer.valueOf( dc.getDocument().getId() ) );
+                        if ( listener != null )
+                            listener.OnNewNotification( notification );
+
+                    }
+                }
+            }
+        } );
+        query4.addSnapshotListener( new EventListener<QuerySnapshot>() {
+            @Override
+            public
+            void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
+                    @Nullable final FirebaseFirestoreException e ) {
+                if ( e != null || queryDocumentSnapshots == null ) {
+                    Log.w( TAG , "listen:error" , e );
+                    return;
+                }
+
+                for ( DocumentChange dc : queryDocumentSnapshots.getDocumentChanges() ) {
+                    if ( dc.getType() == DocumentChange.Type.ADDED ) {
+                        Notification notification = dc.getDocument().toObject( Notification.class );
+
+                        notification.setId( Integer.valueOf( dc.getDocument().getId() ) );
+                        if ( listener != null )
+                            listener.OnNewNotification( notification );
+
+                    }
+                }
+            }
+        } );
+        query5.addSnapshotListener( new EventListener<QuerySnapshot>() {
+            @Override
+            public
+            void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
+                    @Nullable final FirebaseFirestoreException e ) {
+                if ( e != null || queryDocumentSnapshots == null ) {
                     Log.w( TAG , "listen:error" , e );
                     return;
                 }
@@ -1142,6 +1317,11 @@ class Firestore {
     }
 
     public
+    interface OnGroupReadListener {
+        void OnGroupRead ( Map<String, Object> groups );
+    }
+
+    public
     interface OnVisitAddListener {
         void OnChangeConfirmed ( Visit visit );
     }
@@ -1168,7 +1348,7 @@ class Firestore {
     }
 
     public
-    interface OnStudentsLoadistener {
+    interface OnStudentsLoadListener {
         void OnStudentLoaded ( @Nullable List<Student> students );
     }
 

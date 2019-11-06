@@ -3,13 +3,14 @@ package am.newway.aca.template;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 @IgnoreExtraProperties
 public
-class Course {
+class Course implements Serializable {
     private String name;
     private String link = "";
     private Map<String, Object> description;

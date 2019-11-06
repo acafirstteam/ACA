@@ -7,14 +7,14 @@
 	android:layout_height = "match_parent"
 	android:padding = "5dp"
 	app:layout_behavior = "@string/appbar_scrolling_view_behavior"
-	tools:context = ".ui.admin.AdminStudentActivity"
+	tools:context = ".ui.admin.AdminStudentEditActivity"
 	tools:showIn = "@layout/activity_admin_student">
 
 	<com.facebook.drawee.view.SimpleDraweeView
 		android:id = "@+id/imageViewStudentItemA"
 		android:layout_width = "96dp"
 		android:layout_height = "96dp"
-		android:layout_marginTop = "24dp"
+		android:layout_marginTop = "16dp"
 		app:layout_constraintLeft_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
 		app:layout_constraintTop_toTopOf = "parent"
@@ -26,7 +26,7 @@
 		fresco:roundingBorderColor = "@color/colorPrimaryDark" />
 
 	<TextView
-		android:id = "@+id/textNameStudentItmA"
+		android:id = "@+id/student_name"
 		android:layout_width = "0dp"
 		android:layout_height = "wrap_content"
 		android:gravity = "center"
@@ -40,10 +40,11 @@
 	<!--		app:layout_constraintRight_toLeftOf = "textPhoneStudentItmA"-->
 
 	<TextView
-		android:id = "@+id/textPhoneStudentItmA"
+		android:id = "@+id/student_phone"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "15dp"
+		android:layout_marginStart = "20dp"
+		android:layout_marginEnd = "20dp"
 		android:layout_marginTop = "24dp"
 		android:drawableStart = "@drawable/ic_phone_black_24dp"
 		android:drawablePadding = "8dp"
@@ -51,41 +52,42 @@
 		android:textSize = "18sp"
 		app:layout_constraintRight_toLeftOf = "parent"
 		app:layout_constraintRight_toRightOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/textNameStudentItmA" />
+		app:layout_constraintTop_toBottomOf = "@+id/student_name" />
 
 	<TextView
-		android:id = "@+id/textEmailStudentItmA"
+		android:id = "@+id/student_email"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "15dp"
+		android:layout_marginStart = "20dp"
+		android:layout_marginEnd = "20dp"
 		android:layout_marginTop = "24dp"
 		android:drawableStart = "@drawable/ic_email"
 		android:drawablePadding = "8dp"
 		android:textSize = "18sp"
 		app:layout_constraintRight_toRightOf = "parent"
 		app:layout_constraintStart_toStartOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/textPhoneStudentItmA"
+		app:layout_constraintTop_toBottomOf = "@+id/student_phone"
 		tools:text = "mail.com" />
 
 	<TextView
 		android:id = "@+id/textForChosseStatus"
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "25dp"
+		android:layout_marginStart = "20dp"
 		android:layout_marginTop = "26dp"
 		android:text = "@string/choose_status_for_visitor"
 		android:textSize = "14sp"
 		app:layout_constraintLeft_toLeftOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/textEmailStudentItmA" />
+		app:layout_constraintTop_toBottomOf = "@+id/student_email" />
 
 
 	<Spinner
-		android:id = "@+id/spinner"
+		android:id = "@+id/spinner_segment"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "20dp"
+		android:layout_marginStart = "16dp"
 		android:layout_marginTop = "8dp"
-		android:layout_marginEnd = "15dp"
+		android:layout_marginEnd = "16dp"
 		android:dropDownHeight = "100dp"
 		android:gravity = "center"
 		android:textStyle = "bold"
@@ -97,22 +99,22 @@
 		android:id = "@+id/TextChoseLevel"
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "25dp"
+		android:layout_marginStart = "20dp"
 		android:layout_marginTop = "26dp"
 		android:layout_marginEnd = "15dp"
 		android:gravity = "center"
 		android:text = "@string/please_choose_the_level"
 		android:textSize = "14sp"
 		app:layout_constraintLeft_toLeftOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/spinner" />
+		app:layout_constraintTop_toBottomOf = "@+id/spinner_segment" />
 
 	<Spinner
-		android:id = "@+id/spinner1"
+		android:id = "@+id/spinner_group"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "20dp"
+		android:layout_marginStart = "16dp"
 		android:layout_marginTop = "8dp"
-		android:layout_marginEnd = "15dp"
+		android:layout_marginEnd = "16dp"
 		android:dropDownHeight = "100dp"
 		android:gravity = "center"
 		android:textStyle = "bold"
@@ -124,20 +126,20 @@
 		android:id = "@+id/TextChoseCourse"
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "25dp"
+		android:layout_marginStart = "20dp"
 		android:layout_marginTop = "26dp"
-		android:layout_marginEnd = "15dp"
+		android:layout_marginEnd = "16dp"
 		android:gravity = "center"
 		android:text = "@string/please_choose_the_course"
 		android:textSize = "14sp"
 		app:layout_constraintLeft_toLeftOf = "parent"
-		app:layout_constraintTop_toBottomOf = "@+id/spinner1" />
+		app:layout_constraintTop_toBottomOf = "@id/spinner_group" />
 
 	<Spinner
-		android:id = "@+id/spinner2"
+		android:id = "@+id/spinner_course"
 		android:layout_width = "match_parent"
 		android:layout_height = "wrap_content"
-		android:layout_marginStart = "20dp"
+		android:layout_marginStart = "16dp"
 		android:layout_marginTop = "8dp"
 		android:layout_marginEnd = "15dp"
 		android:textStyle = "bold"
@@ -146,7 +148,7 @@
 		app:layout_constraintTop_toBottomOf = "@+id/TextChoseCourse" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id = "@+id/btndoneForstatus"
+		android:id = "@+id/fab"
 		android:layout_width = "wrap_content"
 		android:layout_height = "wrap_content"
 		android:layout_gravity = "bottom|end"

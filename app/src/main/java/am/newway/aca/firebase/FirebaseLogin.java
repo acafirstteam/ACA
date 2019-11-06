@@ -269,6 +269,7 @@ class FirebaseLogin extends BaseActivity {
         Student student = DATABASE.getStudent();
         student.setName( fullName.getText(  ).toString() );
         student.setPhone( phone.getText(  ).toString() );
+        //DATABASE.setStudent( student );
 
         setResult( 1 );
         this.finish();

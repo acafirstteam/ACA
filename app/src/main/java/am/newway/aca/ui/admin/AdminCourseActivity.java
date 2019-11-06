@@ -5,70 +5,71 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import am.newway.aca.AdminEditCourseActivity;
 import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
 import am.newway.aca.adapter.admin.AdminCourseAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Course;
+import am.newway.aca.util.RecyclerViewMargin;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 public
-class AdminCourseActivity extends BaseActivity implements View.OnClickListener {
+class AdminCourseActivity extends BaseActivity {
 
-    private final String TAG = "AdminCourseActivity";
+    private final String TAG = getClass().getSimpleName();
     private AdminCourseAdapter adapter;
     private RecyclerView recyclerView;
-    private ArrayList<Course> courseItems;
 
     @Override
     protected
     void onCreate ( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_admin_course );
-        setTitle(R.string.courses);
+        setTitle( R.string.courses );
 
         initNavigationBar( 2 );
 
         recyclerView = findViewById( R.id.recycler_view_adminPage_id );
-        final FloatingActionButton addCourseBtn = findViewById( R.id.admin_add_course_floating_id );
-        addCourseBtn.setOnClickListener( this );
+        FloatingActionButton fab = findViewById( R.id.fab );
+        fab.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public
+            void onClick ( final View view ) {
+                Intent intent =
+                        new Intent( AdminCourseActivity.this , AdminCourseEditActivity.class );
+                intent.putExtra( "action" , "add" );
+                intent.putExtra( "pos" , 0 );
+                intent.putExtra( "groups" , adapter.getGroups() );
+                startActivity( intent );
+            }
+        } );
+
         LinearLayoutManager layoutManager =
-                new LinearLayoutManager( getApplicationContext() , RecyclerView.VERTICAL , false );
+                new LinearLayoutManager( this , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
+        RecyclerViewMargin decoration = new RecyclerViewMargin(
+                ( int ) getResources().getDimension( R.dimen.recycler_item_margin2 ), 1 );
+        recyclerView.addItemDecoration( decoration );
 
         FIRESTORE.getCourses( new Firestore.OnCourseReadListener() {
             @Override
             public
             void OnCourseRead ( List<Course> courses ) {
-                courseItems = new ArrayList<>( courses );
-                adapter = new AdminCourseAdapter(getApplicationContext(), courseItems );
+                adapter = new AdminCourseAdapter( AdminCourseActivity.this ,
+                        ( ArrayList<Course> ) courses , DATABASE.getSettings().getLanguage() );
                 recyclerView.setAdapter( adapter );
-                Log.d( TAG , "-------------------------ListSize = " + courseItems.size() );
+                Log.d( TAG , "-------------------------ListSize = " + courses.size() );
             }
         } );
-    }
-
-    @Override
-    public
-    void onClick ( View v ) {
-        Intent intent = new Intent(AdminCourseActivity.this, AdminEditCourseActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("action", "add");
-        bundle.putInt("pos", 0);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override

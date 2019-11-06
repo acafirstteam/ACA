@@ -15,12 +15,12 @@ import java.util.List;
 import am.newway.aca.R;
 
 public
-class MessageTypeSpinnerAdapter extends ArrayAdapter<String> {
+class SingleLineIconSpinnerAdapter extends ArrayAdapter<String> {
 
     private List<Integer> images;
 
     public
-    MessageTypeSpinnerAdapter ( Activity context , int resourceId , int textViewId ,
+    SingleLineIconSpinnerAdapter ( Activity context , int resourceId , int textViewId ,
             List<String> list ) {
 
         super( context , resourceId , textViewId , list );

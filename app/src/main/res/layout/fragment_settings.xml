@@ -57,7 +57,7 @@
 		fresco:placeholderImage = "@drawable/english_flag"
 		fresco:placeholderImageScaleType = "centerCrop"
 		fresco:roundAsCircle = "true"
-		fresco:roundWithOverlayColor = "@color/white"
+		fresco:roundWithOverlayColor = "?android:colorBackground"
 		fresco:roundedCornerRadius = "20dp"
 		fresco:roundingBorderColor = "@color/colorAccentDark"
 		fresco:roundingBorderWidth = "1dp" />
@@ -76,7 +76,7 @@
 		fresco:placeholderImage = "@drawable/armenia_flag"
 		fresco:placeholderImageScaleType = "centerCrop"
 		fresco:roundAsCircle = "true"
-		fresco:roundWithOverlayColor = "@color/white"
+		fresco:roundWithOverlayColor = "?android:colorBackground"
 		fresco:roundedCornerRadius = "20dp"
 		fresco:roundingBorderColor = "@color/colorAccentDark"
 		fresco:roundingBorderWidth = "1dp" />

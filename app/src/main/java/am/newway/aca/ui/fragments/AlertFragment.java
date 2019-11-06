@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ class AlertFragment extends BaseFragment {
     private final String TAG = "Alert";
     private RecyclerView recyclerView;
     private NotificationAdapter adapter;
+    private ProgressBar progressBar;
 
     public
     AlertFragment () {
@@ -64,30 +66,33 @@ class AlertFragment extends BaseFragment {
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager( view.getContext() , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
+        progressBar = view.findViewById( R.id.loading );
 
         adapter =
                 new NotificationAdapter( getActivity() , new RecyclerViewAnimator( recyclerView ) );
         adapter.setLanguage( DATABASE.getSettings().getLanguage() );
 
-        FIRESTORE.getNotifications( new Firestore.OnNotificationListener() {
-            @Override
-            public
-            void OnNotificationRead ( final List<Notification> notifications ) {
-                adapter.setNotifications( notifications );
-                recyclerView.setAdapter( adapter );
-            }
+        FIRESTORE.getNotifications( "-1".equals( DATABASE.getStudent().getId() ) ,
+                new Firestore.OnNotificationListener() {
+                    @Override
+                    public
+                    void OnNotificationRead ( final List<Notification> notifications ) {
+                        adapter.setNotifications( notifications );
+                        recyclerView.setAdapter( adapter );
+                        progressBar.setVisibility( View.GONE );
+                    }
 
-            @Override
-            public
-            void OnNotificationFailed () {
+                    @Override
+                    public
+                    void OnNotificationFailed () {
 
-            }
+                    }
 
-            @Override
-            public
-            void OnNewNotification ( final Notification notification ) {
+                    @Override
+                    public
+                    void OnNewNotification ( final Notification notification ) {
 
-            }
-        } );
+                    }
+                } );
     }
 }

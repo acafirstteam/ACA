@@ -36,7 +36,7 @@ import am.newway.aca.R;
 import am.newway.aca.database.DatabaseHelper;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Student;
-import am.newway.aca.ui.student.StudentActivity;
+import am.newway.aca.ui.admin.student.AdminStudentActivity;
 import am.newway.aca.util.Util;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -179,7 +179,7 @@ class AlertService extends JobService {
         }
 
         Log.e( TAG , "notificationDialog: " + NOTIFICATION_CHANNEL_ID );
-        PendingIntent contentIntent = null;
+        PendingIntent contentIntent;
         if ( NOTIFICATION_CHANNEL_ID.equals( "02" ) ) {
             Intent intent = new Intent( this , MainActivity.class );
             intent.putExtra( "message" , 1 );
@@ -187,7 +187,7 @@ class AlertService extends JobService {
                     PendingIntent.FLAG_UPDATE_CURRENT );
         }
         else {
-            Intent intent = new Intent( this , StudentActivity.class );
+            Intent intent = new Intent( this , AdminStudentActivity.class );
             intent.putExtra( "new" , true );
             contentIntent = PendingIntent.getActivity( this , 0 , intent ,
                     PendingIntent.FLAG_UPDATE_CURRENT );

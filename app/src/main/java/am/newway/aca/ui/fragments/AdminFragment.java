@@ -9,11 +9,10 @@ import java.util.ArrayList;
 
 import am.newway.aca.R;
 import am.newway.aca.adapter.admin.AdminMenuAdapter;
-import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.AdminItem;
 import am.newway.aca.ui.admin.AdminCourseActivity;
 import am.newway.aca.ui.admin.AdminMessageActivity;
-import am.newway.aca.ui.student.StudentActivity;
+import am.newway.aca.ui.admin.student.AdminStudentActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,14 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
  * the {@link AdminFragment#newInstance} factory method to create an instance of this fragment.
  */
 public class AdminFragment extends BaseFragment {
-    private final String TAG = "Admin";
-    private ArrayList<AdminItem> items;
-    private RecyclerView recyclerView;
-    private AdminMenuAdapter adapter;
+    private final String TAG = getClass().getSimpleName();
 
     public
     AdminFragment () {
-        // Required empty public constructor
     }
 
     public static
@@ -60,8 +55,8 @@ public class AdminFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        items = new ArrayList<>(  );
-        recyclerView = view.findViewById( R.id.recycler_view );
+        final ArrayList<AdminItem> items = new ArrayList<>();
+        final RecyclerView recyclerView = view.findViewById( R.id.recycler_view );
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager( view.getContext() , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
@@ -84,7 +79,7 @@ public class AdminFragment extends BaseFragment {
         item.setName( "en", "Visitors" );
         item.setDescription( "en","Assignment tool to change the removal status of the add visitors" );
         item.setRes( R.drawable.student );
-        item.setCl( StudentActivity.class );
+        item.setCl( AdminStudentActivity.class );
 
         items.add( item );
 
@@ -99,7 +94,8 @@ public class AdminFragment extends BaseFragment {
 
         items.add( item );
 
-        adapter = new AdminMenuAdapter( getActivity(), new RecyclerViewAnimator( recyclerView ) );
+        final AdminMenuAdapter adapter =
+                new AdminMenuAdapter( getActivity() );
         adapter.setLanguage( DATABASE.getSettings().getLanguage() );
         adapter.setItems( items );
         recyclerView.setAdapter( adapter );

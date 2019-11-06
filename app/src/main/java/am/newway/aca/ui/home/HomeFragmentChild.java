@@ -30,6 +30,7 @@ class HomeFragmentChild extends Fragment {
     private Context context;
     private int nIndex = 0;
     private String lang;
+    private ProgressBar progressBar;
 
     @Override
     public
@@ -57,7 +58,7 @@ class HomeFragmentChild extends Fragment {
             Bundle savedInstanceState ) {
         View root = inflater.inflate( R.layout.fragment_home_child , container , false );
 
-        final ProgressBar progressBar = root.findViewById( R.id.loading );
+        progressBar = root.findViewById( R.id.loading );
         recyclerView = root.findViewById( R.id.recycler_view );
         recyclerView.setHasFixedSize( true );
         recyclerView.setItemViewCacheSize( 20 );
@@ -76,7 +77,8 @@ class HomeFragmentChild extends Fragment {
 
         recyclerView.setAdapter( courseAdapter );
 
-        progressBar.setVisibility( View.GONE );
+        if(progressBar.getVisibility() == View.VISIBLE)
+            progressBar.setVisibility( View.GONE );
 
         return root;
     }
