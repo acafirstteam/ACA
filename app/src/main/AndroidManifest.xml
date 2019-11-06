@@ -28,7 +28,7 @@
 		</receiver>
 
 		<activity
-			android:name = ".ui.student.StudentActivity"
+			android:name = ".ui.admin.student.AdminStudentActivity"
 			android:label = "@string/visitors_list"
 			android:launchMode = "singleTop"
 			android:screenOrientation = "portrait"
@@ -92,7 +92,7 @@
 			android:theme = "@style/AppTheme.NoActionBar" />
 
 		<activity
-			android:name = ".ui.admin.AdminStudentActivity"
+			android:name = ".ui.admin.AdminStudentEditActivity"
 			android:screenOrientation = "portrait"
 			android:label="@string/edit_student_profile"
 			android:theme = "@style/AppTheme.NoActionBar" />
@@ -103,7 +103,7 @@
 			android:theme = "@style/AppTheme.NoActionBar" />
 
 		<activity
-			android:name = ".AdminEditCourseActivity"
+			android:name = ".ui.admin.AdminCourseEditActivity"
 			android:screenOrientation = "portrait"
 			android:theme = "@style/AppTheme.NoActionBar"
 			android:windowSoftInputMode = "stateHidden|adjustResize" />

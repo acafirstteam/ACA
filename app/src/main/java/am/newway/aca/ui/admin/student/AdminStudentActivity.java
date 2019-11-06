@@ -1,10 +1,13 @@
-package am.newway.aca.ui.student;
+package am.newway.aca.ui.admin.student;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +25,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public
-class StudentActivity extends BaseActivity {
+class AdminStudentActivity extends BaseActivity {
+    public static final int UPDATE_STUDENT_LIST = 1;
     private ProgressBar progressBar;
     private AdminStudentAdapter adminStudentAdapter;
-    private StudentViewModel studentViewModel;
+    private AdminStudentViewModel studentViewModel;
+    public static final int PERMISSIONS_REQUEST_CALL_PHONE = 1;
 
     @Override
     protected
@@ -51,14 +56,14 @@ class StudentActivity extends BaseActivity {
         recyclerView.setDrawingCacheEnabled( true );
         recyclerView.setDrawingCacheQuality( View.DRAWING_CACHE_QUALITY_HIGH );
         studentViewModel =
-                ViewModelProviders.of( this ).get( StudentViewModel.class );
+                ViewModelProviders.of( this ).get( AdminStudentViewModel.class );
 
         RecyclerViewMargin decoration = new RecyclerViewMargin(
-                ( int ) getResources().getDimension( R.dimen.recycler_item_margin ) );
+                ( int ) getResources().getDimension( R.dimen.recycler_item_margin2 ), 1 );
         recyclerView.addItemDecoration( decoration );
         //setHasOptionsMenu( true );
         RecyclerView.LayoutManager mManager =
-                new LinearLayoutManager( StudentActivity.this , LinearLayoutManager.VERTICAL ,
+                new LinearLayoutManager( AdminStudentActivity.this , LinearLayoutManager.VERTICAL ,
                         false );
 
         adminStudentAdapter = new AdminStudentAdapter( new ArrayList<Student>() , this );
@@ -87,5 +92,37 @@ class StudentActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected( item );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+            @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_CALL_PHONE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    adminStudentAdapter.callPhone( );
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    protected
+    void onActivityResult ( final int requestCode , final int resultCode ,
+            @Nullable final Intent data ) {
+        super.onActivityResult( requestCode , resultCode , data );
+
+        if(requestCode == UPDATE_STUDENT_LIST && data != null){
+            ObjectMapper mapper = new ObjectMapper();
+            Student student = mapper.convertValue( data.getSerializableExtra( "map" ),
+                    Student.class );
+            adminStudentAdapter.setStudent( student, resultCode );
+        }
     }
 }

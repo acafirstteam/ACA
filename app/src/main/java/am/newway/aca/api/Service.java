@@ -1,6 +1,6 @@
-package am.newway.aca.ui.fragments.api;
+package am.newway.aca.api;
 
-        import am.newway.aca.ui.fragments.model.Item;
+        import am.newway.aca.api.model.Item;
         import retrofit2.Call;
         import retrofit2.http.GET;
         import retrofit2.http.Path;

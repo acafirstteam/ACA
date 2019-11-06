@@ -37,7 +37,8 @@ class MainActivity extends BaseActivity {
     //private final int PICK_IMAGE_REQUEST = 71;
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected
+    void onNewIntent ( Intent intent ) {
         super.onNewIntent( intent );
         int nMess = intent.getIntExtra( "message" , 0 );
         if ( nMess == 1 ) {
@@ -64,6 +65,7 @@ class MainActivity extends BaseActivity {
 
         Intent intent = getIntent();
         int nMess = intent.getIntExtra( "message" , 0 );
+        //boolean bNew = intent.getBooleanExtra( "new" , false);
         if ( nMess == 1 ) {
             navSelectDestination( 3 );
         }
@@ -93,6 +95,9 @@ class MainActivity extends BaseActivity {
         } );
 
         fab = findViewById( R.id.fab );
+        if(DATABASE.getStudent().getId().equals( "-1" ))
+            fab.setImageResource( R.drawable.ic_login );
+        else fab.setImageResource( R.drawable.qr);
         fab.setOnClickListener( new View.OnClickListener() {
 
             @Override
@@ -162,8 +167,16 @@ class MainActivity extends BaseActivity {
                 finish();
             }
 
-            showNavigationItem( !DATABASE.getStudent().getId().equals( "-1" ) &&
+            showNavigationItem( R.id.nav_admin , !DATABASE.getStudent().getId().equals( "-1" ) &&
                     DATABASE.getStudent().getType() == 2 );
+
+            showNavigationItem( R.id.nav_history , !DATABASE.getStudent().getId().equals( "-1" ) );
+
+            if(DATABASE.getStudent().getId().equals( "-1" ))
+            fab.setImageResource( R.drawable.ic_login );
+            else fab.setImageResource( R.drawable.qr);
+
+            FIRESTORE.updateStudent( DATABASE.getStudent() , null );
 
             //            Student student = DATABASE.getStudent();
             //

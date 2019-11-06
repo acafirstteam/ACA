@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import am.newway.aca.R;
@@ -96,6 +98,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         TextView textDescription;
+        TextView textDate;
         SimpleDraweeView imageView;
         Notification notification;
         String[] type =
@@ -107,6 +110,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
         ViewHolder ( @NonNull final View itemView ) {
             super( itemView );
 
+            textDate = itemView.findViewById( R.id.date_time);
             textDescription = itemView.findViewById( R.id.text_description );
             textName = itemView.findViewById( R.id.text_name );
             imageView = itemView.findViewById( R.id.imageView );
@@ -120,6 +124,10 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
 
                 textName.setText( type[notification.getMessageType()] );
                 textDescription.setText( notification.getMessage() );
+                Date date = notification.getDate();
+                SimpleDateFormat format = new SimpleDateFormat("HH:mm   dd.MM.yyyy");
+                String textD = format.format( date );
+                textDate.setText( textD );
                 if ( imageView != null ) {
                     imageView.setColorFilter( colorFilter );
                     switch ( notification.getMessageType() ) {

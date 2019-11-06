@@ -15,9 +15,9 @@ import java.util.Objects;
 import am.newway.aca.R;
 import am.newway.aca.adapter.DeveloperAdapter;
 import am.newway.aca.firebase.Firestore;
-import am.newway.aca.ui.fragments.api.Client;
-import am.newway.aca.ui.fragments.api.Service;
-import am.newway.aca.ui.fragments.model.Item;
+import am.newway.aca.api.Client;
+import am.newway.aca.api.Service;
+import am.newway.aca.api.model.Item;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,7 +47,6 @@ class AboutFragment extends BaseFragment {
         super.onViewCreated( view , savedInstanceState );
         final RecyclerView recyclerView = view.findViewById( R.id.recycler_view_members );
         progressBar = view.findViewById( R.id.loading );
-
 
         FIRESTORE.getDevelopers( new Firestore.OnDeveloperListener() {
             @Override

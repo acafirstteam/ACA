@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ class HistoryFragment extends BaseFragment {
     private ArrayList<Visit> items;
     private RecyclerView recyclerView;
     private HistoryAdapter adapter;
+    private ProgressBar progressBar;
 
     public
     HistoryFragment () {
@@ -66,17 +68,19 @@ class HistoryFragment extends BaseFragment {
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager( view.getContext() , RecyclerView.VERTICAL , false );
         recyclerView.setLayoutManager( layoutManager );
+        progressBar = view.findViewById( R.id.loading );
 
         String id = DATABASE.getStudent().getId();
 
-        FIRESTORE.getVisits( id, new Firestore.OnVisitListener() {
+        FIRESTORE.getVisits( id , new Firestore.OnVisitListener() {
             @Override
             public
             void OnLoaded ( @Nullable List<Visit> visits ) {
-                if(visits != null) {
+                if ( visits != null ) {
                     items = new ArrayList<>( visits );
                     adapter = new HistoryAdapter( items );
                     recyclerView.setAdapter( adapter );
+                    progressBar.setVisibility( View.GONE );
                     Log.d( TAG , "---------------------ListItem Count = " + items.size() );
                 }
             }

@@ -1,4 +1,4 @@
-package am.newway.aca.ui.fragments.api;
+package am.newway.aca.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

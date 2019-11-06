@@ -15,37 +15,39 @@ import java.util.Objects;
 import am.newway.aca.template.Course;
 import androidx.annotation.NonNull;
 
-class HomeModel
-{
+class HomeModel {
     private List<Course> courses;
     private FirebaseFirestore db;
 
-    HomeModel()
-    {
+    HomeModel () {
         db = FirebaseFirestore.getInstance();
-        courses = new ArrayList<>(  );
+        courses = new ArrayList<>();
     }
 
-    void getProducts( final CourseLoadCallback callback)
-    {
-        db.collection("Courses").whereEqualTo( "isdel", false ).orderBy( "group" )
+    void getProducts ( final CourseLoadCallback callback ) {
+        db.collection( "Courses" )
+                .whereEqualTo( "isdel" , false )
+                .orderBy( "group" )
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override public void onComplete( @NonNull Task<QuerySnapshot> task )
-                    {
-                        Log.e( "HomeModel" , "Database reading ...: "  );
-                        if (task.isSuccessful()) {
+                .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public
+                    void onComplete ( @NonNull Task<QuerySnapshot> task ) {
+                        Log.e( "HomeModel" , "Database reading ...: " );
+                        if ( task.isSuccessful() ) {
                             courses.clear();
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull( task.getResult() )) {
+                            for ( QueryDocumentSnapshot document : Objects.requireNonNull(
+                                    task.getResult() ) ) {
                                 Course course = document.toObject( Course.class );
                                 courses.add( course );
                             }
                             callback.dataLoaded( courses );
-                        } else {
-                            Log.e("HomeModel", "Error getting documents.", task.getException());
+                        }
+                        else {
+                            Log.e( "HomeModel" , "Error getting documents." , task.getException() );
                         }
                     }
-                });
+                } );
     }
 
     interface CourseLoadCallback {

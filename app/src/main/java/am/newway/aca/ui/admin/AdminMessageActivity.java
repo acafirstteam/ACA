@@ -23,7 +23,7 @@ import am.newway.aca.BaseActivity;
 import am.newway.aca.R;
 import am.newway.aca.adapter.spinner.AutocompleteCourseAdapter;
 import am.newway.aca.adapter.spinner.AutocompleteStudentAdapter;
-import am.newway.aca.adapter.spinner.MessageTypeSpinnerAdapter;
+import am.newway.aca.adapter.spinner.SingleLineIconSpinnerAdapter;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Course;
 import am.newway.aca.template.Notification;
@@ -80,34 +80,34 @@ class AdminMessageActivity extends BaseActivity {
                 Arrays.asList( getResources().getStringArray( R.array.notification_type ) );
         List<Integer> images =
                 Arrays.asList( R.drawable.message , R.drawable.alert , R.drawable.news );
-        MessageTypeSpinnerAdapter messageTypeSpinnerAdapter =
-                new MessageTypeSpinnerAdapter( this , R.layout.custom_spinner_layout ,
+        SingleLineIconSpinnerAdapter singleLineIconSpinnerAdapter =
+                new SingleLineIconSpinnerAdapter( this , R.layout.custom_spinner_layout ,
                         android.R.layout.simple_spinner_item , strings );
-        messageTypeSpinnerAdapter.setImages( images );
+        singleLineIconSpinnerAdapter.setImages( images );
 
         //        ArrayAdapter<?> adapterType =
         //                ArrayAdapter.createFromResource( this , R.array.notification_type ,
         //                        android.R.layout.simple_spinner_item );
         //        adapterType.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 
-        spinnerType.setAdapter( messageTypeSpinnerAdapter );
+        spinnerType.setAdapter( singleLineIconSpinnerAdapter );
 
         List<String> stringsSegment =
                 Arrays.asList( getResources().getStringArray( R.array.notification_segment ) );
         List<Integer> imagesSegment =
                 Arrays.asList( R.drawable.all , R.drawable.administrator , R.drawable.lecturer ,
                         R.drawable.student , R.drawable.course );
-        messageTypeSpinnerAdapter =
-                new MessageTypeSpinnerAdapter( this , R.layout.custom_spinner_layout ,
+        singleLineIconSpinnerAdapter =
+                new SingleLineIconSpinnerAdapter( this , R.layout.custom_spinner_layout ,
                         android.R.layout.simple_spinner_item , stringsSegment );
-        messageTypeSpinnerAdapter.setImages( imagesSegment );
+        singleLineIconSpinnerAdapter.setImages( imagesSegment );
 
         //        ArrayAdapter<?> adapterSegment =
         //                ArrayAdapter.createFromResource( this , R.array.notification_segment ,
         //                        android.R.layout.simple_spinner_item );
         //        adapterSegment.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 
-        spinnerSegment.setAdapter( messageTypeSpinnerAdapter );
+        spinnerSegment.setAdapter( singleLineIconSpinnerAdapter );
 
         spinnerType.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
@@ -133,7 +133,7 @@ class AdminMessageActivity extends BaseActivity {
                 autoCompleteTextView.setEnabled( i != 0 );
 
                 if ( i != 0 && i != 4 ) {
-                    FIRESTORE.getActiveStudents( new Firestore.OnStudentsLoadistener() {
+                    FIRESTORE.getActiveStudents( new Firestore.OnStudentsLoadListener() {
                         @Override
                         public
                         void OnStudentLoaded ( @Nullable final List<Student> students ) {

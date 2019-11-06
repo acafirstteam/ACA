@@ -67,8 +67,7 @@ class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
     @Override
     public
     ViewHolder onCreateViewHolder ( @NonNull final ViewGroup parent , int viewType ) {
-        View view;
-        view = LayoutInflater.from( parent.getContext() )
+        View view = LayoutInflater.from( parent.getContext() )
                 .inflate( R.layout.course_item , parent , false );
 
         mAnimator.onCreateViewHolder( view );

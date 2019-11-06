@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import am.newway.aca.R;
-import am.newway.aca.ui.fragments.model.Item;
+import am.newway.aca.api.model.Item;
 import androidx.recyclerview.widget.RecyclerView;
 
 public

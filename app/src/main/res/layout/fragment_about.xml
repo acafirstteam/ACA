@@ -1,44 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent">
 
-    <TextView
-        android:id="@+id/codeimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="@string/code"
-        android:textSize="70sp"
-        android:textStyle="bold" />
+	<TextView
+		android:id = "@+id/codeimage"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_centerHorizontal = "true"
+		android:layout_marginTop = "32dp"
+		android:text = "@string/code"
+		android:textSize = "70sp"
+		android:textStyle = "bold" />
 
-    <TextView
-        android:id="@+id/no_connection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/codeimage"
-        android:layout_marginTop="24dp"
-        android:gravity="center_vertical|center_horizontal|top"
-        android:text="@string/devs"
-        android:textSize="20sp" />
+	<TextView
+		android:id = "@+id/no_connection"
+		android:layout_width = "match_parent"
+		android:layout_height = "wrap_content"
+		android:layout_below = "@id/codeimage"
+		android:layout_marginTop = "24dp"
+		android:gravity = "center_vertical|center_horizontal|top"
+		android:text = "@string/devs"
+		android:textSize = "20sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_members"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_below="@id/no_connection" />
+	<androidx.recyclerview.widget.RecyclerView
+		android:id = "@+id/recycler_view_members"
+		android:layout_width = "match_parent"
+		android:layout_height = "match_parent"
+		android:layout_below = "@id/no_connection"
+		android:layout_marginStart = "8dp"
+		android:layout_marginTop = "16dp"
+		android:layout_marginEnd = "8dp" />
 
-    <ProgressBar
-        android:id = "@+id/loading"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:indeterminate = "true"
-        android:layout_centerInParent="true"
-         />
+	<ProgressBar
+		android:id = "@+id/loading"
+		android:layout_width = "wrap_content"
+		android:layout_height = "wrap_content"
+		android:layout_centerInParent = "true"
+		android:indeterminate = "true" />
 
 </RelativeLayout>

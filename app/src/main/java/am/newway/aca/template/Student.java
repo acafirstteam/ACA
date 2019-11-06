@@ -106,7 +106,7 @@ class Student {
 
     public
     String getCourse () {
-        return course;
+        return course == null ? "" : course;
     }
 
     public

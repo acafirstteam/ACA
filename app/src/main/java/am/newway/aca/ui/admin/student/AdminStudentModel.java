@@ -1,4 +1,4 @@
-package am.newway.aca.ui.student;
+package am.newway.aca.ui.admin.student;
 
 import android.util.Log;
 
@@ -15,18 +15,18 @@ import java.util.List;
 import am.newway.aca.template.Student;
 import androidx.annotation.NonNull;
 
-class StudentModel {
+class AdminStudentModel {
     private List<Student> students;
     private FirebaseFirestore db;
 
-    StudentModel () {
+    AdminStudentModel () {
         db = FirebaseFirestore.getInstance();
         students = new ArrayList<>();
     }
 
     void getStudents ( boolean onlyNew , final StudentLoadCallback callback ) {
         Query ref;
-        Log.e( "StudentModel" , "getStudents: " + onlyNew );
+        Log.e( "AdminStudentModel" , "getStudents: " + onlyNew );
         if ( onlyNew )
             ref = db.collection( "Students" ).whereEqualTo( "type" , -1 );
         else
@@ -35,7 +35,7 @@ class StudentModel {
             @Override
             public
             void onComplete ( @NonNull Task<QuerySnapshot> task ) {
-                Log.e( "StudentModel" , "Database reading ...: " );
+                Log.e( "AdminStudentModel" , "Database reading ...: " );
                 if ( task.isSuccessful() ) {
                     students.clear();
                     QuerySnapshot ref = task.getResult();
@@ -51,7 +51,7 @@ class StudentModel {
                     callback.dataLoaded( students );
                 }
                 else {
-                    Log.e( "StudentModel" , "Error getting documents." , task.getException() );
+                    Log.e( "AdminStudentModel" , "Error getting documents." , task.getException() );
                 }
             }
         } );

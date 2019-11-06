@@ -1,4 +1,4 @@
-package am.newway.aca.ui.student;
+package am.newway.aca.ui.admin.student;
 
 import java.util.List;
 
@@ -8,22 +8,22 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public
-class StudentViewModel extends ViewModel {
+class AdminStudentViewModel extends ViewModel {
     private MutableLiveData<List<Student>> mArray;
-    private StudentModel model;
+    private AdminStudentModel model;
 
     LiveData<List<Student>> getData () {
         return mArray;
     }
 
     public
-    StudentViewModel () {
+    AdminStudentViewModel () {
         mArray = new MutableLiveData<>();
-        model = new StudentModel();
+        model = new AdminStudentModel();
     }
 
     void getStudents ( boolean onlyNew ) {
-        model.getStudents( onlyNew , new StudentModel.StudentLoadCallback() {
+        model.getStudents( onlyNew , new AdminStudentModel.StudentLoadCallback() {
             @Override
             public
             void dataLoaded ( List<Student> courseArray ) {
