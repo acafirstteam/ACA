@@ -1054,7 +1054,6 @@ class Firestore {
                         notification.setId( Integer.valueOf( dc.getDocument().getId() ) );
                         if ( listener != null )
                             listener.OnNewNotification( notification );
-
                     }
                 }
             }

@@ -93,6 +93,7 @@
 				android:id = "@+id/edit_email"
 				android:layout_width = "match_parent"
 				android:layout_height = "match_parent"
+				android:enabled="false"
 				android:hint = "@string/email"
 				android:inputType = "textEmailAddress|textEmailSubject" />
 
