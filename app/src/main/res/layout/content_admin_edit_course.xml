@@ -47,6 +47,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/admin_edit_courseName_id"
                     android:hint="Course Name"
+                    android:singleLine="true"
                     android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -68,6 +69,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/admin_edit_lecturerEng_id"
                 android:hint="Lecturer"
+                android:singleLine="true"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -85,6 +87,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/admin_edit_Link_id"
                 android:hint="Link"
+                android:singleLine="true"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -103,6 +106,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/admin_edit_groupNameEng_id"
                 android:hint="Group Name"
+                android:singleLine="true"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -121,6 +125,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/admin_edit_groupNameArm_id"
                 android:hint="Խմբի անուն"
+                android:singleLine="true"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
