@@ -28,7 +28,6 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
     private List<Notification> notifications;
     private int animPosition = -1;
     private Context context;
-    private String lang;
     private RecyclerViewAnimator mAnimator;
 
     public
@@ -45,11 +44,6 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
             this.notifications.addAll( notifications );
             notifyDataSetChanged();
         }
-    }
-
-    public
-    void setLanguage ( String lang ) {
-        this.lang = lang;
     }
 
     @NonNull

@@ -34,6 +34,10 @@ class Course implements Serializable {
         group_name = new HashMap<>();
     }
 
+    public static String formatCourseName(String name){
+        return name.replace( " " , "_" ).replace( "/" , "_" ).toLowerCase( Locale.US );
+    }
+
     public
     Course () {
     }

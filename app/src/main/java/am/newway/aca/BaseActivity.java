@@ -183,103 +183,103 @@ class BaseActivity extends AppCompatActivity {
                 .getBackStackEntryCount();
     }
 
-    //    protected
-    //    void addOnNewStudentListener () {
-    //        FIRESTORE.addListenerNewStudent( new Firestore.OnNewStudentListener() {
-    //            @Override
-    //            public
-    //            void OnNewStudentAdded ( @Nullable final Student student ) {
-    //                if ( student != null ) {
-    //                    am.newway.aca.template.Notification notification =
-    //                            new am.newway.aca.template.Notification();
-    //
-    //                    notification.setMessage( getString( R.string.reception ) );
-    //                    notification.setTitle( getString( R.string.new_student ) );
-    //                    notification.setUser( student.getId() );
-    //                    notification.setLargeBitmap( student.getPicture() );
-    //
-    //                    notificationDialog( "01" , notification );
-    //                }
-    //            }
-    //        } );
-    //    }
-
-    //    @RequiresApi ( api = Build.VERSION_CODES.O)
-    //    private
-    //    void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
-    //            am.newway.aca.template.Notification notification ) {
-    //        Log.e( TAG , "notificationDialog: " +NOTIFICATION_CHANNEL_ID  );
-    //        final NotificationManager notificationManager =
-    //                ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
-    //
-    //        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
-    //            @SuppressLint ( "WrongConstant" ) NotificationChannel notificationChannel =
-    //                    new NotificationChannel( NOTIFICATION_CHANNEL_ID , "My Notifications" ,
-    //                            NotificationManager.IMPORTANCE_MAX );
-    //            // Configure the notification channel.
-    //            notificationChannel.setDescription( "Empty description" );
-    //            notificationChannel.enableLights( true );
-    //            notificationChannel.setLightColor( Color.RED );
-    //            notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
-    //            notificationChannel.enableVibration( true );
-    //            if ( notificationManager != null )
-    //                notificationManager.createNotificationChannel( notificationChannel );
-    //        }
-    //
-    //        PendingIntent contentIntent = null;
-    //        if(NOTIFICATION_CHANNEL_ID.equals( "01" )){
-    //            NavigationView navigationView = findViewById( R.id.nav_view );
-    //
-    //            Menu nav_Menu = navigationView.getMenu();
-    //            nav_Menu.findItem( R.id.aligned ).setChecked( true );
-    //            nav_Menu.findItem( R.id.aligned ).setCheckable( true);
-    //
-    //
-    //        }else {
-    //            contentIntent =
-    //                    PendingIntent.getActivity( this , 0 , new Intent( this , QrActivity.class ) ,
-    //                            PendingIntent.FLAG_UPDATE_CURRENT );
-    //        }
-    //        final NotificationCompat.Builder notificationBuilder =
-    //                new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
-    //
-    //        String[] notifSegment = getResources().getStringArray( R.array.notification_type );
-    //
-    //        notificationBuilder.setAutoCancel( true )
-    //                .setDefaults( Notification.DEFAULT_ALL )
-    //                .setWhen( System.currentTimeMillis() )
-    //                .setSmallIcon( R.drawable.ic_book_black_24dp )
-    //                //.setTicker( "TutorialsPoint" )
-    //                //.setPriority(Notification.PRIORITY_MAX)
-    //                .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
-    //                        notifSegment ) : notification.getTitle() )
-    //                .setContentText( notification.getMessage() );
-    //
-    //        if(NOTIFICATION_CHANNEL_ID.equals( "02" ) && contentIntent != null)
-    //            notificationBuilder.setContentIntent( contentIntent );
-    //
-    //        if ( notificationManager != null ) {
-    //
-    //            Uri uri = Uri.parse(
-    //                    notification.getLargeBitmap() != null ? notification.getLargeBitmap() : "" );
-    //            getBitmapFromUrl( uri , new bitmapLoading() {
-    //                @Override
-    //                public
-    //                void OnLoaded ( final Bitmap bmp ) {
-    //                    notificationBuilder.setLargeIcon( bmp );
-    //                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
-    //                            notificationBuilder.build() );
-    //                }
-    //
-    //                @Override
-    //                public
-    //                void OnFailureLoad () {
-    //                    notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
-    //                            notificationBuilder.build() );
-    //                }
-    //            } );
-    //        }
-    //    }
+//        protected
+//        void addOnNewStudentListener () {
+//            FIRESTORE.addListenerNewStudent( new Firestore.OnNewStudentListener() {
+//                @Override
+//                public
+//                void OnNewStudentAdded ( @Nullable final Student student ) {
+//                    if ( student != null ) {
+//                        am.newway.aca.template.Notification notification =
+//                                new am.newway.aca.template.Notification();
+//
+//                        notification.setMessage( getString( R.string.reception ) );
+//                        notification.setTitle( getString( R.string.new_student ) );
+//                        notification.setUser( student.getId() );
+//                        notification.setLargeBitmap( student.getPicture() );
+//
+//                        notificationDialog( "01" , notification );
+//                    }
+//                }
+//            } );
+//        }
+//
+//        @RequiresApi ( api = Build.VERSION_CODES.O)
+//        private
+//        void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
+//                am.newway.aca.template.Notification notification ) {
+//            Log.e( TAG , "notificationDialog: " +NOTIFICATION_CHANNEL_ID  );
+//            final NotificationManager notificationManager =
+//                    ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
+//
+//            if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+//                @SuppressLint ( "WrongConstant" ) NotificationChannel notificationChannel =
+//                        new NotificationChannel( NOTIFICATION_CHANNEL_ID , "My Notifications" ,
+//                                NotificationManager.IMPORTANCE_MAX );
+//                // Configure the notification channel.
+//                notificationChannel.setDescription( "Empty description" );
+//                notificationChannel.enableLights( true );
+//                notificationChannel.setLightColor( Color.RED );
+//                notificationChannel.setVibrationPattern( new long[]{ 0 , 1000 , 500 , 1000 } );
+//                notificationChannel.enableVibration( true );
+//                if ( notificationManager != null )
+//                    notificationManager.createNotificationChannel( notificationChannel );
+//            }
+//
+//            PendingIntent contentIntent = null;
+//            if(NOTIFICATION_CHANNEL_ID.equals( "01" )){
+//                NavigationView navigationView = findViewById( R.id.nav_view );
+//
+//                Menu nav_Menu = navigationView.getMenu();
+//                nav_Menu.findItem( R.id.aligned ).setChecked( true );
+//                nav_Menu.findItem( R.id.aligned ).setCheckable( true);
+//
+//
+//            }else {
+//                contentIntent =
+//                        PendingIntent.getActivity( this , 0 , new Intent( this , QrActivity.class ) ,
+//                                PendingIntent.FLAG_UPDATE_CURRENT );
+//            }
+//            final NotificationCompat.Builder notificationBuilder =
+//                    new NotificationCompat.Builder( this , NOTIFICATION_CHANNEL_ID );
+//
+//            String[] notifSegment = getResources().getStringArray( R.array.notification_type );
+//
+//            notificationBuilder.setAutoCancel( true )
+//                    .setDefaults( Notification.DEFAULT_ALL )
+//                    .setWhen( System.currentTimeMillis() )
+//                    .setSmallIcon( R.drawable.ic_book_black_24dp )
+//                    //.setTicker( "TutorialsPoint" )
+//                    //.setPriority(Notification.PRIORITY_MAX)
+//                    .setContentTitle( NOTIFICATION_CHANNEL_ID.equals( "02" ) ? notification.getTitle(
+//                            notifSegment ) : notification.getTitle() )
+//                    .setContentText( notification.getMessage() );
+//
+//            if(NOTIFICATION_CHANNEL_ID.equals( "02" ) && contentIntent != null)
+//                notificationBuilder.setContentIntent( contentIntent );
+//
+//            if ( notificationManager != null ) {
+//
+//                Uri uri = Uri.parse(
+//                        notification.getLargeBitmap() != null ? notification.getLargeBitmap() : "" );
+//                getBitmapFromUrl( uri , new bitmapLoading() {
+//                    @Override
+//                    public
+//                    void OnLoaded ( final Bitmap bmp ) {
+//                        notificationBuilder.setLargeIcon( bmp );
+//                        notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+//                                notificationBuilder.build() );
+//                    }
+//
+//                    @Override
+//                    public
+//                    void OnFailureLoad () {
+//                        notificationManager.notify( Integer.valueOf( NOTIFICATION_CHANNEL_ID ) ,
+//                                notificationBuilder.build() );
+//                    }
+//                } );
+//            }
+//        }
 
     interface bitmapLoading {
         void OnLoaded ( Bitmap bmp );
