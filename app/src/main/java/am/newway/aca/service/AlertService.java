@@ -77,7 +77,7 @@ class AlertService extends JobService {
             @Override
             public
             void OnStudentChecked ( Student student ) {
-                Log.d( "Service" , "OnStudentChecked" );
+                Log.e( "Service" , "OnStudentChecked" );
 
                 if ( student != null ) {
                     //DATABASE.setStudent( student );
@@ -86,11 +86,13 @@ class AlertService extends JobService {
                             @Override
                             public
                             void OnNewStudentAdded ( @Nullable final Student student ) {
-                                Log.d( "Service" , "OnNewStudentAdded" );
+                                Log.e( "Service" , "OnNewStudentAdded" );
 
                                 if ( student != null ) {
-                                    notificationDialog( "01" ,
-                                            new am.newway.aca.template.Notification() );
+                                    am.newway.aca.template.Notification notif =
+                                            new am.newway.aca.template.Notification();
+                                    notif.setId( -3 );
+                                    notificationDialog( "01" , notif );
                                 }
                             }
                         } );
@@ -153,7 +155,8 @@ class AlertService extends JobService {
     private
     void notificationDialog ( final String NOTIFICATION_CHANNEL_ID ,
             am.newway.aca.template.Notification notification ) {
-        if(DATABASE.getSettings().getNotifId() >= notification.getId() )
+        if ( DATABASE.getSettings().getNotifId() >= notification.getId() &&
+                notification.getId() != -3 )
             return;
 
         if ( !DATABASE.getSettings().isNotification() )

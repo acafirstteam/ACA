@@ -53,7 +53,7 @@ class MainActivity extends BaseActivity {
         setContentView( R.layout.activity_main );
         int nType = DATABASE.getStudent().getType();
         if ( nType != -1 && nType != 1 ) {
-            //addOnNewStudentListener();
+            //FIRESTORE.addOnNewStudentListener();
             Util.scheduleJob( this );
         }
 
@@ -95,9 +95,10 @@ class MainActivity extends BaseActivity {
         } );
 
         fab = findViewById( R.id.fab );
-        if(DATABASE.getStudent().getId().equals( "-1" ))
+        if ( DATABASE.getStudent().getId().equals( "-1" ) )
             fab.setImageResource( R.drawable.ic_login );
-        else fab.setImageResource( R.drawable.qr);
+        else
+            fab.setImageResource( R.drawable.qr );
         fab.setOnClickListener( new View.OnClickListener() {
 
             @Override
@@ -172,11 +173,13 @@ class MainActivity extends BaseActivity {
 
             showNavigationItem( R.id.nav_history , !DATABASE.getStudent().getId().equals( "-1" ) );
 
-            if(DATABASE.getStudent().getId().equals( "-1" ))
-            fab.setImageResource( R.drawable.ic_login );
-            else fab.setImageResource( R.drawable.qr);
+            if ( DATABASE.getStudent().getId().equals( "-1" ) )
+                fab.setImageResource( R.drawable.ic_login );
+            else {
+                fab.setImageResource( R.drawable.qr );
 
-            FIRESTORE.updateStudent( DATABASE.getStudent() , null );
+                FIRESTORE.updateStudent( DATABASE.getStudent() , null );
+            }
 
             //            Student student = DATABASE.getStudent();
             //

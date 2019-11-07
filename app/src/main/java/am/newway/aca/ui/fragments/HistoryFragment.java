@@ -12,6 +12,7 @@ import java.util.List;
 
 import am.newway.aca.R;
 import am.newway.aca.adapter.HistoryAdapter;
+import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.firebase.Firestore;
 import am.newway.aca.template.Visit;
 import androidx.annotation.NonNull;
@@ -78,7 +79,8 @@ class HistoryFragment extends BaseFragment {
             void OnLoaded ( @Nullable List<Visit> visits ) {
                 if ( visits != null ) {
                     items = new ArrayList<>( visits );
-                    adapter = new HistoryAdapter( items );
+                    adapter = new HistoryAdapter( getActivity(), items,
+                            new RecyclerViewAnimator( recyclerView ) );
                     recyclerView.setAdapter( adapter );
                     progressBar.setVisibility( View.GONE );
                     Log.d( TAG , "---------------------ListItem Count = " + items.size() );

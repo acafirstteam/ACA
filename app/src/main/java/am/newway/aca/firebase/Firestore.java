@@ -122,6 +122,7 @@ class Firestore {
 
         doc.whereEqualTo( "completeTime" , null )
                 .whereEqualTo( "userIdent" , student.getId() )
+                .whereEqualTo( "open", true )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -159,8 +160,7 @@ class Firestore {
 
     public
     void completeVisit ( String Id , final OnVisitCompleteListener listener ) {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
+        initFirestore();
         this.listener_complete_visit = listener;
 
         SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
@@ -289,8 +289,7 @@ class Firestore {
 
     public
     void addListenerNewVisit () {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
+        initFirestore();
 
         db.collection( VISIT_COLLECTION )
                 .whereEqualTo( "confirm" , false )
@@ -301,12 +300,39 @@ class Firestore {
                             @Nullable final FirebaseFirestoreException e ) {
                         if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() ) {
                             List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                            for ( DocumentSnapshot doc : docs ) {
+                            for ( final DocumentSnapshot doc : docs ) {
                                 Visit visit = doc.toObject( Visit.class );
                                 if ( qrText != null && visit != null &&
                                         visit.getQrCode() != null ) {
-                                    if ( qrText.equals( visit.getQrCode() ) )
-                                        confirmVisit( doc.getId() );
+                                    if ( qrText.equals( visit.getQrCode() ) ) {
+                                        getStudent( visit.getUserIdent() ,
+                                                new OnStudentCheckListener() {
+                                                    @Override
+                                                    public
+                                                    void OnStudentChecked (
+                                                            @Nullable final Student student ) {
+                                                    }
+
+                                                    @Override
+                                                    public
+                                                    void OnStudentCheckFailed (
+                                                            final String exception ) {
+                                                    }
+
+                                                    @Override
+                                                    public
+                                                    void OnStudentIdentifier (
+                                                            final Student student ) {
+                                                        if ( student.getType() != -1 )
+                                                            confirmVisit( doc.getId() );
+                                                        else {
+                                                            Student s = student;
+                                                            s.setVerified( true );
+                                                            updateStudent( s , null );
+                                                        }
+                                                    }
+                                                } );
+                                    }
                                 }
                                 else
                                     Log.e( TAG , "onEvent: " + "Unknown student" );
@@ -318,17 +344,16 @@ class Firestore {
 
     public
     void addListenerNewStudent ( final OnNewStudentListener listener ) {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
-        //listener_new_student = listener;
+        initFirestore();
+
         db.collection( STUDENT_COLLECTION )
                 .whereEqualTo( "type" , -1 )
+                .whereEqualTo( "verified" , true )
                 .addSnapshotListener( new EventListener<QuerySnapshot>() {
                     @Override
                     public
                     void onEvent ( @Nullable final QuerySnapshot queryDocumentSnapshots ,
                             @Nullable final FirebaseFirestoreException e ) {
-
                         if ( queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty() ) {
                             List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                             for ( DocumentSnapshot doc : docs ) {
@@ -989,10 +1014,16 @@ class Firestore {
             final OnNotificationListener listener ) {
         Log.e( TAG , "user type = " + nUserType );
 
-        switch ( nUserType ){
-            case 0: nUserType = 3; break;
-            case 2: nUserType = 1; break;
-            case 3: nUserType = 2; break;
+        switch ( nUserType ) {
+            case 0:
+                nUserType = 3;
+                break;
+            case 2:
+                nUserType = 1;
+                break;
+            case 3:
+                nUserType = 2;
+                break;
         }
         Log.e( TAG , "user type = " + nUserType );
 
@@ -1185,7 +1216,7 @@ class Firestore {
 
         String textCourse = student.getCourse();
         db.collection( COURSE_COLLECTION )
-                .document( textCourse )
+                .document( Course.formatCourseName( textCourse ) )
                 .get()
                 .addOnCompleteListener( new OnCompleteListener<DocumentSnapshot>() {
                     @Override

@@ -70,7 +70,6 @@ class AlertFragment extends BaseFragment {
 
         adapter =
                 new NotificationAdapter( getActivity() , new RecyclerViewAnimator( recyclerView ) );
-        adapter.setLanguage( DATABASE.getSettings().getLanguage() );
 
         FIRESTORE.getNotifications( "-1".equals( DATABASE.getStudent().getId() ) ,
                 new Firestore.OnNotificationListener() {

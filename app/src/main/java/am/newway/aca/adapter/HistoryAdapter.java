@@ -1,9 +1,12 @@
 package am.newway.aca.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -14,19 +17,25 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import am.newway.aca.R;
+import am.newway.aca.anim.RecyclerViewAnimator;
 import am.newway.aca.template.Visit;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public
 class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
-    private final static String TAG = "HistoryAdapter";
 
-    private ArrayList<Visit> items = new ArrayList<>();
+    private final static String TAG = HistoryAdapter.class.getSimpleName();
+    private ArrayList<Visit> items;
+    private RecyclerViewAnimator mAnimator;
+    private int animPosition = -1;
+    private Context context;
 
     public
-    HistoryAdapter ( ArrayList<Visit> items ) {
-        HistoryAdapter.this.items = items;
+    HistoryAdapter ( Context context, ArrayList<Visit> items , RecyclerViewAnimator mAnimator  ) {
+        this.mAnimator = mAnimator;
+        this.items = items;
+        this.context = context;
     }
 
     @NonNull
@@ -35,12 +44,22 @@ class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
     HistoryAdapter.MyViewHolder onCreateViewHolder ( @NonNull ViewGroup parent , int viewType ) {
         View itemView = LayoutInflater.from( parent.getContext() )
                 .inflate( R.layout.history_item_layout , parent , false );
+
+        mAnimator.onCreateViewHolder( itemView );
+
         return new MyViewHolder( itemView );
     }
 
     @Override
     public
     void onBindViewHolder ( @NonNull MyViewHolder holder , int position ) {
+        if ( animPosition != -1 ) {
+            final Animation myAnim = AnimationUtils.loadAnimation( context , R.anim.bounce );
+            holder.itemView.setAnimation( myAnim );
+            animPosition = -1;
+        }
+        else
+            mAnimator.onBindViewHolder( holder.itemView , position );
         holder.bind( items.get( position ) );
     }
 

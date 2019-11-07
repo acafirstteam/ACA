@@ -2,6 +2,7 @@ package am.newway.aca.ui.home;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -11,7 +12,11 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import am.newway.aca.MainActivity;
 import am.newway.aca.R;
@@ -65,7 +70,6 @@ class HomeFragment extends BaseFragment {
             public
             void onPageScrolled ( final int position , final float positionOffset ,
                     final int positionOffsetPixels ) {
-
             }
 
             @Override
@@ -77,7 +81,6 @@ class HomeFragment extends BaseFragment {
             @Override
             public
             void onPageScrollStateChanged ( final int state ) {
-
             }
         } );
 
@@ -128,9 +131,19 @@ class HomeFragment extends BaseFragment {
     public
     void addNewVisit ( Visit visit ) {
         if ( visit != null ) {
-            time.setText( visit.getDateTime() );
+            Date date;
+            String fDate = "";
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm" , Locale.US);
+            SimpleDateFormat formatterNew = new SimpleDateFormat("HH:mm  dd.MM.yyyy" , Locale.US);
+            try {
+                date = formatter.parse( visit.getDateTime() );
+                fDate = formatterNew.format(date);
+            } catch ( ParseException e ) {
+                e.printStackTrace();
+                Log.e( "HomeFragment" , "addNewVisit: " +e.getMessage()  );
+            }
+            time.setText( fDate );
             String textCourse = DATABASE.getStudent().getCourse();
-
             if ( textCourse != null && !textCourse.isEmpty() ) {
                 course.setText( textCourse );
 
