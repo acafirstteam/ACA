@@ -89,8 +89,7 @@ class Firestore {
 
     public
     void addNewVisit ( Student student , String qrCode , OnVisitAddListener listener ) {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
+        initFirestore();
         this.listener_add_visit = listener;
 
         SimpleDateFormat formatter = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
@@ -202,8 +201,7 @@ class Firestore {
     public
     void checkStudent ( final Student student , final boolean bltCreateNew ,
             final OnStudentCheckListener listener ) {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
+        initFirestore();
         this.listener_student = listener;
 
         final DocumentReference docRef =
@@ -248,8 +246,7 @@ class Firestore {
 
     public
     void qrGenerator ( OnQRGenerator listener ) {
-        if ( db == null )
-            db = FirebaseFirestore.getInstance();
+        initFirestore();
         this.listener_qr = listener;
 
         SimpleDateFormat formatter = new SimpleDateFormat( "dd_MM_yyyy" , Locale.US );

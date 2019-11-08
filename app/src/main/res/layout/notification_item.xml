@@ -33,6 +33,7 @@
 				android:textAlignment = "center"
 				android:textColor = "@color/white"
 				android:textSize = "20sp"
+				android:textStyle="italic"
 				app:layout_constraintRight_toRightOf = "parent"
 				app:layout_constraintTop_toTopOf = "parent"
 				tools:text = "Message" />
@@ -43,7 +44,7 @@
 				android:layout_height = "wrap_content"
 				android:layout_marginStart = "10dp"
 				android:layout_marginTop = "4dp"
-				android:textAlignment = "textEnd"
+				android:textAlignment = "textStart"
 				android:textColor = "@color/white"
 				android:textSize = "16sp"
 				app:layout_constraintLeft_toRightOf = "@+id/date_time"
@@ -67,7 +68,7 @@
 
 			<TextView
 				android:id = "@+id/date_time"
-				android:layout_width = "wrap_content"
+				android:layout_width = "80dp"
 				android:layout_height = "wrap_content"
 				android:layout_marginTop = "8dp"
 				android:textColor = "@color/white"

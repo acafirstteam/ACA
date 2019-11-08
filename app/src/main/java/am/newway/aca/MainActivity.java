@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -219,7 +218,7 @@ class MainActivity extends BaseActivity {
             return;
         }
         if ( requestCode == CUSTOMIZED_REQUEST_CODE ) {
-            Toast.makeText( this , "REQUEST_CODE = " + requestCode , Toast.LENGTH_LONG ).show();
+            //Toast.makeText( this , "REQUEST_CODE = " + requestCode , Toast.LENGTH_LONG ).show();
         }
 
         final IntentResult result = IntentIntegrator.parseActivityResult( resultCode , data );
