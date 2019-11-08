@@ -10,7 +10,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -194,14 +193,11 @@ class AdminMessageActivity extends BaseActivity {
             @Override
             public
             void OnLastId ( @Nullable final int id ) {
-                Toast.makeText(AdminMessageActivity.this, "$$$ "+id, Toast.LENGTH_SHORT).show();
                 int nType = spinnerType.getSelectedItemPosition();
                 int nSegment = spinnerSegment.getSelectedItemPosition();
 
                 String messageText = editText.getText().toString();
 
-                //SimpleDateFormat formatter =
-                //        new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" , Locale.US );
                 Date date = new Date();
 
                 Notification notification =

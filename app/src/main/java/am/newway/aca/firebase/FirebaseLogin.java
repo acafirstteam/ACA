@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -234,8 +233,8 @@ class FirebaseLogin extends BaseActivity {
             } catch ( ApiException e ) {
                 // Google Sign In failed, update UI appropriately
                 Log.w( TAG , "Google sign in failed" , e );
-                Toast.makeText( this , e.getMessage() != null ? e.getMessage() : "null" ,
-                        Toast.LENGTH_LONG ).show();
+//                Toast.makeText( this , e.getMessage() != null ? e.getMessage() : "null" ,
+//                        Toast.LENGTH_LONG ).show();
             }
         }
     }
